@@ -4,3 +4,12 @@ __pycache__/
 demo_output.txt
 *.log
 .env
+
+# Large data files and directories
+data/raw/
+data/preprocessed/
+data/marc/
+outputs/
+
+# Ignore all markdown files
+*.md
