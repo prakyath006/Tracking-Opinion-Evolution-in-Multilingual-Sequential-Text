@@ -19,6 +19,7 @@ Date   : 2026
 """
 
 import logging
+import time
 import numpy as np
 from typing import Dict, List, Optional, Tuple
 from collections import defaultdict
@@ -414,6 +415,129 @@ class EvaluationRunner:
         
         lines.append("\n" + "=" * 70)
         
+        report = "\n".join(lines)
+        logger.info(report)
+        return report
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Execution Time Tracking (Guide Module 5)
+# ──────────────────────────────────────────────────────────────────────────────
+
+class ExecutionTimer:
+    """
+    Tracks execution time for training and inference.
+    Measures:
+      - Training time per epoch (seconds)
+      - Inference latency per sample (milliseconds)
+      - Total execution time
+    
+    Reference: Guide Module 5 (Performance Metrics — execution time)
+    """
+
+    def __init__(self):
+        self.epoch_times = []         # seconds per epoch
+        self.inference_times = []     # seconds per inference batch
+        self.inference_samples = []   # number of samples per inference batch
+        self._start_time = None
+        self._total_start = None
+
+    def start_epoch(self):
+        """Call at the start of each training epoch."""
+        self._start_time = time.time()
+
+    def end_epoch(self):
+        """Call at the end of each training epoch. Records elapsed time."""
+        if self._start_time is not None:
+            elapsed = time.time() - self._start_time
+            self.epoch_times.append(elapsed)
+            self._start_time = None
+            return elapsed
+        return 0.0
+
+    def start_inference(self):
+        """Call before running inference on a batch."""
+        self._start_time = time.time()
+
+    def end_inference(self, num_samples: int):
+        """Call after inference on a batch. Records elapsed time and sample count."""
+        if self._start_time is not None:
+            elapsed = time.time() - self._start_time
+            self.inference_times.append(elapsed)
+            self.inference_samples.append(num_samples)
+            self._start_time = None
+            return elapsed
+        return 0.0
+
+    def start_total(self):
+        """Start tracking total execution time."""
+        self._total_start = time.time()
+
+    def get_total_time(self) -> float:
+        """Get total elapsed time since start_total() was called."""
+        if self._total_start is not None:
+            return time.time() - self._total_start
+        return 0.0
+
+    def get_metrics(self) -> Dict[str, float]:
+        """
+        Get all execution time metrics.
+
+        Returns
+        -------
+        Dict with:
+            - avg_epoch_time_sec: Average training time per epoch
+            - total_training_time_sec: Sum of all epoch times
+            - avg_inference_latency_ms: Average inference time per sample (ms)
+            - total_inference_time_sec: Sum of all inference times
+            - total_samples_inferred: Total samples processed during inference
+        """
+        metrics = {}
+
+        # Training time
+        if self.epoch_times:
+            metrics["avg_epoch_time_sec"] = np.mean(self.epoch_times)
+            metrics["total_training_time_sec"] = sum(self.epoch_times)
+            metrics["num_epochs"] = len(self.epoch_times)
+        else:
+            metrics["avg_epoch_time_sec"] = 0.0
+            metrics["total_training_time_sec"] = 0.0
+            metrics["num_epochs"] = 0
+
+        # Inference latency
+        if self.inference_times and self.inference_samples:
+            total_time = sum(self.inference_times)
+            total_samples = sum(self.inference_samples)
+            if total_samples > 0:
+                metrics["avg_inference_latency_ms"] = (
+                    total_time / total_samples
+                ) * 1000
+            else:
+                metrics["avg_inference_latency_ms"] = 0.0
+            metrics["total_inference_time_sec"] = total_time
+            metrics["total_samples_inferred"] = total_samples
+        else:
+            metrics["avg_inference_latency_ms"] = 0.0
+            metrics["total_inference_time_sec"] = 0.0
+            metrics["total_samples_inferred"] = 0
+
+        # Total time
+        metrics["total_execution_time_sec"] = self.get_total_time()
+
+        return metrics
+
+    def print_report(self) -> str:
+        """Print a formatted execution time report."""
+        m = self.get_metrics()
+        lines = [
+            "\n--- EXECUTION TIME REPORT ---",
+            f"  Training epochs:         {m['num_epochs']}",
+            f"  Avg epoch time:          {m['avg_epoch_time_sec']:.2f} sec",
+            f"  Total training time:     {m['total_training_time_sec']:.2f} sec",
+            f"  Avg inference latency:   {m['avg_inference_latency_ms']:.2f} ms/sample",
+            f"  Total inference time:    {m['total_inference_time_sec']:.2f} sec",
+            f"  Total execution time:    {m['total_execution_time_sec']:.2f} sec",
+        ]
         report = "\n".join(lines)
         logger.info(report)
         return report
