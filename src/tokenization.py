@@ -137,9 +137,12 @@ class MultilingualTokenizer:
         if not texts:
             return {}
             
+        # Sanitize input texts to guarantee str type for HuggingFace tokenizer
+        cleaned_texts = [str(t) if t is not None and not (isinstance(t, float) and pd.isna(t)) else "" for t in texts]
+        
         # batch_encode_plus encodes all sentences together and aligns them via padding.
         encoding = self.tokenizer(
-            texts,
+            cleaned_texts,
             add_special_tokens=True,
             max_length=max_length,
             truncation=True,

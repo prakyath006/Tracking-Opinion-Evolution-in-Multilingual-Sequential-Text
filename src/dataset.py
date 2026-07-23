@@ -163,7 +163,7 @@ class AmazonSequenceDataset(Dataset):
         for user_id, group in grouped:
             group_sorted = group.sort_values("sequence_position")
             
-            texts = group_sorted["text"].tolist()
+            texts = group_sorted["text"].fillna("").astype(str).tolist()
             ratings = group_sorted["rating"].astype(float).tolist()
             sentiments = group_sorted["label_encoded"].astype(int).tolist()
             
