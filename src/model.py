@@ -26,7 +26,7 @@ import torch
 import torch.nn as nn
 
 from tokenization import MultilingualTokenizer
-from embeddings import ContextualEmbeddingGenerator
+from embeddings import DomainAdaptedEmbeddings
 from bilstm import BiLSTMEncoder
 from attention import SelfAttention, MultiHeadSequenceAttention
 from classifier import MultiTaskClassifier
@@ -135,17 +135,12 @@ class OpinionEvolutionTracker(nn.Module):
         # ── Module 2: Tokenizer (not an nn.Module, just a utility) ──
         self.tokenizer = MultilingualTokenizer(model_name)
         
-        # ── Module 3: Contextual Embedding Generator ──
-        self.embedding_generator = ContextualEmbeddingGenerator(
-            model_name=model_name, use_cuda=use_cuda
+        # ── Module 3: Domain-Adapted Embeddings (Own Embeddings) ──
+        self.embedding_generator = DomainAdaptedEmbeddings(
+            model_name=model_name, use_cuda=use_cuda,
+            finetune_layers=0 if freeze_encoder else 3,
         )
         embedding_dim = self.embedding_generator.get_embedding_dim()  # 768
-        
-        # Freeze encoder weights if requested
-        if freeze_encoder:
-            for param in self.embedding_generator.parameters():
-                param.requires_grad = False
-            logger.info("Encoder weights FROZEN (not trainable).")
         
         # ── Module 4: Bi-LSTM ──
         self.bilstm = BiLSTMEncoder(

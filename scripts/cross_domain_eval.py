@@ -37,7 +37,7 @@ sys.path.insert(0, os.path.join(WORKSPACE_ROOT, "src"))
 
 from model import OpinionEvolutionTracker
 from tokenization import MultilingualTokenizer
-from embeddings import ContextualEmbeddingGenerator
+from embeddings import DomainAdaptedEmbeddings
 from dataset import (
     AmazonSequenceDataset,
     DravidianDataset,
