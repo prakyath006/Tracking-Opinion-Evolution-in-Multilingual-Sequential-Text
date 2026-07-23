@@ -42,6 +42,7 @@ from classifier import MultiTaskLoss
 from dataset import (
     get_amazon_dataloader,
     get_dravidian_dataloader,
+    get_dravidian_sequence_dataloader,
 )
 from evaluation import (
     compute_classification_metrics,
@@ -265,9 +266,15 @@ def train(args):
             split="test", batch_size=args.batch_size, max_seq_len=args.max_seq_len
         )
     else:
-        logger.info("Dravidian domain uses single-text classification (no sequences).")
-        logger.info("For Dravidian, use the baseline training scripts instead.")
-        return
+        train_loader = get_dravidian_sequence_dataloader(
+            language=args.language, split="train", batch_size=args.batch_size
+        )
+        val_loader = get_dravidian_sequence_dataloader(
+            language=args.language, split="val", batch_size=args.batch_size
+        )
+        test_loader = get_dravidian_sequence_dataloader(
+            language=args.language, split="test", batch_size=args.batch_size
+        )
     
     # ── Model ──
     model = OpinionEvolutionTracker(
@@ -297,7 +304,7 @@ def train(args):
     )
     
     scheduler = ReduceLROnPlateau(
-        optimizer, mode="min", factor=0.5, patience=3, verbose=True
+        optimizer, mode="min", factor=0.5, patience=3
     )
     
     # ── Training Loop ──
