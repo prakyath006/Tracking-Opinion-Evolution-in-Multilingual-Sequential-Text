@@ -8,13 +8,55 @@ in multilingual sequential text. This ontology provides:
   1. Sentiment State Taxonomy — All possible opinion states
   2. Transition Taxonomy     — Valid transitions between states
   3. Trajectory Taxonomy     — Sequence-level evolution patterns
-  4. Code-Mix Taxonomy       — Linguistic categories for code-mixed text
-  5. Domain Ontology         — Domain-specific entity structures
+  4. Domain Ontology         — Domain-specific entity structures
+
+The code-mix taxonomy (script categories, Code-Mix Index) is owned by
+src/preprocessing.py's CodeMixHandler — see section 4 below.
 
 The ontology serves as the knowledge backbone that guides the embedding
 layer, the functional layer, and the evaluation framework.
 
 Reference: Guide Module 1 (Structural Ontology & Own Embeddings)
+
+-----------------------------------------------------------------------------
+DESIGN DECISION — one canonical trajectory algorithm (all domains)
+-----------------------------------------------------------------------------
+This module and src/dataset.py previously computed trajectory labels two
+different ways, and they could disagree on the same input sequence:
+
+  • ontology.py  — TrajectoryType.compute(): counts UPGRADE/DOWNGRADE/STABLE
+                   transitions between consecutive SentimentStates.
+  • dataset.py   — compute_trajectory_label() / compute_trend_label():
+                   linear-regression slope + variance over raw 1-5 ratings.
+
+RESOLUTION: TrajectoryType.compute() (transition counting) is now the single
+canonical method for every domain. The regression implementation was deleted
+from dataset.py rather than folded in as a per-domain variant. Why:
+
+  1. Cross-domain evaluation is a core deliverable of this project
+     (scripts/cross_domain_eval.py trains on Amazon and evaluates on Tamil and
+     vice versa). Transferring the trajectory head only means something if
+     "IMPROVING" is defined identically in both domains. Two algorithms would
+     make the source and target labels different quantities, so the reported
+     transfer scores would not be interpretable.
+
+  2. The regression path never actually had real ratings on the Dravidian
+     side. dataset.py synthesised pseudo-ratings from categorical labels
+     (Positive->5.0, Negative->1.0, Mixed->3.0, Unknown->3.0) purely to feed
+     the regression. That mapping collapsed MIXED and UNKNOWN onto the same
+     value — the same "unknown is a sentiment intensity" conflation that was
+     fixed in TransitionType.compute(). Transition counting needs no such
+     invented scale.
+
+  3. Amazon's ordinal 1-5 stars are not lost, they are routed through the
+     ontology's own SentimentState.from_rating() (>=4 POSITIVE, <=2 NEGATIVE,
+     else MIXED) — the same thresholds the sequence-building script already
+     used to write label_encoded. Star granularity finer than those buckets
+     (e.g. 5 -> 4) was never modelled by the taxonomy in the first place, so
+     no information the ontology represents is discarded.
+
+Consequence: TrajectoryType.from_ratings() was deliberately NOT added. There
+is exactly one trajectory implementation in the codebase, and it lives here.
 =============================================================================
 """
 
@@ -80,6 +122,23 @@ class SentimentState(Enum):
 # 2. Transition Taxonomy
 # ──────────────────────────────────────────────────────────────────────────────
 
+# Ordinal intensity scale used for UPGRADE/DOWNGRADE comparisons.
+# UNKNOWN is deliberately absent: it encodes *missing information*, not a
+# sentiment intensity, so it has no position on this scale.
+# Kept at module level rather than inside TransitionType because any plain
+# assignment in an Enum class body would be turned into an enum member.
+_SENTIMENT_ORDINAL_RANK: Dict[SentimentState, int] = {
+    SentimentState.POSITIVE: 3,
+    SentimentState.MIXED: 2,
+    SentimentState.NEGATIVE: 1,
+}
+
+# Emit the "unknown state in a transition" warning only once per process.
+# TransitionType.compute() runs once per consecutive pair across the whole
+# corpus, so an unguarded warning would flood the logs.
+_unknown_transition_warned = False
+
+
 class TransitionType(Enum):
     """
     Defines valid pairwise transitions between consecutive sentiment states.
@@ -91,24 +150,69 @@ class TransitionType(Enum):
 
     @classmethod
     def compute(cls, prev: SentimentState, curr: SentimentState) -> "TransitionType":
-        """Determine the transition type between two consecutive states."""
+        """
+        Determine the transition type between two consecutive states.
+
+        UNKNOWN handling
+        ----------------
+        UNKNOWN means "the annotator could not determine a sentiment", not a
+        sentiment weaker than NEGATIVE. Previously it was ranked 0 — below
+        NEGATIVE — which made e.g. NEGATIVE → UNKNOWN a DOWNGRADE and
+        UNKNOWN → NEGATIVE an UPGRADE. Both are meaningless: no opinion change
+        was observed, only a gap in the data.
+
+        This is resolved by returning STABLE (with a logged warning) rather than
+        by adding a fourth TransitionType member, because:
+
+          • The ontology's taxonomy is a fixed contract — TransitionType's three
+            members are consumed as the trend head's class count
+            (classifier.py) and as its report labels (evaluation.py). A fourth
+            member would silently change model architecture, which is out of
+            scope for a bug fix.
+          • STABLE already carries the semantics needed here: "no opinion change
+            was observed between these two positions". With an UNKNOWN endpoint
+            there is no evidence of change, so STABLE is the correct
+            conservative reading rather than a fallback.
+          • TrajectoryType.compute() treats STABLE as its no-signal case, so an
+            UNKNOWN-heavy sequence resolves to TrajectoryType.STABLE ("no
+            detectable trend") instead of an arbitrary IMPROVING/DECLINING.
+
+        The missing information is not lost: it stays visible in the sentiment
+        task, where SentimentState.UNKNOWN is an explicit class of its own.
+        """
         if prev == curr:
             return cls.STABLE
-        # Positive > Mixed > Negative > Unknown (ordering)
-        order = {
-            SentimentState.POSITIVE: 3,
-            SentimentState.MIXED: 2,
-            SentimentState.NEGATIVE: 1,
-            SentimentState.UNKNOWN: 0,
-        }
-        if order[curr] > order[prev]:
+
+        # Either endpoint UNKNOWN → no ordinal comparison is possible.
+        if prev == SentimentState.UNKNOWN or curr == SentimentState.UNKNOWN:
+            global _unknown_transition_warned
+            if not _unknown_transition_warned:
+                _unknown_transition_warned = True
+                logger.warning(
+                    "TransitionType.compute() saw an UNKNOWN sentiment state "
+                    "(%s → %s); such transitions are reported as STABLE because "
+                    "UNKNOWN carries no ordinal intensity. Further occurrences "
+                    "are logged at DEBUG level.",
+                    prev.name, curr.name,
+                )
+            else:
+                logger.debug(
+                    "UNKNOWN state in transition %s → %s; reported as STABLE.",
+                    prev.name, curr.name,
+                )
+            return cls.STABLE
+
+        if _SENTIMENT_ORDINAL_RANK[curr] > _SENTIMENT_ORDINAL_RANK[prev]:
             return cls.UPGRADE
-        else:
-            return cls.DOWNGRADE
+        return cls.DOWNGRADE
 
     @classmethod
     def num_classes(cls) -> int:
         return len(cls)
+
+    @classmethod
+    def label_names(cls) -> List[str]:
+        return [t.name for t in cls]
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -174,40 +278,23 @@ class TrajectoryType(Enum):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 4. Code-Mix Taxonomy
+# 4. Code-Mix Taxonomy — intentionally not defined here
 # ──────────────────────────────────────────────────────────────────────────────
-
-class ScriptType(Enum):
-    """Script categories for code-mixed text."""
-    LATIN = "latin"           # English / romanized Dravidian
-    TAMIL = "tamil"           # Tamil script
-    MALAYALAM = "malayalam"   # Malayalam script
-    KANNADA = "kannada"       # Kannada script
-    MIXED = "mixed"           # Multiple scripts in one text
-    OTHER = "other"           # Emojis, numbers, symbols
-
-
-@dataclass
-class CodeMixProfile:
-    """
-    Represents the code-mixing characteristics of a text sample.
-    Code-Mix Index (CMI) measures the degree of language mixing.
-    """
-    dominant_script: ScriptType
-    code_mix_index: float = 0.0  # 0 = monolingual, 100 = fully mixed
-    scripts_present: List[ScriptType] = field(default_factory=list)
-    is_code_mixed: bool = False
-
-    @staticmethod
-    def compute_cmi(native_chars: int, foreign_chars: int) -> float:
-        """
-        Compute Code-Mix Index.
-        CMI = (foreign_chars / total_chars) * 100
-        """
-        total = native_chars + foreign_chars
-        if total == 0:
-            return 0.0
-        return (foreign_chars / total) * 100.0
+# ScriptType and CodeMixProfile used to live here but were never instantiated
+# anywhere in the pipeline. src/preprocessing.py's CodeMixHandler is the live
+# implementation: it does the script detection and CMI computation that
+# actually runs (add_script_features() writes the script_*, dominant_script and
+# code_mix_index columns of every preprocessed CSV), and it is exercised by the
+# EDA notebook and demo script.
+#
+# The two versions were also not equivalent — CodeMixHandler recognises
+# devanagari and digit spans that ScriptType had no member for, and computes
+# CMI over word-level language tags rather than the character ratio
+# CodeMixProfile.compute_cmi() used. Keeping both would have meant maintaining
+# a second, weaker definition of the same concept with no caller, so the
+# unused ontology copy was deleted rather than wired up.
+#
+# Code-mix taxonomy therefore lives in src/preprocessing.py (CodeMixHandler).
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -234,6 +321,31 @@ class DomainConfig:
 
 
 # Pre-defined domain configurations
+#
+# DravidianCodeMix label spellings
+# --------------------------------
+# All three languages share one sentiment label vocabulary — "Positive",
+# "Negative", "Mixed_feelings", "unknown_state" — because a single dict,
+# preprocessing.SENTIMENT_LABELS, encodes every language's raw files, and the
+# preprocessed CSVs keep the raw string in their 'label' column. Any language
+# using a different spelling would have produced NaN label_encoded values and
+# tripped LabelEncoder's "labels could not be mapped" warning.
+#
+# The per-language 'not-<Language>' labels are deliberately absent from these
+# mappings, matching dravidian_tamil: preprocessing.py drops those rows
+# (include_non_target=False), and if they are ever kept,
+# map_labels_to_ontology() falls back to SentimentState.from_label(), which
+# already resolves not-tamil / not-malayalam / not-kannada to UNKNOWN.
+#
+# No offensive-language mapping is defined. The offensive task is not used
+# anywhere in the modelling pipeline — scripts/train.py and
+# scripts/cross_domain_eval.py only ever request task="sentiment", and the
+# sole other reference (scripts/demo_full_project.py) just prints row counts
+# for the offensive CSVs. DomainConfig.label_mapping maps to SentimentState,
+# which has no offensive categories, so adding one would mean either
+# collapsing every offensive class to UNKNOWN or extending the sentiment
+# taxonomy for an unused task. preprocessing.OFFENSIVE_LABELS remains the
+# owner of that encoding (see the task guard in dataset.DravidianDataset).
 DOMAIN_CONFIGS = {
     "amazon_beauty": DomainConfig(
         domain_type=DomainType.ECOMMERCE,
@@ -249,6 +361,30 @@ DOMAIN_CONFIGS = {
     "dravidian_tamil": DomainConfig(
         domain_type=DomainType.SOCIAL_MEDIA,
         languages=["tamil", "english"],
+        has_sequential_data=False,
+        sequence_source="sliding_window",
+        label_mapping={
+            "Positive": SentimentState.POSITIVE,
+            "Negative": SentimentState.NEGATIVE,
+            "Mixed_feelings": SentimentState.MIXED,
+            "unknown_state": SentimentState.UNKNOWN,
+        },
+    ),
+    "dravidian_malayalam": DomainConfig(
+        domain_type=DomainType.SOCIAL_MEDIA,
+        languages=["malayalam", "english"],
+        has_sequential_data=False,
+        sequence_source="sliding_window",
+        label_mapping={
+            "Positive": SentimentState.POSITIVE,
+            "Negative": SentimentState.NEGATIVE,
+            "Mixed_feelings": SentimentState.MIXED,
+            "unknown_state": SentimentState.UNKNOWN,
+        },
+    ),
+    "dravidian_kannada": DomainConfig(
+        domain_type=DomainType.SOCIAL_MEDIA,
+        languages=["kannada", "english"],
         has_sequential_data=False,
         sequence_source="sliding_window",
         label_mapping={
@@ -283,7 +419,6 @@ def get_ontology_summary() -> Dict:
             "classes": TrajectoryType.num_classes(),
             "labels": TrajectoryType.label_names(),
         },
-        "supported_scripts": [s.value for s in ScriptType],
         "supported_domains": list(DOMAIN_CONFIGS.keys()),
     }
 

@@ -23,6 +23,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from typing import Dict, Optional
 
+from ontology import SentimentState, TransitionType, TrajectoryType
+
 logger = logging.getLogger(__name__)
 
 
@@ -88,20 +90,23 @@ class MultiTaskClassifier(nn.Module):
        
     2. Trend Head: Predicts pairwise opinion trend from Bi-LSTM hidden states
        - Input:  [batch, seq_len, hidden_dim]  (per-review states)
-       - Output: [batch, seq_len, 3]  (IMPROVING/DECLINING/STABLE)
-       
+       - Output: [batch, seq_len, num_trend_classes]  (TransitionType)
+
     3. Trajectory Head: Predicts overall sequence trajectory from context vector
        - Input:  [batch, hidden_dim]  (attended context)
-       - Output: [batch, 4]  (IMPROVING/DECLINING/STABLE/VOLATILE)
+       - Output: [batch, num_trajectory_classes]  (TrajectoryType)
+
+    All three class counts default to the ontology's num_classes(), so the
+    heads cannot drift from the taxonomies in src/ontology.py.
     """
     
     def __init__(
         self,
         input_dim: int = 512,
         hidden_dim: int = 128,
-        num_sentiment_classes: int = 4,
-        num_trend_classes: int = 3,
-        num_trajectory_classes: int = 4,
+        num_sentiment_classes: int = SentimentState.num_classes(),
+        num_trend_classes: int = TransitionType.num_classes(),
+        num_trajectory_classes: int = TrajectoryType.num_classes(),
         dropout: float = 0.3,
     ):
         """
@@ -112,11 +117,14 @@ class MultiTaskClassifier(nn.Module):
         hidden_dim : int
             Hidden dimension for each classification head.
         num_sentiment_classes : int
-            Number of sentiment categories (e.g., 4 for Pos/Neg/Neutral/Mixed).
+            Number of sentiment categories. Defaults to
+            SentimentState.num_classes().
         num_trend_classes : int
-            Number of trend categories (3: IMPROVING/DECLINING/STABLE).
+            Number of trend categories. Defaults to
+            TransitionType.num_classes().
         num_trajectory_classes : int
-            Number of trajectory categories (4: IMPROVING/DECLINING/STABLE/VOLATILE).
+            Number of trajectory categories. Defaults to
+            TrajectoryType.num_classes().
         dropout : float
             Dropout probability.
         """
