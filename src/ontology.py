@@ -80,6 +80,23 @@ class SentimentState(Enum):
 # 2. Transition Taxonomy
 # ──────────────────────────────────────────────────────────────────────────────
 
+# Ordinal intensity scale used for UPGRADE/DOWNGRADE comparisons.
+# UNKNOWN is deliberately absent: it encodes *missing information*, not a
+# sentiment intensity, so it has no position on this scale.
+# Kept at module level rather than inside TransitionType because any plain
+# assignment in an Enum class body would be turned into an enum member.
+_SENTIMENT_ORDINAL_RANK: Dict[SentimentState, int] = {
+    SentimentState.POSITIVE: 3,
+    SentimentState.MIXED: 2,
+    SentimentState.NEGATIVE: 1,
+}
+
+# Emit the "unknown state in a transition" warning only once per process.
+# TransitionType.compute() runs once per consecutive pair across the whole
+# corpus, so an unguarded warning would flood the logs.
+_unknown_transition_warned = False
+
+
 class TransitionType(Enum):
     """
     Defines valid pairwise transitions between consecutive sentiment states.
@@ -91,24 +108,69 @@ class TransitionType(Enum):
 
     @classmethod
     def compute(cls, prev: SentimentState, curr: SentimentState) -> "TransitionType":
-        """Determine the transition type between two consecutive states."""
+        """
+        Determine the transition type between two consecutive states.
+
+        UNKNOWN handling
+        ----------------
+        UNKNOWN means "the annotator could not determine a sentiment", not a
+        sentiment weaker than NEGATIVE. Previously it was ranked 0 — below
+        NEGATIVE — which made e.g. NEGATIVE → UNKNOWN a DOWNGRADE and
+        UNKNOWN → NEGATIVE an UPGRADE. Both are meaningless: no opinion change
+        was observed, only a gap in the data.
+
+        This is resolved by returning STABLE (with a logged warning) rather than
+        by adding a fourth TransitionType member, because:
+
+          • The ontology's taxonomy is a fixed contract — TransitionType's three
+            members are consumed as the trend head's class count
+            (classifier.py) and as its report labels (evaluation.py). A fourth
+            member would silently change model architecture, which is out of
+            scope for a bug fix.
+          • STABLE already carries the semantics needed here: "no opinion change
+            was observed between these two positions". With an UNKNOWN endpoint
+            there is no evidence of change, so STABLE is the correct
+            conservative reading rather than a fallback.
+          • TrajectoryType.compute() treats STABLE as its no-signal case, so an
+            UNKNOWN-heavy sequence resolves to TrajectoryType.STABLE ("no
+            detectable trend") instead of an arbitrary IMPROVING/DECLINING.
+
+        The missing information is not lost: it stays visible in the sentiment
+        task, where SentimentState.UNKNOWN is an explicit class of its own.
+        """
         if prev == curr:
             return cls.STABLE
-        # Positive > Mixed > Negative > Unknown (ordering)
-        order = {
-            SentimentState.POSITIVE: 3,
-            SentimentState.MIXED: 2,
-            SentimentState.NEGATIVE: 1,
-            SentimentState.UNKNOWN: 0,
-        }
-        if order[curr] > order[prev]:
+
+        # Either endpoint UNKNOWN → no ordinal comparison is possible.
+        if prev == SentimentState.UNKNOWN or curr == SentimentState.UNKNOWN:
+            global _unknown_transition_warned
+            if not _unknown_transition_warned:
+                _unknown_transition_warned = True
+                logger.warning(
+                    "TransitionType.compute() saw an UNKNOWN sentiment state "
+                    "(%s → %s); such transitions are reported as STABLE because "
+                    "UNKNOWN carries no ordinal intensity. Further occurrences "
+                    "are logged at DEBUG level.",
+                    prev.name, curr.name,
+                )
+            else:
+                logger.debug(
+                    "UNKNOWN state in transition %s → %s; reported as STABLE.",
+                    prev.name, curr.name,
+                )
+            return cls.STABLE
+
+        if _SENTIMENT_ORDINAL_RANK[curr] > _SENTIMENT_ORDINAL_RANK[prev]:
             return cls.UPGRADE
-        else:
-            return cls.DOWNGRADE
+        return cls.DOWNGRADE
 
     @classmethod
     def num_classes(cls) -> int:
         return len(cls)
+
+    @classmethod
+    def label_names(cls) -> List[str]:
+        return [t.name for t in cls]
 
 
 # ──────────────────────────────────────────────────────────────────────────────
