@@ -23,6 +23,8 @@ from torch.nn.utils.rnn import pad_sequence
 from typing import Dict, List, Tuple, Optional
 from collections import defaultdict
 
+from ontology import SentimentState, TransitionType, TrajectoryType
+
 logger = logging.getLogger(__name__)
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -32,84 +34,42 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WORKSPACE_ROOT = os.path.dirname(BASE_DIR)
 PREPROCESSED_DIR = os.path.join(WORKSPACE_ROOT, "data", "preprocessed")
 
-# Trajectory labels for sequence-level classification
-TRAJECTORY_LABELS = {
-    "IMPROVING": 0,   # Sentiment going up over time
-    "DECLINING": 1,   # Sentiment going down over time
-    "STABLE": 2,      # Sentiment stays roughly the same
-    "VOLATILE": 3,    # Sentiment fluctuates unpredictably
-}
+# Trajectory label name -> encoded id, derived from the ontology so this module
+# can never drift from TrajectoryType. Kept as a module constant because
+# scripts/demo_full_project.py imports it for display purposes.
+TRAJECTORY_LABELS = {t.name: t.value for t in TrajectoryType}
 
 
-def compute_trajectory_label(ratings: List[float]) -> int:
+# ──────────────────────────────────────────────────────────────────────────────
+# Ontology-backed label construction
+# ──────────────────────────────────────────────────────────────────────────────
+# The linear-regression trajectory logic that used to live here
+# (compute_trajectory_label / compute_trend_label) has been removed.
+# TrajectoryType.compute() and TransitionType.compute() in src/ontology.py are
+# now the single canonical implementation for every domain — see the DESIGN
+# DECISION block at the top of ontology.py for the rationale.
+
+def build_trend_labels(states: List[SentimentState]) -> List[int]:
     """
-    Compute the trajectory label from a sequence of ratings.
-    
-    Uses linear regression slope to determine trend direction,
-    and variance to detect volatility.
-    
+    Build per-position pairwise trend labels for a sequence of states.
+
+    Position 0 has no predecessor and is labelled STABLE, matching the
+    convention used by the trend head (padded positions use -1 instead).
+
     Parameters
     ----------
-    ratings : List[float]
-        Chronological list of star ratings (1-5 scale).
-        
+    states : List[SentimentState]
+        Sentiment states in temporal order.
+
     Returns
     -------
-    int
-        Trajectory label: 0=IMPROVING, 1=DECLINING, 2=STABLE, 3=VOLATILE
+    List[int]
+        Encoded TransitionType values, one per position.
     """
-    if len(ratings) < 2:
-        return TRAJECTORY_LABELS["STABLE"]
-    
-    ratings_arr = np.array(ratings, dtype=np.float32)
-    n = len(ratings_arr)
-    
-    # Linear regression: fit slope
-    x = np.arange(n, dtype=np.float32)
-    x_mean = x.mean()
-    y_mean = ratings_arr.mean()
-    slope = np.sum((x - x_mean) * (ratings_arr - y_mean)) / (np.sum((x - x_mean) ** 2) + 1e-9)
-    
-    # Variance for volatility detection
-    variance = np.var(ratings_arr)
-    
-    # Thresholds (tuned for 1-5 star scale)
-    slope_threshold = 0.15    # Minimum slope magnitude for a clear trend
-    volatility_threshold = 1.5  # Variance threshold for volatile sequences
-    
-    if variance > volatility_threshold:
-        return TRAJECTORY_LABELS["VOLATILE"]
-    elif slope > slope_threshold:
-        return TRAJECTORY_LABELS["IMPROVING"]
-    elif slope < -slope_threshold:
-        return TRAJECTORY_LABELS["DECLINING"]
-    else:
-        return TRAJECTORY_LABELS["STABLE"]
-
-
-def compute_trend_label(prev_rating: float, curr_rating: float) -> int:
-    """
-    Compute pairwise trend between consecutive reviews.
-    
-    Parameters
-    ----------
-    prev_rating : float
-        Previous review's rating.
-    curr_rating : float
-        Current review's rating.
-        
-    Returns
-    -------
-    int
-        0=IMPROVING, 1=DECLINING, 2=STABLE
-    """
-    diff = curr_rating - prev_rating
-    if diff > 0.5:
-        return 0  # IMPROVING
-    elif diff < -0.5:
-        return 1  # DECLINING
-    else:
-        return 2  # STABLE
+    trends = [TransitionType.STABLE.value]
+    for i in range(1, len(states)):
+        trends.append(TransitionType.compute(states[i - 1], states[i]).value)
+    return trends
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -173,14 +133,12 @@ class AmazonSequenceDataset(Dataset):
                 ratings = ratings[:max_seq_len]
                 sentiments = sentiments[:max_seq_len]
             
-            # Compute trajectory label from ratings
-            trajectory = compute_trajectory_label(ratings)
-            
-            # Compute pairwise trend labels
-            trends = [2]  # First review has no previous → STABLE
-            for i in range(1, len(ratings)):
-                trends.append(compute_trend_label(ratings[i-1], ratings[i]))
-            
+            # Map this sequence onto ontology states, then derive the
+            # trajectory and trend labels from the canonical implementation.
+            states = [SentimentState.from_rating(r) for r in ratings]
+            trajectory = TrajectoryType.compute(states).value
+            trends = build_trend_labels(states)
+
             self.sequences.append({
                 "user_id": user_id,
                 "texts": texts,
@@ -332,15 +290,6 @@ class DravidianDataset(Dataset):
 # Domain 2: DravidianCodeMix SEQUENCE Dataset (Sliding Window)
 # ──────────────────────────────────────────────────────────────────────────────
 
-# Sentiment label mapping for DravidianCodeMix (from preprocessing.py)
-DRAVIDIAN_SENTIMENT_TO_RATING = {
-    0: 5.0,   # Positive  -> high rating
-    1: 1.0,   # Negative  -> low rating
-    2: 3.0,   # Mixed     -> mid rating
-    3: 3.0,   # Unknown   -> mid rating
-}
-
-
 class DravidianSequenceDataset(Dataset):
     """
     PyTorch Dataset that creates SEQUENCES from DravidianCodeMix comments
@@ -409,17 +358,12 @@ class DravidianSequenceDataset(Dataset):
             texts = texts_all[start:end]
             sentiments = labels_all[start:end]
             
-            # Convert sentiment labels to pseudo-ratings for trajectory computation
-            ratings = [DRAVIDIAN_SENTIMENT_TO_RATING.get(s, 3.0) for s in sentiments]
-            
-            # Compute trajectory label
-            trajectory = compute_trajectory_label(ratings)
-            
-            # Compute pairwise trend labels
-            trends = [2]  # First position has no predecessor
-            for i in range(1, len(ratings)):
-                trends.append(compute_trend_label(ratings[i-1], ratings[i]))
-            
+            # Derive trajectory and trend labels straight from the ontology
+            # states — no pseudo-rating detour is needed any more.
+            states = [SentimentState(s) for s in sentiments]
+            trajectory = TrajectoryType.compute(states).value
+            trends = build_trend_labels(states)
+
             self.sequences.append({
                 "texts": texts,
                 "sentiments": sentiments,
