@@ -6,10 +6,9 @@ demo_output.txt
 .env
 
 # Large data files and directories
-data/raw/
-data/preprocessed/
-data/marc/
+data/
 outputs/
-
-# Ignore all markdown files
+data.zip
 *.md
+!README.md
+*.json
