@@ -8,8 +8,10 @@ in multilingual sequential text. This ontology provides:
   1. Sentiment State Taxonomy — All possible opinion states
   2. Transition Taxonomy     — Valid transitions between states
   3. Trajectory Taxonomy     — Sequence-level evolution patterns
-  4. Code-Mix Taxonomy       — Linguistic categories for code-mixed text
-  5. Domain Ontology         — Domain-specific entity structures
+  4. Domain Ontology         — Domain-specific entity structures
+
+The code-mix taxonomy (script categories, Code-Mix Index) is owned by
+src/preprocessing.py's CodeMixHandler — see section 4 below.
 
 The ontology serves as the knowledge backbone that guides the embedding
 layer, the functional layer, and the evaluation framework.
@@ -276,40 +278,23 @@ class TrajectoryType(Enum):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 4. Code-Mix Taxonomy
+# 4. Code-Mix Taxonomy — intentionally not defined here
 # ──────────────────────────────────────────────────────────────────────────────
-
-class ScriptType(Enum):
-    """Script categories for code-mixed text."""
-    LATIN = "latin"           # English / romanized Dravidian
-    TAMIL = "tamil"           # Tamil script
-    MALAYALAM = "malayalam"   # Malayalam script
-    KANNADA = "kannada"       # Kannada script
-    MIXED = "mixed"           # Multiple scripts in one text
-    OTHER = "other"           # Emojis, numbers, symbols
-
-
-@dataclass
-class CodeMixProfile:
-    """
-    Represents the code-mixing characteristics of a text sample.
-    Code-Mix Index (CMI) measures the degree of language mixing.
-    """
-    dominant_script: ScriptType
-    code_mix_index: float = 0.0  # 0 = monolingual, 100 = fully mixed
-    scripts_present: List[ScriptType] = field(default_factory=list)
-    is_code_mixed: bool = False
-
-    @staticmethod
-    def compute_cmi(native_chars: int, foreign_chars: int) -> float:
-        """
-        Compute Code-Mix Index.
-        CMI = (foreign_chars / total_chars) * 100
-        """
-        total = native_chars + foreign_chars
-        if total == 0:
-            return 0.0
-        return (foreign_chars / total) * 100.0
+# ScriptType and CodeMixProfile used to live here but were never instantiated
+# anywhere in the pipeline. src/preprocessing.py's CodeMixHandler is the live
+# implementation: it does the script detection and CMI computation that
+# actually runs (add_script_features() writes the script_*, dominant_script and
+# code_mix_index columns of every preprocessed CSV), and it is exercised by the
+# EDA notebook and demo script.
+#
+# The two versions were also not equivalent — CodeMixHandler recognises
+# devanagari and digit spans that ScriptType had no member for, and computes
+# CMI over word-level language tags rather than the character ratio
+# CodeMixProfile.compute_cmi() used. Keeping both would have meant maintaining
+# a second, weaker definition of the same concept with no caller, so the
+# unused ontology copy was deleted rather than wired up.
+#
+# Code-mix taxonomy therefore lives in src/preprocessing.py (CodeMixHandler).
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -385,7 +370,6 @@ def get_ontology_summary() -> Dict:
             "classes": TrajectoryType.num_classes(),
             "labels": TrajectoryType.label_names(),
         },
-        "supported_scripts": [s.value for s in ScriptType],
         "supported_domains": list(DOMAIN_CONFIGS.keys()),
     }
 

@@ -17,7 +17,7 @@ print(f"  Sentiment states:    {summary['sentiment_states']['labels']}")
 print(f"  Transitions:         {summary['transitions']['labels']}")
 print(f"  Trajectories:        {summary['trajectories']['labels']}")
 print(f"  Domains:             {summary['supported_domains']}")
-print(f"  Scripts:             {summary['supported_scripts']}")
+print(f"  Code-mix taxonomy:   src/preprocessing.py (CodeMixHandler)")
 
 # ── Module 1b: Own Embeddings ──
 from embeddings import DomainAdaptedEmbeddings
