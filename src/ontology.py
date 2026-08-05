@@ -321,6 +321,31 @@ class DomainConfig:
 
 
 # Pre-defined domain configurations
+#
+# DravidianCodeMix label spellings
+# --------------------------------
+# All three languages share one sentiment label vocabulary — "Positive",
+# "Negative", "Mixed_feelings", "unknown_state" — because a single dict,
+# preprocessing.SENTIMENT_LABELS, encodes every language's raw files, and the
+# preprocessed CSVs keep the raw string in their 'label' column. Any language
+# using a different spelling would have produced NaN label_encoded values and
+# tripped LabelEncoder's "labels could not be mapped" warning.
+#
+# The per-language 'not-<Language>' labels are deliberately absent from these
+# mappings, matching dravidian_tamil: preprocessing.py drops those rows
+# (include_non_target=False), and if they are ever kept,
+# map_labels_to_ontology() falls back to SentimentState.from_label(), which
+# already resolves not-tamil / not-malayalam / not-kannada to UNKNOWN.
+#
+# No offensive-language mapping is defined. The offensive task is not used
+# anywhere in the modelling pipeline — scripts/train.py and
+# scripts/cross_domain_eval.py only ever request task="sentiment", and the
+# sole other reference (scripts/demo_full_project.py) just prints row counts
+# for the offensive CSVs. DomainConfig.label_mapping maps to SentimentState,
+# which has no offensive categories, so adding one would mean either
+# collapsing every offensive class to UNKNOWN or extending the sentiment
+# taxonomy for an unused task. preprocessing.OFFENSIVE_LABELS remains the
+# owner of that encoding (see the task guard in dataset.DravidianDataset).
 DOMAIN_CONFIGS = {
     "amazon_beauty": DomainConfig(
         domain_type=DomainType.ECOMMERCE,
@@ -336,6 +361,30 @@ DOMAIN_CONFIGS = {
     "dravidian_tamil": DomainConfig(
         domain_type=DomainType.SOCIAL_MEDIA,
         languages=["tamil", "english"],
+        has_sequential_data=False,
+        sequence_source="sliding_window",
+        label_mapping={
+            "Positive": SentimentState.POSITIVE,
+            "Negative": SentimentState.NEGATIVE,
+            "Mixed_feelings": SentimentState.MIXED,
+            "unknown_state": SentimentState.UNKNOWN,
+        },
+    ),
+    "dravidian_malayalam": DomainConfig(
+        domain_type=DomainType.SOCIAL_MEDIA,
+        languages=["malayalam", "english"],
+        has_sequential_data=False,
+        sequence_source="sliding_window",
+        label_mapping={
+            "Positive": SentimentState.POSITIVE,
+            "Negative": SentimentState.NEGATIVE,
+            "Mixed_feelings": SentimentState.MIXED,
+            "unknown_state": SentimentState.UNKNOWN,
+        },
+    ),
+    "dravidian_kannada": DomainConfig(
+        domain_type=DomainType.SOCIAL_MEDIA,
+        languages=["kannada", "english"],
         has_sequential_data=False,
         sequence_source="sliding_window",
         label_mapping={
