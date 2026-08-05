@@ -31,6 +31,8 @@ from sklearn.metrics import (
     classification_report,
 )
 
+from ontology import SentimentState, TransitionType, TrajectoryType
+
 logger = logging.getLogger(__name__)
 
 
@@ -114,8 +116,11 @@ def compute_confusion_matrix(
     y_pred : List[int]
         Predicted labels.
     label_names : List[str], optional
-        Class names for display.
-        
+        Ontology class names (e.g. SentimentState.label_names()). When given,
+        the matrix is pinned to one row/column per ontology class, in enum
+        order, so axes stay aligned even if a split contains no examples of
+        some class.
+
     Returns
     -------
     np.ndarray
@@ -124,8 +129,12 @@ def compute_confusion_matrix(
     valid = [(t, p) for t, p in zip(y_true, y_pred) if t != -1]
     if not valid:
         return np.array([])
-    
+
     y_true_valid, y_pred_valid = zip(*valid)
+    if label_names:
+        return confusion_matrix(
+            y_true_valid, y_pred_valid, labels=list(range(len(label_names)))
+        )
     return confusion_matrix(y_true_valid, y_pred_valid)
 
 
@@ -144,8 +153,8 @@ def get_classification_report(
     y_pred : List[int]
         Predicted labels.
     label_names : List[str], optional
-        Class names.
-        
+        Ontology class names (e.g. SentimentState.label_names()).
+
     Returns
     -------
     str
@@ -154,12 +163,23 @@ def get_classification_report(
     valid = [(t, p) for t, p in zip(y_true, y_pred) if t != -1]
     if not valid:
         return "No valid predictions to evaluate."
-    
+
     y_true_valid, y_pred_valid = zip(*valid)
-    
+
+    if label_names:
+        # sklearn requires target_names to line up with the label set. Pinning
+        # `labels` to the full ontology range keeps every class in the report
+        # (with zero support) instead of raising when a split happens to
+        # contain no examples of one class.
+        return classification_report(
+            y_true_valid, y_pred_valid,
+            labels=list(range(len(label_names))),
+            target_names=label_names,
+            zero_division=0,
+        )
+
     return classification_report(
         y_true_valid, y_pred_valid,
-        target_names=label_names,
         zero_division=0,
     )
 
@@ -321,10 +341,13 @@ class EvaluationRunner:
     Runs comprehensive evaluation across all tasks and metrics.
     """
     
-    SENTIMENT_LABELS = ["Positive", "Negative", "Neutral/Mixed", "Unknown"]
-    TREND_LABELS = ["Improving", "Declining", "Stable"]
-    TRAJECTORY_LABELS = ["Improving", "Declining", "Stable", "Volatile"]
-    
+    # Report / confusion-matrix class names come from the ontology, never from
+    # a hand-typed list. Each list is ordered by enum value, so index i is the
+    # name of encoded class i — which is what sklearn's target_names expects.
+    SENTIMENT_LABELS = SentimentState.label_names()
+    TREND_LABELS = TransitionType.label_names()
+    TRAJECTORY_LABELS = TrajectoryType.label_names()
+
     def __init__(self):
         self.results = {}
     
