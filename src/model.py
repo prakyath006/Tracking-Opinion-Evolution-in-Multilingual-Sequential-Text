@@ -30,6 +30,7 @@ from embeddings import DomainAdaptedEmbeddings
 from bilstm import BiLSTMEncoder
 from attention import SelfAttention, MultiHeadSequenceAttention
 from classifier import MultiTaskClassifier
+from ontology import SentimentState, TransitionType, TrajectoryType
 
 logger = logging.getLogger(__name__)
 
@@ -76,9 +77,9 @@ class OpinionEvolutionTracker(nn.Module):
         attention_dropout: float = 0.1,
         classifier_hidden_dim: int = 128,
         classifier_dropout: float = 0.3,
-        num_sentiment_classes: int = 4,
-        num_trend_classes: int = 3,
-        num_trajectory_classes: int = 4,
+        num_sentiment_classes: int = SentimentState.num_classes(),
+        num_trend_classes: int = TransitionType.num_classes(),
+        num_trajectory_classes: int = TrajectoryType.num_classes(),
         freeze_encoder: bool = True,
         use_cuda: bool = True,
     ):
@@ -110,11 +111,14 @@ class OpinionEvolutionTracker(nn.Module):
         classifier_dropout : float
             Dropout for classification heads.
         num_sentiment_classes : int
-            Number of sentiment categories.
+            Number of sentiment categories. Defaults to the ontology's
+            SentimentState.num_classes().
         num_trend_classes : int
-            Number of trend categories.
+            Number of trend categories. Defaults to the ontology's
+            TransitionType.num_classes().
         num_trajectory_classes : int
-            Number of trajectory categories.
+            Number of trajectory categories. Defaults to the ontology's
+            TrajectoryType.num_classes().
         freeze_encoder : bool
             If True, freeze the pre-trained encoder weights (recommended for
             smaller datasets to prevent overfitting).
