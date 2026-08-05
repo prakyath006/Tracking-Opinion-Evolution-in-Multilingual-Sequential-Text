@@ -15,6 +15,46 @@ The ontology serves as the knowledge backbone that guides the embedding
 layer, the functional layer, and the evaluation framework.
 
 Reference: Guide Module 1 (Structural Ontology & Own Embeddings)
+
+-----------------------------------------------------------------------------
+DESIGN DECISION — one canonical trajectory algorithm (all domains)
+-----------------------------------------------------------------------------
+This module and src/dataset.py previously computed trajectory labels two
+different ways, and they could disagree on the same input sequence:
+
+  • ontology.py  — TrajectoryType.compute(): counts UPGRADE/DOWNGRADE/STABLE
+                   transitions between consecutive SentimentStates.
+  • dataset.py   — compute_trajectory_label() / compute_trend_label():
+                   linear-regression slope + variance over raw 1-5 ratings.
+
+RESOLUTION: TrajectoryType.compute() (transition counting) is now the single
+canonical method for every domain. The regression implementation was deleted
+from dataset.py rather than folded in as a per-domain variant. Why:
+
+  1. Cross-domain evaluation is a core deliverable of this project
+     (scripts/cross_domain_eval.py trains on Amazon and evaluates on Tamil and
+     vice versa). Transferring the trajectory head only means something if
+     "IMPROVING" is defined identically in both domains. Two algorithms would
+     make the source and target labels different quantities, so the reported
+     transfer scores would not be interpretable.
+
+  2. The regression path never actually had real ratings on the Dravidian
+     side. dataset.py synthesised pseudo-ratings from categorical labels
+     (Positive->5.0, Negative->1.0, Mixed->3.0, Unknown->3.0) purely to feed
+     the regression. That mapping collapsed MIXED and UNKNOWN onto the same
+     value — the same "unknown is a sentiment intensity" conflation that was
+     fixed in TransitionType.compute(). Transition counting needs no such
+     invented scale.
+
+  3. Amazon's ordinal 1-5 stars are not lost, they are routed through the
+     ontology's own SentimentState.from_rating() (>=4 POSITIVE, <=2 NEGATIVE,
+     else MIXED) — the same thresholds the sequence-building script already
+     used to write label_encoded. Star granularity finer than those buckets
+     (e.g. 5 -> 4) was never modelled by the taxonomy in the first place, so
+     no information the ontology represents is discarded.
+
+Consequence: TrajectoryType.from_ratings() was deliberately NOT added. There
+is exactly one trajectory implementation in the codebase, and it lives here.
 =============================================================================
 """
 
