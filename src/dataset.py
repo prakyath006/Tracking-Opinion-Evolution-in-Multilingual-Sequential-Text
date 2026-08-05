@@ -23,7 +23,12 @@ from torch.nn.utils.rnn import pad_sequence
 from typing import Dict, List, Tuple, Optional
 from collections import defaultdict
 
-from ontology import SentimentState, TransitionType, TrajectoryType
+from ontology import (
+    SentimentState,
+    TransitionType,
+    TrajectoryType,
+    map_labels_to_ontology,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -70,6 +75,58 @@ def build_trend_labels(states: List[SentimentState]) -> List[int]:
     for i in range(1, len(states)):
         trends.append(TransitionType.compute(states[i - 1], states[i]).value)
     return trends
+
+
+def dravidian_domain_key(language: str) -> str:
+    """Ontology DOMAIN_CONFIGS key for a DravidianCodeMix language."""
+    return f"dravidian_{language.lower().strip()}"
+
+
+def read_sentiment_states(df: pd.DataFrame, domain: str) -> List[SentimentState]:
+    """
+    Read a preprocessed DataFrame's sentiment column as ontology states.
+
+    The raw string 'label' column is the source of truth and is mapped through
+    map_labels_to_ontology(), so the domain's label_mapping in ontology.py is
+    the only place label spellings are interpreted. The numeric
+    'label_encoded' column written by preprocessing.py is treated as a cache
+    of that mapping and is only cross-checked, never used as the input.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Preprocessed dataframe with a 'label' (and usually 'label_encoded')
+        column.
+    domain : str
+        Domain key in ontology.DOMAIN_CONFIGS.
+
+    Returns
+    -------
+    List[SentimentState]
+    """
+    if "label" not in df.columns:
+        raise KeyError(
+            f"Expected a raw 'label' column to map through the ontology for "
+            f"domain '{domain}'. Columns present: {list(df.columns)}. "
+            f"Re-run src/preprocessing.py to regenerate this CSV."
+        )
+
+    states = map_labels_to_ontology(df["label"].astype(str).tolist(), domain)
+
+    # Drift check: preprocessing.py's numeric encoding must agree with the
+    # ontology. If it does not, the CSV predates an ontology change.
+    if "label_encoded" in df.columns:
+        encoded = df["label_encoded"].astype(int).tolist()
+        mismatches = sum(1 for s, e in zip(states, encoded) if s.value != e)
+        if mismatches:
+            logger.warning(
+                "%s: %d/%d rows where label_encoded disagrees with the "
+                "ontology mapping of 'label'. Using the ontology; regenerate "
+                "this CSV with src/preprocessing.py to clear this warning.",
+                domain, mismatches, len(encoded),
+            )
+
+    return states
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -125,17 +182,20 @@ class AmazonSequenceDataset(Dataset):
             
             texts = group_sorted["text"].fillna("").astype(str).tolist()
             ratings = group_sorted["rating"].astype(float).tolist()
-            sentiments = group_sorted["label_encoded"].astype(int).tolist()
-            
+
             # Truncate long sequences
             if len(texts) > max_seq_len:
                 texts = texts[:max_seq_len]
                 ratings = ratings[:max_seq_len]
-                sentiments = sentiments[:max_seq_len]
-            
-            # Map this sequence onto ontology states, then derive the
-            # trajectory and trend labels from the canonical implementation.
+
+            # The Amazon CSV carries star ratings rather than string labels, so
+            # the ontology entry point here is SentimentState.from_rating()
+            # instead of map_labels_to_ontology(). label_encoded is no longer
+            # read: it is a cache of exactly this mapping (see
+            # scripts/download_and_build_amazon_sequences.py) and is verified
+            # against the ontology in tests/test_ontology_consistency.py.
             states = [SentimentState.from_rating(r) for r in ratings]
+            sentiments = [s.value for s in states]
             trajectory = TrajectoryType.compute(states).value
             trends = build_trend_labels(states)
 
@@ -244,10 +304,19 @@ class DravidianDataset(Dataset):
         
         # Store text and label
         self.texts = df["text"].fillna("").tolist()
-        self.labels = df["label_encoded"].astype(int).tolist()
+        if task == "sentiment":
+            # Sentiment labels are owned by the ontology.
+            states = read_sentiment_states(df, dravidian_domain_key(language))
+            self.labels = [s.value for s in states]
+        else:
+            # The ontology models sentiment only — it has no offensive-language
+            # taxonomy — so the offensive task keeps preprocessing.py's own
+            # OFFENSIVE_LABELS encoding rather than being forced through
+            # SentimentState. See Step 7 note in ontology.py's DOMAIN_CONFIGS.
+            self.labels = df["label_encoded"].astype(int).tolist()
         self.language = language
         self.task = task
-        
+
         # Count unique labels
         self.num_classes = len(set(self.labels))
         
@@ -348,9 +417,17 @@ class DravidianSequenceDataset(Dataset):
         logger.info(f"Loading Dravidian sequences from: {csv_path}")
         df = pd.read_csv(csv_path, encoding="utf-8")
         
+        if task != "sentiment":
+            raise ValueError(
+                f"DravidianSequenceDataset builds trajectory labels from the "
+                f"sentiment ontology and cannot be used with task='{task}'. "
+                f"Use DravidianDataset for non-sentiment tasks."
+            )
+
         texts_all = df["text"].fillna("").tolist()
-        labels_all = df["label_encoded"].astype(int).tolist()
-        
+        states_all = read_sentiment_states(df, dravidian_domain_key(language))
+        labels_all = [s.value for s in states_all]
+
         # Build sliding-window sequences
         self.sequences = []
         for start in range(0, len(texts_all) - window_size + 1, stride):
@@ -360,7 +437,7 @@ class DravidianSequenceDataset(Dataset):
             
             # Derive trajectory and trend labels straight from the ontology
             # states — no pseudo-rating detour is needed any more.
-            states = [SentimentState(s) for s in sentiments]
+            states = states_all[start:end]
             trajectory = TrajectoryType.compute(states).value
             trends = build_trend_labels(states)
 
