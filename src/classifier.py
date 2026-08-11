@@ -21,7 +21,7 @@ import logging
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 from ontology import SentimentState, TransitionType, TrajectoryType
 
@@ -203,42 +203,111 @@ class MultiTaskClassifier(nn.Module):
         }
 
 
+def compute_class_weights(
+    labels: List[int],
+    num_classes: int,
+) -> torch.Tensor:
+    """
+    Compute inverse-frequency class weights from a label list.
+
+    weight_c = N / (num_classes * count_c), for classes that appear in
+    `labels`; classes absent from `labels` get weight 0.0 (there is no
+    frequency to invert, and CrossEntropyLoss's `weight` tensor must still
+    have one entry per class index).
+
+    This normalization keeps the weights centered around 1.0 (a perfectly
+    balanced label set gets all-1.0 weights), so `trend_weight` /
+    `trajectory_weight` / `sentiment_weight` task-level scaling in
+    MultiTaskLoss keeps meaning what it did before per-class weights existed.
+
+    Parameters
+    ----------
+    labels : List[int]
+        Encoded class ids from the TRAINING split only. Computing this from
+        val/test would leak split information into what the model is
+        optimized for.
+    num_classes : int
+        Total classes in the taxonomy (e.g. SentimentState.num_classes()),
+        so absent classes still get a weight entry.
+
+    Returns
+    -------
+    torch.Tensor
+        Float tensor of shape [num_classes].
+    """
+    counts = torch.zeros(num_classes, dtype=torch.float)
+    for label in labels:
+        if 0 <= label < num_classes:
+            counts[label] += 1
+
+    total = counts.sum().item()
+    weights = torch.zeros(num_classes, dtype=torch.float)
+    if total > 0:
+        present = counts > 0
+        weights[present] = total / (num_classes * counts[present])
+    return weights
+
+
 class MultiTaskLoss(nn.Module):
     """
     Computes weighted multi-task loss combining all three heads.
-    
+
     Total Loss = w1 * SentimentLoss + w2 * TrendLoss + w3 * TrajectoryLoss
-    
+
     Uses CrossEntropyLoss with ignore_index=-1 to handle padded positions
     in variable-length sequences.
+
+    Each head can optionally take a per-class weight tensor (see
+    compute_class_weights()) to counteract label imbalance -- trajectory and
+    trend labels in particular are heavily skewed toward STABLE across every
+    domain (see tests/test_ontology_consistency.py's real-data distributions
+    and scripts/train.py's --auto_class_weights flag).
     """
-    
+
     def __init__(
         self,
         sentiment_weight: float = 1.0,
         trend_weight: float = 0.5,
         trajectory_weight: float = 1.0,
+        sentiment_class_weights: Optional[torch.Tensor] = None,
+        trend_class_weights: Optional[torch.Tensor] = None,
+        trajectory_class_weights: Optional[torch.Tensor] = None,
     ):
         """
         Parameters
         ----------
         sentiment_weight : float
-            Weight for the sentiment classification loss.
+            Task-level weight for the sentiment classification loss.
         trend_weight : float
-            Weight for the trend classification loss.
+            Task-level weight for the trend classification loss.
         trajectory_weight : float
-            Weight for the trajectory classification loss.
+            Task-level weight for the trajectory classification loss.
+        sentiment_class_weights : torch.Tensor, optional
+            Per-class weight tensor of shape [num_sentiment_classes], e.g.
+            from compute_class_weights(). None means unweighted (uniform).
+        trend_class_weights : torch.Tensor, optional
+            Per-class weight tensor of shape [num_trend_classes].
+        trajectory_class_weights : torch.Tensor, optional
+            Per-class weight tensor of shape [num_trajectory_classes].
         """
         super().__init__()
-        
+
         self.sentiment_weight = sentiment_weight
         self.trend_weight = trend_weight
         self.trajectory_weight = trajectory_weight
-        
-        # ignore_index=-1 means padded positions (label=-1) are excluded
-        self.sentiment_loss_fn = nn.CrossEntropyLoss(ignore_index=-1)
-        self.trend_loss_fn = nn.CrossEntropyLoss(ignore_index=-1)
-        self.trajectory_loss_fn = nn.CrossEntropyLoss()
+
+        # ignore_index=-1 means padded positions (label=-1) are excluded.
+        # `weight` is registered as a buffer by nn.CrossEntropyLoss, so it
+        # moves with the rest of this module on MultiTaskLoss(...).to(device).
+        self.sentiment_loss_fn = nn.CrossEntropyLoss(
+            ignore_index=-1, weight=sentiment_class_weights,
+        )
+        self.trend_loss_fn = nn.CrossEntropyLoss(
+            ignore_index=-1, weight=trend_class_weights,
+        )
+        self.trajectory_loss_fn = nn.CrossEntropyLoss(
+            weight=trajectory_class_weights,
+        )
     
     def forward(
         self,

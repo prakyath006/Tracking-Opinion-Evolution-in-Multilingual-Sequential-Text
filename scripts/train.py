@@ -38,7 +38,7 @@ WORKSPACE_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(WORKSPACE_ROOT, "src"))
 
 from model import OpinionEvolutionTracker
-from classifier import MultiTaskLoss
+from classifier import MultiTaskLoss, compute_class_weights
 from dataset import (
     get_amazon_dataloader,
     get_dravidian_dataloader,
@@ -49,6 +49,7 @@ from evaluation import (
     sequence_consistency_score,
     EvaluationRunner,
 )
+from ontology import SentimentState, TransitionType, TrajectoryType
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Logging
@@ -64,6 +65,48 @@ logger = logging.getLogger(__name__)
 # ──────────────────────────────────────────────────────────────────────────────
 # Training Functions
 # ──────────────────────────────────────────────────────────────────────────────
+
+def compute_task_class_weights(sequence_dataset) -> Dict[str, torch.Tensor]:
+    """
+    Compute inverse-frequency class weights for the sentiment, trend and
+    trajectory heads from a sequence dataset's stored labels.
+
+    Must be called with a TRAIN-split dataset only (AmazonSequenceDataset or
+    DravidianSequenceDataset with split="train") -- computing this from
+    val/test would leak split information into what the model is optimized
+    for. Both dataset classes expose `.sequences`, a list of dicts with
+    'sentiments' / 'trends' / 'trajectory' (see src/dataset.py), which is
+    what this reads.
+
+    Returns
+    -------
+    Dict[str, torch.Tensor]
+        'sentiment', 'trend', 'trajectory' -> per-class weight tensors.
+    """
+    sentiments, trends, trajectories = [], [], []
+    for seq in sequence_dataset.sequences:
+        sentiments.extend(seq["sentiments"])
+        trends.extend(seq["trends"])
+        trajectories.append(seq["trajectory"])
+
+    return {
+        "sentiment": compute_class_weights(sentiments, SentimentState.num_classes()),
+        "trend": compute_class_weights(trends, TransitionType.num_classes()),
+        "trajectory": compute_class_weights(trajectories, TrajectoryType.num_classes()),
+    }
+
+
+def log_class_weight_report(weights: Dict[str, torch.Tensor], domain_label: str) -> None:
+    """Log the per-class weights so imbalance handling is visible in training logs."""
+    taxonomies = {
+        "sentiment": SentimentState, "trend": TransitionType, "trajectory": TrajectoryType,
+    }
+    logger.info(f"Inverse-frequency class weights ({domain_label}):")
+    for task, taxonomy in taxonomies.items():
+        w = weights[task]
+        pairs = ", ".join(f"{cls.name}={w[cls.value].item():.3f}" for cls in taxonomy)
+        logger.info(f"  {task:10s}: {pairs}")
+
 
 def train_one_epoch(
     model: OpinionEvolutionTracker,
@@ -291,12 +334,24 @@ def train(args):
     device = model.device
     
     # ── Loss & Optimizer ──
+    class_weights = None
+    if args.auto_class_weights:
+        # train_loader.dataset is the underlying AmazonSequenceDataset /
+        # DravidianSequenceDataset (split="train"), so this never touches
+        # val/test labels.
+        domain_label = args.domain if args.domain == "amazon" else f"dravidian/{args.language}"
+        class_weights = compute_task_class_weights(train_loader.dataset)
+        log_class_weight_report(class_weights, domain_label)
+
     loss_fn = MultiTaskLoss(
         sentiment_weight=1.0,
         trend_weight=0.5,
         trajectory_weight=1.0,
-    )
-    
+        sentiment_class_weights=class_weights["sentiment"] if class_weights else None,
+        trend_class_weights=class_weights["trend"] if class_weights else None,
+        trajectory_class_weights=class_weights["trajectory"] if class_weights else None,
+    ).to(device)
+
     optimizer = AdamW(
         model.get_trainable_params(),
         lr=args.lr,
@@ -475,7 +530,14 @@ def parse_args():
                         help="Early stopping patience")
     parser.add_argument("--no_cuda", action="store_true",
                         help="Disable CUDA")
-    
+    parser.add_argument("--auto_class_weights", action="store_true", default=True,
+                        help="Weight sentiment/trend/trajectory losses by "
+                             "inverse class frequency, computed from the "
+                             "training split (default: on)")
+    parser.add_argument("--no_auto_class_weights", dest="auto_class_weights",
+                        action="store_false",
+                        help="Disable automatic class weighting (uniform loss)")
+
     return parser.parse_args()
 
 
