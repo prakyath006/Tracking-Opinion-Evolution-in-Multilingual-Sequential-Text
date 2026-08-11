@@ -113,122 +113,152 @@ def evaluate_cross_domain(
     }
 
 
-def run_cross_domain_evaluation():
+def load_trained_model(run_id: str, device: torch.device) -> OpinionEvolutionTracker:
     """
-    Run the full cross-domain evaluation protocol:
-      1. In-domain:  Amazon -> Amazon
-      2. Cross:      Amazon -> Dravidian (Tamil)
-      3. Cross:      Amazon -> Dravidian (Malayalam)
+    Load a checkpoint saved by scripts/train.py for a given run_id
+    ("amazon", "dravidian_tamil", "dravidian_malayalam", "dravidian_kannada").
+
+    train.py names checkpoints best_model_{run_id}.pt precisely so that
+    training on more than one domain never overwrites an earlier run's
+    checkpoint -- which used to share one fixed "best_model.pt" path,
+    making it impossible to hold an Amazon-trained and a Dravidian-trained
+    model at the same time, and therefore impossible to evaluate the
+    "reverse" direction this script's own docstring always claimed to do.
     """
-    logger.info("=" * 70)
-    logger.info("  CROSS-DOMAIN EVALUATION")
-    logger.info("=" * 70)
-    
-    output_dir = os.path.join(WORKSPACE_ROOT, "outputs", "cross_domain")
-    os.makedirs(output_dir, exist_ok=True)
-    
     checkpoint_dir = os.path.join(WORKSPACE_ROOT, "outputs", "checkpoints")
-    checkpoint_path = os.path.join(checkpoint_dir, "best_model.pt")
-    
+    checkpoint_path = os.path.join(checkpoint_dir, f"best_model_{run_id}.pt")
+
     if not os.path.exists(checkpoint_path):
-        logger.error(
-            f"No trained model found at {checkpoint_path}. "
-            "Run training first with: python scripts/train.py"
+        raise FileNotFoundError(
+            f"No trained model found at {checkpoint_path}. Train it first, e.g.:\n"
+            f"  python scripts/train.py --domain amazon\n"
+            f"  python scripts/train.py --domain dravidian --language tamil"
         )
-        return
-    
-    # Load model
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
-    
     args = checkpoint.get("args", {})
     model_name = args.get("model_name", "bert-base-multilingual-cased")
-    
-    model = OpinionEvolutionTracker(
-        model_name=model_name,
-        use_cuda=torch.cuda.is_available(),
-    )
+
+    model = OpinionEvolutionTracker(model_name=model_name, use_cuda=(device.type == "cuda"))
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
-    
-    logger.info(f"Loaded model from epoch {checkpoint.get('epoch', '?')}")
-    
-    results = {}
-    
-    # ── 1. In-Domain: Amazon -> Amazon ──
-    logger.info("\n--- In-Domain: Amazon -> Amazon ---")
-    amazon_test = get_amazon_dataloader(split="test", batch_size=8)
-    in_domain = evaluate_cross_domain(model, "amazon", amazon_test, device)
-    results["amazon_to_amazon"] = in_domain
-    logger.info(f"  Sentiment F1: {in_domain['sentiment'].get('f1_macro', 0):.4f}")
-    logger.info(f"  Trajectory F1: {in_domain['trajectory'].get('f1_macro', 0):.4f}")
-    
-    # ── 2. Cross-Domain: Amazon -> Dravidian Tamil ──
-    logger.info("\n--- Cross-Domain: Amazon -> Tamil ---")
-    tamil_test = get_dravidian_sequence_dataloader(
-        language="tamil", task="sentiment", split="test", batch_size=8
+    logger.info(f"Loaded {run_id} model from epoch {checkpoint.get('epoch', '?')} ({checkpoint_path})")
+    return model
+
+
+def get_domain_test_loader(run_id: str, batch_size: int = 8):
+    """get_amazon_dataloader / get_dravidian_sequence_dataloader for a run_id's test split."""
+    if run_id == "amazon":
+        return get_amazon_dataloader(split="test", batch_size=batch_size)
+    language = run_id.split("dravidian_", 1)[1]
+    return get_dravidian_sequence_dataloader(
+        language=language, task="sentiment", split="test", batch_size=batch_size,
     )
-    cross_tamil = evaluate_cross_domain(model, "amazon->tamil", tamil_test, device)
-    results["amazon_to_tamil"] = cross_tamil
-    logger.info(f"  Sentiment F1: {cross_tamil['sentiment'].get('f1_macro', 0):.4f}")
-    logger.info(f"  Trajectory F1: {cross_tamil['trajectory'].get('f1_macro', 0):.4f}")
-    
-    # ── 3. Cross-Domain: Amazon -> Dravidian Malayalam ──
-    logger.info("\n--- Cross-Domain: Amazon -> Malayalam ---")
+
+
+def run_cross_domain_evaluation(dravidian_language: str = "tamil"):
+    """
+    Run the full cross-domain evaluation protocol in BOTH directions:
+      1. In-domain:   Amazon -> Amazon
+      2. Cross:       Amazon -> Dravidian (tamil / malayalam / kannada)
+      3. In-domain:   Dravidian(dravidian_language) -> Dravidian(dravidian_language)
+      4. Cross:       Dravidian(dravidian_language) -> Amazon              [reverse]
+      5. Cross:       Dravidian(dravidian_language) -> other Dravidian languages
+
+    Requires checkpoints from BOTH `train.py --domain amazon` and
+    `train.py --domain dravidian --language <dravidian_language>` to exist
+    (see load_trained_model()) -- this is exactly why train.py's checkpoints
+    are now domain-specific rather than one shared "best_model.pt".
+    """
+    logger.info("=" * 70)
+    logger.info("  CROSS-DOMAIN EVALUATION (both directions)")
+    logger.info("=" * 70)
+
+    output_dir = os.path.join(WORKSPACE_ROOT, "outputs", "cross_domain")
+    os.makedirs(output_dir, exist_ok=True)
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    dravidian_run_id = f"dravidian_{dravidian_language}"
+
+    results = {}
+    other_languages = [l for l in ("tamil", "malayalam", "kannada") if l != dravidian_language]
+
+    # ── Direction 1: Amazon-trained model ──
     try:
-        mal_test = get_dravidian_sequence_dataloader(
-            language="malayalam", task="sentiment", split="test", batch_size=8
-        )
-        cross_mal = evaluate_cross_domain(model, "amazon->malayalam", mal_test, device)
-        results["amazon_to_malayalam"] = cross_mal
-        logger.info(f"  Sentiment F1: {cross_mal['sentiment'].get('f1_macro', 0):.4f}")
-    except Exception as e:
-        logger.warning(f"  Skipped Malayalam: {e}")
-    
-    # ── 4. Cross-Domain: Amazon -> Dravidian Kannada ──
-    logger.info("\n--- Cross-Domain: Amazon -> Kannada ---")
+        amazon_model = load_trained_model("amazon", device)
+        for target_run_id in ["amazon", dravidian_run_id] + [f"dravidian_{l}" for l in other_languages]:
+            label = f"amazon_to_{target_run_id}"
+            logger.info(f"\n--- {label} ---")
+            loader = get_domain_test_loader(target_run_id)
+            result = evaluate_cross_domain(amazon_model, "amazon", loader, device)
+            results[label] = result
+            logger.info(f"  Sentiment F1: {result['sentiment'].get('f1_macro', 0):.4f} | "
+                        f"Trajectory F1: {result['trajectory'].get('f1_macro', 0):.4f}")
+    except FileNotFoundError as e:
+        logger.warning(f"Skipping Amazon-sourced evaluations: {e}")
+
+    # ── Direction 2 (reverse): Dravidian-trained model ──
     try:
-        kan_test = get_dravidian_sequence_dataloader(
-            language="kannada", task="sentiment", split="test", batch_size=8
-        )
-        cross_kan = evaluate_cross_domain(model, "amazon->kannada", kan_test, device)
-        results["amazon_to_kannada"] = cross_kan
-        logger.info(f"  Sentiment F1: {cross_kan['sentiment'].get('f1_macro', 0):.4f}")
-    except Exception as e:
-        logger.warning(f"  Skipped Kannada: {e}")
-    
+        dravidian_model = load_trained_model(dravidian_run_id, device)
+        for target_run_id in [dravidian_run_id, "amazon"] + [f"dravidian_{l}" for l in other_languages]:
+            label = f"{dravidian_run_id}_to_{target_run_id}"
+            logger.info(f"\n--- {label} ---")
+            loader = get_domain_test_loader(target_run_id)
+            result = evaluate_cross_domain(dravidian_model, dravidian_run_id, loader, device)
+            results[label] = result
+            logger.info(f"  Sentiment F1: {result['sentiment'].get('f1_macro', 0):.4f} | "
+                        f"Trajectory F1: {result['trajectory'].get('f1_macro', 0):.4f}")
+    except FileNotFoundError as e:
+        logger.warning(f"Skipping {dravidian_run_id}-sourced evaluations: {e}")
+
+    if not results:
+        logger.error("No trained checkpoints found for either domain -- nothing to evaluate.")
+        return {}
+
     # ── Summary Table ──
     logger.info("\n" + "=" * 70)
     logger.info("  CROSS-DOMAIN RESULTS SUMMARY")
     logger.info("=" * 70)
-    logger.info(f"{'Setup':<30} {'Sent F1':<12} {'Traj F1':<12} {'SCS':<10}")
+    logger.info(f"{'Setup':<34} {'Sent F1':<12} {'Traj F1':<12} {'SCS':<10}")
     logger.info("-" * 70)
-    
+
     for setup_name, result in results.items():
         sent_f1 = result["sentiment"].get("f1_macro", 0)
         traj_f1 = result["trajectory"].get("f1_macro", 0)
         scs = result["scs"].get("scs_mean", 0)
-        logger.info(f"{setup_name:<30} {sent_f1:<12.4f} {traj_f1:<12.4f} {scs:<10.4f}")
-    
-    # Degradation analysis
-    if "amazon_to_amazon" in results and "amazon_to_tamil" in results:
-        in_f1 = results["amazon_to_amazon"]["sentiment"].get("f1_macro", 0)
-        cross_f1 = results["amazon_to_tamil"]["sentiment"].get("f1_macro", 0)
-        if in_f1 > 0:
-            degradation = ((in_f1 - cross_f1) / in_f1) * 100
-            logger.info(f"\n  Cross-domain degradation (Amazon->Tamil): {degradation:.1f}%")
-    
+        logger.info(f"{setup_name:<34} {sent_f1:<12.4f} {traj_f1:<12.4f} {scs:<10.4f}")
+
+    # Degradation analysis, both directions
+    logger.info("")
+    for in_key, cross_key, label in [
+        ("amazon_to_amazon", f"amazon_to_{dravidian_run_id}", f"Amazon -> {dravidian_language}"),
+        (f"{dravidian_run_id}_to_{dravidian_run_id}", f"{dravidian_run_id}_to_amazon", f"{dravidian_language} -> Amazon"),
+    ]:
+        if in_key in results and cross_key in results:
+            in_f1 = results[in_key]["sentiment"].get("f1_macro", 0)
+            cross_f1 = results[cross_key]["sentiment"].get("f1_macro", 0)
+            if in_f1 > 0:
+                degradation = ((in_f1 - cross_f1) / in_f1) * 100
+                logger.info(f"  Cross-domain degradation ({label}): {degradation:.1f}%")
+
     # Save results
-    results_path = os.path.join(output_dir, "cross_domain_results.json")
+    results_path = os.path.join(output_dir, f"cross_domain_results_{dravidian_language}.json")
     with open(results_path, "w") as f:
         json.dump(results, f, indent=2)
     logger.info(f"\nResults saved to: {results_path}")
-    
+
     logger.info("\n" + "=" * 70)
     logger.info("  CROSS-DOMAIN EVALUATION COMPLETE!")
     logger.info("=" * 70)
+    return results
 
 
 if __name__ == "__main__":
-    run_cross_domain_evaluation()
+    import argparse
+    parser = argparse.ArgumentParser(description="Cross-domain evaluation (both directions)")
+    parser.add_argument("--language", type=str, default="tamil",
+                         choices=["tamil", "malayalam", "kannada"],
+                         help="Dravidian language to pair against Amazon")
+    cli_args = parser.parse_args()
+    run_cross_domain_evaluation(dravidian_language=cli_args.language)
 
