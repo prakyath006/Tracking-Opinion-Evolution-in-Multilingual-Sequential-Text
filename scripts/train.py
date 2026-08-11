@@ -289,6 +289,13 @@ def train(args):
     logger.info(f"  LR:         {args.lr}")
     logger.info("=" * 70)
     
+    # Run identifier: every checkpoint/log is named after this so training
+    # amazon then dravidian (or two dravidian languages back to back) cannot
+    # silently overwrite an earlier run's "best_model.pt" -- which would
+    # otherwise make cross-domain eval unable to compare source domains, since
+    # only one checkpoint would ever exist at a time.
+    run_id = args.domain if args.domain == "amazon" else f"dravidian_{args.language}"
+
     # Create output directory
     output_dir = os.path.join(WORKSPACE_ROOT, "outputs", "checkpoints")
     os.makedirs(output_dir, exist_ok=True)
@@ -410,7 +417,7 @@ def train(args):
             patience_counter = 0
             
             # Save best model
-            checkpoint_path = os.path.join(output_dir, "best_model.pt")
+            checkpoint_path = os.path.join(output_dir, f"best_model_{run_id}.pt")
             torch.save({
                 "epoch": epoch,
                 "model_state_dict": model.state_dict(),
@@ -434,7 +441,7 @@ def train(args):
     
     # Load best model
     checkpoint = torch.load(
-        os.path.join(output_dir, "best_model.pt"),
+        os.path.join(output_dir, f"best_model_{run_id}.pt"),
         map_location=device,
         weights_only=False,
     )
@@ -453,13 +460,13 @@ def train(args):
     report = evaluator.print_report()
     
     # Save training log
-    log_path = os.path.join(logs_dir, f"training_log_{args.domain}.json")
+    log_path = os.path.join(logs_dir, f"training_log_{run_id}.json")
     with open(log_path, "w") as f:
         json.dump(training_log, f, indent=2)
     logger.info(f"Training log saved to: {log_path}")
     
     # Save test results
-    results_path = os.path.join(logs_dir, f"test_results_{args.domain}.json")
+    results_path = os.path.join(logs_dir, f"test_results_{run_id}.json")
     with open(results_path, "w") as f:
         json.dump({
             "losses": test_results["losses"],
