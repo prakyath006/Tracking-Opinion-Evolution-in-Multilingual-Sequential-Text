@@ -20,6 +20,20 @@ print(f"  Domains:             {summary['supported_domains']}")
 print(f"  Code-mix taxonomy:   src/preprocessing.py (CodeMixHandler)")
 print(f"  Consistency tests:   pytest tests/test_ontology_consistency.py")
 
+# ── Ontology evaluation (coverage / consistency) ──
+from ontology_eval import compute_all_domain_coverage, check_label_mapping_consistency
+coverage_rows = compute_all_domain_coverage()
+consistency = check_label_mapping_consistency()
+print(f"  Ontology eval report: src/ontology_eval.py (full: outputs/ontology_evaluation_report.md)")
+for row in coverage_rows:
+    if row["coverage_pct"] is None:
+        print(f"    Coverage ({row['domain']}):  no local data")
+    else:
+        flag = " 🚩 LOW COVERAGE" if row["low_coverage"] else ""
+        print(f"    Coverage ({row['domain']}):  {row['coverage_pct']:.1f}%{flag}")
+consistency_flag = "✅ consistent" if consistency["consistent"] else f"🚩 {len(consistency['conflicts'])} conflict(s)"
+print(f"    Label-mapping consistency: {consistency_flag} ({consistency['label_count']} labels checked)")
+
 # ── Module 1b: Own Embeddings ──
 from embeddings import DomainAdaptedEmbeddings
 print(f"  Embeddings file:     src/embeddings.py ✅")
@@ -55,6 +69,10 @@ print("-" * 50)
 print(f"  cross_domain_eval.py: Script ready ✅")
 print(f"  Local eval:           In-domain (Amazon→Amazon, Tamil→Tamil)")
 print(f"  Global eval:          Cross-domain (Amazon→Tamil, Tamil→Amazon)")
+print(f"  Fuzzy domain scores:  src/fuzzy_domain_score.py — per-test-sequence domain-typicality")
+print(f"                        scores are available (outputs/fuzzy_domain_scores.csv); not yet")
+print(f"                        correlated against degradation (no real cross-domain results exist yet)")
+print(f"  Literature comparison: docs/literature_comparison.md")
 
 # ── Module 5: Performance Metrics ──
 print("\n✦ MODULE 5: Performance Metrics")
