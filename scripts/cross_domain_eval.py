@@ -68,46 +68,59 @@ def evaluate_cross_domain(
 ) -> Dict:
     """
     Evaluate a trained model on a different domain's test set.
+
+    Reports all three heads (sentiment, trend, trajectory) -- trend was
+    previously not collected here at all (only sentiment + trajectory),
+    which meant the trend head had no cross-domain numbers anywhere in the
+    project even though train.py's own evaluate_epoch() already collects it
+    for in-domain evaluation. Mirrors that same pattern here for parity.
     """
     model.eval()
-    
+
     all_sent_true, all_sent_pred = [], []
+    all_trend_true, all_trend_pred = [], []
     all_traj_true, all_traj_pred = [], []
     all_pred_sequences = []
     all_seq_lens = []
-    
+
     with torch.no_grad():
         for batch in target_loader:
             texts_batch = batch["texts"]
             sentiments = batch["sentiments"]
+            trends = batch["trends"]
             trajectories = batch["trajectories"]
             seq_lens = batch["seq_lens"]
             padding_mask = batch["padding_mask"].to(device)
-            
+
             predictions = model(
                 texts_batch, seq_lens=seq_lens, padding_mask=padding_mask
             )
-            
+
             sent_preds = predictions["sentiment_logits"].argmax(dim=-1)
+            trend_preds = predictions["trend_logits"].argmax(dim=-1)
             traj_preds = predictions["trajectory_logits"].argmax(dim=-1)
-            
+
             for i in range(len(seq_lens)):
                 sl = seq_lens[i]
                 all_sent_true.extend(sentiments[i, :sl].tolist())
                 all_sent_pred.extend(sent_preds[i, :sl].cpu().tolist())
+                all_trend_true.extend(trends[i, :sl].tolist())
+                all_trend_pred.extend(trend_preds[i, :sl].cpu().tolist())
                 all_pred_sequences.append(sent_preds[i, :sl].cpu().tolist())
                 all_seq_lens.append(sl)
-            
+
             all_traj_true.extend(trajectories.tolist())
             all_traj_pred.extend(traj_preds.cpu().tolist())
-    
+
     sent_metrics = compute_classification_metrics(all_sent_true, all_sent_pred)
+    trend_metrics = compute_classification_metrics(all_trend_true, all_trend_pred)
     traj_metrics = compute_classification_metrics(all_traj_true, all_traj_pred)
     scs = sequence_consistency_score(all_pred_sequences, all_seq_lens)
-    
+
     return {
         "source_domain": source_domain,
         "sentiment": sent_metrics,
+        "trend": trend_metrics,
         "trajectory": traj_metrics,
         "scs": scs,
     }

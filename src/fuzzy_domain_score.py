@@ -45,8 +45,11 @@ Usage:
 
 import os
 import sys
+import glob
+import json
 import argparse
 import logging
+import statistics
 from typing import Dict, List, Optional
 
 import numpy as np
@@ -333,6 +336,245 @@ def generate_fuzzy_domain_scores(
         logger.info(f"Saved {len(df)} rows -> {OUTPUT_PATH}")
 
     return df
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Module 5 report: F1 Stability Ratio + cross-domain summary + fuzzy scores
+# ──────────────────────────────────────────────────────────────────────────────
+
+CROSS_DOMAIN_DIR = os.path.join(WORKSPACE_ROOT, "outputs", "cross_domain")
+METRICS_DIR = os.path.join(WORKSPACE_ROOT, "outputs", "metrics")
+MODULE5_REPORT_PATH = os.path.join(METRICS_DIR, "module5_cross_domain.md")
+HEADS = ["sentiment", "trend", "trajectory"]
+
+
+def compute_f1_stability_ratio(f1_scores: List[float]) -> Dict:
+    """
+    F1 Stability Ratio = mean(F1) / std(F1) across a set of evaluated
+    domains/setups, for one task head. Same mean/std-ratio construction as
+    Module 1's Coverage Stability Ratio and Module 4's SCS Reliability
+    Ratio -- named for what it concretely measures (how stable a head's F1
+    is across domains), not "Sharpe ratio".
+
+    Returns
+    -------
+    Dict with: ratio (float or None), mean, std, n, note.
+    """
+    if len(f1_scores) < 2:
+        return {
+            "ratio": None, "mean": (f1_scores[0] if f1_scores else None),
+            "std": None, "n": len(f1_scores),
+            "note": f"Need >=2 evaluated setups to compute a standard deviation; only {len(f1_scores)} available.",
+        }
+
+    mean_f1 = statistics.mean(f1_scores)
+    std_f1 = statistics.stdev(f1_scores)
+
+    if std_f1 == 0:
+        return {"ratio": None, "mean": mean_f1, "std": 0.0, "n": len(f1_scores),
+                "note": "F1 is identical across all evaluated setups (std=0); ratio is undefined (division by zero)."}
+
+    return {"ratio": mean_f1 / std_f1, "mean": mean_f1, "std": std_f1,
+            "n": len(f1_scores), "note": f"Computed over {len(f1_scores)} evaluated setup(s)."}
+
+
+def load_cross_domain_results() -> Dict[str, Dict]:
+    """
+    Read every outputs/cross_domain/cross_domain_results_*.json written by
+    scripts/cross_domain_eval.py (one per Dravidian language paired against
+    Amazon) and merge into one dict keyed by setup name (e.g.
+    "amazon_to_dravidian_tamil"). Read-only -- does not run evaluation.
+
+    Returns
+    -------
+    Dict[setup_name, result_dict]. Empty if no results exist yet.
+    """
+    merged = {}
+    for path in sorted(glob.glob(os.path.join(CROSS_DOMAIN_DIR, "cross_domain_results_*.json"))):
+        with open(path, encoding="utf-8") as f:
+            merged.update(json.load(f))
+    return merged
+
+
+def summarize_fuzzy_scores(csv_path: str = OUTPUT_PATH) -> Optional[pd.DataFrame]:
+    """
+    Read an existing fuzzy_domain_scores.csv (from generate_fuzzy_domain_scores())
+    if present and summarize it: mean fuzzy-membership-in-own-domain per
+    source domain, and how often each domain's sequences score highest on
+    their own centroid (argmax match rate) -- read-only, does not run scoring.
+
+    Returns
+    -------
+    pd.DataFrame summary, or None if no scores file exists yet.
+    """
+    if not os.path.exists(csv_path):
+        return None
+
+    df = pd.read_csv(csv_path)
+    fuzzy_cols = [c for c in df.columns if c.startswith("fuzzy_")]
+    if not fuzzy_cols:
+        return None
+
+    df = df.copy()
+    df["argmax_domain"] = df[fuzzy_cols].idxmax(axis=1).str.replace("fuzzy_", "", regex=False)
+
+    rows = []
+    for domain, group in df.groupby("source_domain"):
+        own_col = f"fuzzy_{domain}"
+        rows.append({
+            "domain": domain,
+            "n_sequences": len(group),
+            "mean_own_domain_score": group[own_col].mean() if own_col in group else None,
+            "argmax_matches_own_domain_pct": (group["argmax_domain"] == domain).mean() * 100,
+        })
+    return pd.DataFrame(rows)
+
+
+def generate_module5_report(write: bool = True) -> str:
+    """
+    Module 5 (Cross-Domain Generalization) report: in-domain vs cross-domain
+    F1 + % degradation per head (reusing scripts/cross_domain_eval.py's
+    saved JSON output -- does not re-run evaluation), F1 Stability Ratio
+    per head across whatever setups have been evaluated, and a summary of
+    fuzzy domain-typicality scores if generate_fuzzy_domain_scores() has
+    been run. States "pending" wherever the underlying results don't exist
+    yet, rather than fabricating a number.
+
+    Returns
+    -------
+    str
+        The markdown report text.
+    """
+    results = load_cross_domain_results()
+
+    lines = ["# Module 5 — Cross-Domain Generalization", ""]
+
+    # ── In-domain vs cross-domain F1 + degradation, per head ──
+    lines.append("## In-Domain vs. Cross-Domain F1")
+    lines.append("")
+    if not results:
+        lines.append(
+            "**Pending.** No cross-domain results found under "
+            "`outputs/cross_domain/`. Run `python scripts/cross_domain_eval.py "
+            "--language <tamil|malayalam|kannada>` (requires trained "
+            "checkpoints from `scripts/train.py` for both `amazon` and the "
+            "chosen Dravidian language) to populate this section."
+        )
+        lines.append("")
+    else:
+        lines.append("| Setup | Sentiment F1 | Trend F1 | Trajectory F1 | SCS |")
+        lines.append("|---|---|---|---|---|")
+        for setup, r in results.items():
+            sent_f1 = r.get("sentiment", {}).get("f1_macro")
+            trend_f1 = r.get("trend", {}).get("f1_macro")
+            traj_f1 = r.get("trajectory", {}).get("f1_macro")
+            scs = r.get("scs", {}).get("scs_mean")
+            trend_str = f"{trend_f1:.4f}" if trend_f1 is not None else "- (older result, predates trend tracking)"
+            lines.append(
+                f"| {setup} | {sent_f1:.4f} | {trend_str} | {traj_f1:.4f} | {scs:.4f} |"
+            )
+        lines.append("")
+
+        # Degradation: pair every "X_to_X" (in-domain) with "X_to_Y" (cross-domain, same source X)
+        lines.append("### % Degradation (in-domain -> cross-domain, per head)")
+        lines.append("")
+        degradation_rows = []
+        for setup, r in results.items():
+            parts = setup.split("_to_")
+            source, target = parts[0], parts[-1]
+            if source == target:
+                continue
+            in_domain_key = f"{source}_to_{source}"
+            if in_domain_key not in results:
+                continue
+            for head in HEADS:
+                in_f1 = results[in_domain_key].get(head, {}).get("f1_macro")
+                cross_f1 = r.get(head, {}).get("f1_macro")
+                if in_f1 is None or cross_f1 is None or in_f1 == 0:
+                    continue
+                degradation_pct = ((in_f1 - cross_f1) / in_f1) * 100
+                degradation_rows.append((setup, head, in_f1, cross_f1, degradation_pct))
+
+        if degradation_rows:
+            lines.append("| Setup | Head | In-Domain F1 | Cross-Domain F1 | % Degradation |")
+            lines.append("|---|---|---|---|---|")
+            for setup, head, in_f1, cross_f1, deg in degradation_rows:
+                lines.append(f"| {setup} | {head} | {in_f1:.4f} | {cross_f1:.4f} | {deg:.1f}% |")
+        else:
+            lines.append("*No in-domain/cross-domain pairs available to compute degradation from yet.*")
+        lines.append("")
+
+    # ── F1 Stability Ratio per head ──
+    lines.append("## F1 Stability Ratio (per head)")
+    lines.append("")
+    lines.append("mean(F1) / std(F1) across every evaluated domain/setup, for one task head.")
+    lines.append("")
+    if not results:
+        lines.append("**Pending** — no evaluated setups yet.")
+        lines.append("")
+    else:
+        lines.append("| Head | Ratio | Mean F1 | Std F1 | Setups Used |")
+        lines.append("|---|---|---|---|---|")
+        for head in HEADS:
+            f1_scores = [r[head]["f1_macro"] for r in results.values()
+                         if head in r and r[head].get("f1_macro") is not None]
+            stability = compute_f1_stability_ratio(f1_scores)
+            if stability["ratio"] is None:
+                lines.append(f"| {head} | not computed | - | - | {stability['n']} ({stability['note']}) |")
+            else:
+                lines.append(
+                    f"| {head} | {stability['ratio']:.2f} | {stability['mean']:.4f} | "
+                    f"{stability['std']:.4f} | {stability['n']} |"
+                )
+        lines.append("")
+
+    # ── Fuzzy domain-typicality scores ──
+    lines.append("## Fuzzy Domain-Typicality Scores")
+    lines.append("")
+    fuzzy_summary = summarize_fuzzy_scores()
+    if fuzzy_summary is None:
+        lines.append(
+            "**Pending.** No `outputs/fuzzy_domain_scores.csv` found. Run "
+            "`python src/fuzzy_domain_score.py` to populate this section — "
+            "per-test-sequence fuzzy membership scores across all domains, "
+            "computed via cosine similarity to domain centroids (see "
+            "`generate_fuzzy_domain_scores()`)."
+        )
+        lines.append("")
+    else:
+        lines.append(
+            "Summary of `outputs/fuzzy_domain_scores.csv`. "
+            "`argmax_matches_own_domain_pct` = how often a domain's own test "
+            "sequences score *highest* on that domain's own centroid (a "
+            "sanity signal, not a correctness guarantee)."
+        )
+        lines.append("")
+        lines.append("| Domain | Sequences | Mean Own-Domain Score | Argmax Matches Own Domain |")
+        lines.append("|---|---|---|---|")
+        for _, row in fuzzy_summary.iterrows():
+            lines.append(
+                f"| {row['domain']} | {row['n_sequences']} | "
+                f"{row['mean_own_domain_score']:.4f} | "
+                f"{row['argmax_matches_own_domain_pct']:.1f}% |"
+            )
+        lines.append("")
+        lines.append(
+            "Not yet correlated against cross-domain degradation (per task "
+            "scope) — these scores are available for that analysis once "
+            "both this table and the degradation table above are populated "
+            "from the same real trained checkpoints."
+        )
+        lines.append("")
+
+    report = "\n".join(lines)
+
+    if write:
+        os.makedirs(METRICS_DIR, exist_ok=True)
+        with open(MODULE5_REPORT_PATH, "w", encoding="utf-8") as f:
+            f.write(report)
+        logger.info(f"Saved: {MODULE5_REPORT_PATH}")
+
+    return report
 
 
 def main():
