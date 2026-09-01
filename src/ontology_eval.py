@@ -38,6 +38,7 @@ import os
 import sys
 import glob
 import logging
+import statistics
 from typing import Dict, List, Optional
 
 import pandas as pd
@@ -60,6 +61,8 @@ logger = logging.getLogger(__name__)
 PREPROCESSED_DIR = os.path.join(WORKSPACE_ROOT, "data", "preprocessed")
 OUTPUT_DIR = os.path.join(WORKSPACE_ROOT, "outputs")
 REPORT_PATH = os.path.join(OUTPUT_DIR, "ontology_evaluation_report.md")
+METRICS_DIR = os.path.join(WORKSPACE_ROOT, "outputs", "metrics")
+MODULE1_REPORT_PATH = os.path.join(METRICS_DIR, "module1_ontology.md")
 
 # Same language -> preprocessed-CSV-prefix mapping used throughout the
 # pipeline (src/dataset.py, tests/test_ontology_consistency.py).
@@ -178,6 +181,77 @@ def _missing_data_result(domain: str, looked_for: str) -> Dict:
 
 def compute_all_domain_coverage() -> List[Dict]:
     return [compute_domain_coverage(domain) for domain in sorted(DOMAIN_CONFIGS)]
+
+
+def compute_coverage_stability_ratio(coverage_rows: Optional[List[Dict]] = None) -> Dict:
+    """
+    Ontology Coverage Stability Ratio = mean(coverage_pct) / std(coverage_pct)
+    across domains with data available.
+
+    A single summary number for "how evenly does the ontology cover its
+    domains" — high when coverage is uniformly high (or uniformly low) across
+    domains, low when domains disagree sharply (e.g. amazon_beauty at 100%
+    next to dravidian_malayalam at 64.3%, as observed on real data). This is
+    a dispersion ratio in the same family as a Sharpe-ratio-style
+    mean/std construction, but named for what it actually measures here —
+    coverage stability, not a risk-adjusted financial return — since that is
+    the concrete, unambiguous metric asked for.
+
+    Requires at least 2 domains with data (std of one value is undefined).
+    Uses sample standard deviation (ddof=1, statistics.stdev), matching the
+    conventional definition for a ratio computed over a small population of
+    domains rather than an infinite one.
+
+    Returns
+    -------
+    Dict with: ratio (float or None), mean_coverage, std_coverage,
+    domains_used (list), domains_skipped (list, no data), note.
+    """
+    if coverage_rows is None:
+        coverage_rows = compute_all_domain_coverage()
+
+    available = [r for r in coverage_rows if r["coverage_pct"] is not None]
+    skipped = [r["domain"] for r in coverage_rows if r["coverage_pct"] is None]
+
+    if len(available) < 2:
+        return {
+            "ratio": None,
+            "mean_coverage": available[0]["coverage_pct"] if available else None,
+            "std_coverage": None,
+            "domains_used": [r["domain"] for r in available],
+            "domains_skipped": skipped,
+            "note": (
+                f"Need >=2 domains with data to compute a standard deviation; "
+                f"only {len(available)} available. Ratio not computed."
+            ),
+        }
+
+    values = [r["coverage_pct"] for r in available]
+    mean_cov = statistics.mean(values)
+    std_cov = statistics.stdev(values)
+
+    if std_cov == 0:
+        return {
+            "ratio": None,
+            "mean_coverage": mean_cov,
+            "std_coverage": 0.0,
+            "domains_used": [r["domain"] for r in available],
+            "domains_skipped": skipped,
+            "note": "All domains have identical coverage (std=0); ratio is undefined (division by zero).",
+        }
+
+    return {
+        "ratio": mean_cov / std_cov,
+        "mean_coverage": mean_cov,
+        "std_coverage": std_cov,
+        "domains_used": [r["domain"] for r in available],
+        "domains_skipped": skipped,
+        "note": (
+            f"Computed over {len(available)} domain(s) with data "
+            f"({', '.join(r['domain'] for r in available)})."
+            + (f" Skipped (no data): {', '.join(skipped)}." if skipped else "")
+        ),
+    }
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -414,6 +488,53 @@ def generate_ontology_eval_report(write: bool = True) -> str:
     return report
 
 
+def generate_module1_report(write: bool = True) -> str:
+    """
+    Module 1 (Ontology) metrics report for the per-module metrics framework
+    -- reuses generate_ontology_eval_report()'s coverage/consistency/structure
+    sections verbatim (no duplicated logic) and appends the Coverage
+    Stability Ratio.
+
+    Parameters
+    ----------
+    write : bool
+        If True (default), write to outputs/metrics/module1_ontology.md.
+
+    Returns
+    -------
+    str
+        The markdown report text.
+    """
+    base_report = generate_ontology_eval_report(write=False)
+    stability = compute_coverage_stability_ratio()
+
+    lines = [base_report, "", "## Ontology Coverage Stability Ratio", ""]
+    lines.append(
+        "mean(coverage %) / std(coverage %) across domains with data — a "
+        "single number for how evenly the ontology covers its domains."
+    )
+    lines.append("")
+    if stability["ratio"] is None:
+        lines.append(f"**Ratio: not computed.** {stability['note']}")
+    else:
+        lines.append(f"**Ratio: {stability['ratio']:.2f}** "
+                      f"(mean={stability['mean_coverage']:.1f}%, "
+                      f"std={stability['std_coverage']:.1f}%)")
+        lines.append("")
+        lines.append(stability["note"])
+    lines.append("")
+
+    report = "\n".join(lines)
+
+    if write:
+        os.makedirs(METRICS_DIR, exist_ok=True)
+        with open(MODULE1_REPORT_PATH, "w", encoding="utf-8") as f:
+            f.write(report)
+        logger.info(f"Saved: {MODULE1_REPORT_PATH}")
+
+    return report
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)-8s | %(message)s", datefmt="%H:%M:%S")
-    print(generate_ontology_eval_report())
+    print(generate_module1_report())
