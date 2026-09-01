@@ -11,4 +11,5 @@ outputs/
 data.zip
 *.md
 !README.md
+!docs/**/*.md
 *.json
