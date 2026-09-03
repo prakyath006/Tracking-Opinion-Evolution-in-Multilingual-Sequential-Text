@@ -7,9 +7,14 @@ demo_output.txt
 
 # Large data files and directories
 data/
-outputs/
+outputs/*
+!outputs/metrics/
+outputs/metrics/*
+!outputs/metrics/**/*.md
 data.zip
 *.md
 !README.md
 !docs/**/*.md
+!outputs/metrics/**/*.md
 *.json
+!ontology/**/*.json
