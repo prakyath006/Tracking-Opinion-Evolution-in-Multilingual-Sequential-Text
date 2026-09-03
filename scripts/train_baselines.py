@@ -64,7 +64,7 @@ from dataset import (
 )
 from classifier import compute_class_weights
 from ontology import SentimentState, TrajectoryType
-from evaluation import compute_classification_metrics, sequence_consistency_score
+from evaluation import compute_classification_metrics, compute_confusion_matrix, sequence_consistency_score
 
 logging.basicConfig(
     level=logging.INFO,
@@ -214,11 +214,13 @@ def train_group_a(
     test_metrics = compute_classification_metrics(
         test_true, test_pred, label_names=SentimentState.label_names(),
     )
+    test_cm = compute_confusion_matrix(test_true, test_pred, label_names=SentimentState.label_names())
     logger.info(f"[{baseline_name}/{run_id}] TEST sentiment_f1_macro={test_metrics.get('f1_macro', 0):.4f}")
 
     return {
         "baseline": baseline_name, "run_id": run_id, "training_log": training_log,
         "test": {"sentiment": test_metrics},
+        "confusion_matrices": {"sentiment": test_cm.tolist()},
     }
 
 
@@ -357,6 +359,8 @@ def train_group_b(
     _, ts_t, ts_p, tt_t, tt_p, pred_seqs, seq_lens_all = run_epoch(test_loader, train=False)
     sent_metrics = compute_classification_metrics(ts_t, ts_p, label_names=SentimentState.label_names())
     traj_metrics = compute_classification_metrics(tt_t, tt_p, label_names=TrajectoryType.label_names())
+    sent_cm = compute_confusion_matrix(ts_t, ts_p, label_names=SentimentState.label_names())
+    traj_cm = compute_confusion_matrix(tt_t, tt_p, label_names=TrajectoryType.label_names())
     scs = sequence_consistency_score(pred_seqs, seq_lens_all)
     logger.info(
         f"[{baseline_name}/{run_id}] TEST sentiment_f1={sent_metrics.get('f1_macro', 0):.4f} "
@@ -366,6 +370,7 @@ def train_group_b(
     return {
         "baseline": baseline_name, "run_id": run_id, "training_log": training_log,
         "test": {"sentiment": sent_metrics, "trajectory": traj_metrics, "scs": scs},
+        "confusion_matrices": {"sentiment": sent_cm.tolist(), "trajectory": traj_cm.tolist()},
     }
 
 
