@@ -1,0 +1,93 @@
+{
+  "_meta": {
+    "purpose": "WSD lexicon mapping aspect categories to surface forms across languages.",
+    "derivation": "IndoWordNet synsets (pyiwn: Tamil=25419, Malayalam=30140, Kannada=22042 synsets) + indic-transliteration + manual code-mixed variants from Dravidian corpus.",
+    "languages": ["tamil", "malayalam", "kannada", "english"]
+  },
+  "categories": {
+    "fan_stardom": {
+      "english": ["fan", "fans", "fanbase", "mass", "hype", "fandom", "fanboy", "supporter", "followers", "stan"],
+      "tamil_native": ["ரசிகர்", "ரசிகர்கள்", "அபிமானி"],
+      "tamil_translit": ["rasigan", "rasigargal", "rasigar", "abhimani"],
+      "tamil_codemixed": ["fan", "fans", "mass", "massu", "massaa", "hype", "fansla"],
+      "malayalam_native": ["ആരാധകൻ", "ആരാധകർ"],
+      "malayalam_translit": ["aaradhakan", "aaradhakar", "aradhakan"],
+      "malayalam_codemixed": ["fan", "fans", "mass", "fansaanu"],
+      "kannada_native": ["ಅಭಿಮಾನಿ", "ಅಭಿಮಾನಿಗಳು"],
+      "kannada_translit": ["abhimani", "abhimanigalu"],
+      "kannada_codemixed": ["fan", "fans", "mass", "fangalu"]
+    },
+    "trailer_teaser": {
+      "english": ["trailer", "teaser", "promo", "preview", "first look"],
+      "tamil_native": ["முன்னோட்டம்"],
+      "tamil_translit": ["munnottam"],
+      "tamil_codemixed": ["trailer", "teaser", "promo", "traileru", "teaseru", "firstlook"],
+      "malayalam_native": ["ട്രെയിലർ", "ടീസർ"],
+      "malayalam_translit": ["treyilar", "teesar"],
+      "malayalam_codemixed": ["trailer", "teaser", "promo"],
+      "kannada_native": ["ಟ್ರೇಲರ್", "ಟೀಸರ್"],
+      "kannada_translit": ["trellar", "tiisar"],
+      "kannada_codemixed": ["trailer", "teaser", "promo"]
+    },
+    "music_bgm": {
+      "english": ["music", "song", "songs", "bgm", "background music", "score", "soundtrack", "melody", "tune", "lyrics"],
+      "tamil_native": ["பாட்டு", "பாடல்", "இசை"],
+      "tamil_translit": ["paattu", "paadal", "isai"],
+      "tamil_codemixed": ["song", "songs", "bgm", "music", "paatu", "paattu", "pattu", "songu"],
+      "malayalam_native": ["പാട്ട്", "ഗാനം", "സംഗീതം"],
+      "malayalam_translit": ["paattu", "gaanam", "sangeetham"],
+      "malayalam_codemixed": ["song", "songs", "bgm", "music", "pattu", "paattu"],
+      "kannada_native": ["ಹಾಡು", "ಸಂಗೀತ"],
+      "kannada_translit": ["haadu", "sangeeta"],
+      "kannada_codemixed": ["song", "songs", "bgm", "music", "haadu"]
+    },
+    "box_office_collection": {
+      "english": ["box office", "boxoffice", "collection", "hit", "flop", "blockbuster", "disaster", "crore"],
+      "tamil_native": ["வசூல்", "தோல்வி"],
+      "tamil_translit": ["vasool", "vasul", "tholvi"],
+      "tamil_codemixed": ["hit", "flop", "blockbuster", "collection", "vasool", "superhit", "boxoffice"],
+      "malayalam_native": ["കളക്ഷൻ", "ഹിറ്റ്"],
+      "malayalam_translit": ["kalekshan", "hittu"],
+      "malayalam_codemixed": ["hit", "flop", "collection", "blockbuster", "superhit"],
+      "kannada_native": ["ಕಲೆಕ್ಷನ್", "ಹಿಟ್"],
+      "kannada_translit": ["kalekshan", "hit"],
+      "kannada_codemixed": ["hit", "flop", "collection", "blockbuster", "superhit"]
+    },
+    "dialogue": {
+      "english": ["dialogue", "dialog", "punch", "punchline", "delivery", "lines"],
+      "tamil_native": ["வசனம்", "வசனங்கள்"],
+      "tamil_translit": ["vasanam", "vasanangal"],
+      "tamil_codemixed": ["dialogue", "dialog", "punch", "punchline", "dialogu", "vasanam"],
+      "malayalam_native": ["ഡയലോഗ്", "സംഭാഷണം"],
+      "malayalam_translit": ["dayalogu", "sambhaashanam"],
+      "malayalam_codemixed": ["dialogue", "dialog", "punch"],
+      "kannada_native": ["ಡೈಲಾಗ್", "ಸಂಭಾಷಣೆ"],
+      "kannada_translit": ["dailaag", "sambhaashane"],
+      "kannada_codemixed": ["dialogue", "dialog", "punch"]
+    },
+    "story_screenplay": {
+      "english": ["story", "plot", "screenplay", "script", "narrative", "twist", "climax", "ending"],
+      "tamil_native": ["கதை", "திரைக்கதை"],
+      "tamil_translit": ["kathai", "kadhai", "thiraikkathai"],
+      "tamil_codemixed": ["story", "kathai", "kadhai", "katha", "script", "screenplay", "climax", "twist"],
+      "malayalam_native": ["കഥ", "തിരക്കഥ"],
+      "malayalam_translit": ["katha", "thirakkatha"],
+      "malayalam_codemixed": ["story", "katha", "script", "screenplay", "climax", "twist"],
+      "kannada_native": ["ಕಥೆ", "ಚಿತ್ರಕಥೆ"],
+      "kannada_translit": ["kathe", "chitrakathe"],
+      "kannada_codemixed": ["story", "kathe", "script", "screenplay", "climax", "twist"]
+    },
+    "hero_character": {
+      "english": ["hero", "heroine", "villain", "actor", "actress", "character", "role", "casting", "lead"],
+      "tamil_native": ["கதாநாயகன்", "வில்லன்", "நடிகர்", "நடிகை"],
+      "tamil_translit": ["kathanayagan", "villan", "nadigar", "nadigai"],
+      "tamil_codemixed": ["hero", "heroine", "villain", "villan", "actor", "actress", "acting", "role"],
+      "malayalam_native": ["നായകൻ", "നായിക", "വില്ലൻ", "നടൻ", "നടി"],
+      "malayalam_translit": ["naayakan", "naayika", "villan", "nadan", "nadi"],
+      "malayalam_codemixed": ["hero", "heroine", "villain", "villan", "actor", "actress", "acting"],
+      "kannada_native": ["ನಾಯಕ", "ನಾಯಕಿ", "ಖಳನಾಯಕ", "ನಟ", "ನಟಿ"],
+      "kannada_translit": ["naayaka", "naayaki", "khalanaayaka", "nata", "nati"],
+      "kannada_codemixed": ["hero", "heroine", "villain", "villan", "actor", "actress", "acting"]
+    }
+  }
+}
