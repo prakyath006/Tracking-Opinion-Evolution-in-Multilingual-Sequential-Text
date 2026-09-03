@@ -1,0 +1,353 @@
+{
+  "_meta": {
+    "purpose": "WSD lexicon mapping aspect categories to surface forms across languages.",
+    "derivation": "IndoWordNet synsets (pyiwn: Tamil=25419, Malayalam=30140, Kannada=22042 synsets) + indic-transliteration + manual code-mixed variants from Dravidian corpus.",
+    "languages": [
+      "tamil",
+      "malayalam",
+      "kannada",
+      "english"
+    ]
+  },
+  "categories": {
+    "fan_stardom": {
+      "tamil": [
+        "abhimani",
+        "fan",
+        "fans",
+        "fansla",
+        "hype",
+        "mass",
+        "massaa",
+        "massu",
+        "rasigan",
+        "rasigar",
+        "rasigargal",
+        "அபிமானி",
+        "ரசிகர்",
+        "ரசிகர்கள்"
+      ],
+      "malayalam": [
+        "aaradhakan",
+        "aaradhakar",
+        "aradhakan",
+        "fan",
+        "fans",
+        "fansaanu",
+        "mass",
+        "ആരാധകൻ",
+        "ആരാധകർ"
+      ],
+      "kannada": [
+        "abhimani",
+        "abhimanigalu",
+        "fan",
+        "fangalu",
+        "fans",
+        "mass",
+        "ಅಭಿಮಾನಿ",
+        "ಅಭಿಮಾನಿಗಳು"
+      ],
+      "english": [
+        "fan",
+        "fans",
+        "fanbase",
+        "mass",
+        "hype",
+        "fandom",
+        "fanboy",
+        "supporter",
+        "followers",
+        "stan"
+      ]
+    },
+    "trailer_teaser": {
+      "tamil": [
+        "firstlook",
+        "munnottam",
+        "promo",
+        "teaser",
+        "teaseru",
+        "trailer",
+        "traileru",
+        "முன்னோட்டம்"
+      ],
+      "malayalam": [
+        "promo",
+        "teaser",
+        "teesar",
+        "trailer",
+        "treyilar",
+        "ടീസർ",
+        "ട്രെയിലർ"
+      ],
+      "kannada": [
+        "promo",
+        "teaser",
+        "tiisar",
+        "trailer",
+        "trellar",
+        "ಟೀಸರ್",
+        "ಟ್ರೇಲರ್"
+      ],
+      "english": [
+        "trailer",
+        "teaser",
+        "promo",
+        "preview",
+        "first look"
+      ]
+    },
+    "music_bgm": {
+      "tamil": [
+        "bgm",
+        "isai",
+        "music",
+        "paadal",
+        "paattu",
+        "paatu",
+        "pattu",
+        "song",
+        "songs",
+        "songu",
+        "இசை",
+        "பாடல்",
+        "பாட்டு"
+      ],
+      "malayalam": [
+        "bgm",
+        "gaanam",
+        "music",
+        "paattu",
+        "pattu",
+        "sangeetham",
+        "song",
+        "songs",
+        "ഗാനം",
+        "പാട്ട്",
+        "സംഗീതം"
+      ],
+      "kannada": [
+        "bgm",
+        "haadu",
+        "music",
+        "sangeeta",
+        "song",
+        "songs",
+        "ಸಂಗೀತ",
+        "ಹಾಡು"
+      ],
+      "english": [
+        "music",
+        "song",
+        "songs",
+        "bgm",
+        "background music",
+        "score",
+        "soundtrack",
+        "melody",
+        "tune",
+        "lyrics"
+      ]
+    },
+    "box_office_collection": {
+      "tamil": [
+        "blockbuster",
+        "boxoffice",
+        "collection",
+        "flop",
+        "hit",
+        "superhit",
+        "tholvi",
+        "vasool",
+        "vasul",
+        "தோல்வி",
+        "வசூல்"
+      ],
+      "malayalam": [
+        "blockbuster",
+        "collection",
+        "flop",
+        "hit",
+        "hittu",
+        "kalekshan",
+        "superhit",
+        "കളക്ഷൻ",
+        "ഹിറ്റ്"
+      ],
+      "kannada": [
+        "blockbuster",
+        "collection",
+        "flop",
+        "hit",
+        "kalekshan",
+        "superhit",
+        "ಕಲೆಕ್ಷನ್",
+        "ಹಿಟ್"
+      ],
+      "english": [
+        "box office",
+        "boxoffice",
+        "collection",
+        "hit",
+        "flop",
+        "blockbuster",
+        "disaster",
+        "crore"
+      ]
+    },
+    "dialogue": {
+      "tamil": [
+        "dialog",
+        "dialogu",
+        "dialogue",
+        "punch",
+        "punchline",
+        "vasanam",
+        "vasanangal",
+        "வசனங்கள்",
+        "வசனம்"
+      ],
+      "malayalam": [
+        "dayalogu",
+        "dialog",
+        "dialogue",
+        "punch",
+        "sambhaashanam",
+        "ഡയലോഗ്",
+        "സംഭാഷണം"
+      ],
+      "kannada": [
+        "dailaag",
+        "dialog",
+        "dialogue",
+        "punch",
+        "sambhaashane",
+        "ಡೈಲಾಗ್",
+        "ಸಂಭಾಷಣೆ"
+      ],
+      "english": [
+        "dialogue",
+        "dialog",
+        "punch",
+        "punchline",
+        "delivery",
+        "lines"
+      ]
+    },
+    "story_screenplay": {
+      "tamil": [
+        "climax",
+        "kadhai",
+        "katha",
+        "kathai",
+        "screenplay",
+        "script",
+        "story",
+        "thiraikkathai",
+        "twist",
+        "கதை",
+        "திரைக்கதை"
+      ],
+      "malayalam": [
+        "climax",
+        "katha",
+        "screenplay",
+        "script",
+        "story",
+        "thirakkatha",
+        "twist",
+        "കഥ",
+        "തിരക്കഥ"
+      ],
+      "kannada": [
+        "chitrakathe",
+        "climax",
+        "kathe",
+        "screenplay",
+        "script",
+        "story",
+        "twist",
+        "ಕಥೆ",
+        "ಚಿತ್ರಕಥೆ"
+      ],
+      "english": [
+        "story",
+        "plot",
+        "screenplay",
+        "script",
+        "narrative",
+        "twist",
+        "climax",
+        "ending"
+      ]
+    },
+    "hero_character": {
+      "tamil": [
+        "acting",
+        "actor",
+        "actress",
+        "hero",
+        "heroine",
+        "kathanayagan",
+        "nadigai",
+        "nadigar",
+        "role",
+        "villain",
+        "villan",
+        "கதாநாயகன்",
+        "நடிகர்",
+        "நடிகை",
+        "வில்லன்"
+      ],
+      "malayalam": [
+        "acting",
+        "actor",
+        "actress",
+        "hero",
+        "heroine",
+        "naayakan",
+        "naayika",
+        "nadan",
+        "nadi",
+        "villain",
+        "villan",
+        "നടി",
+        "നടൻ",
+        "നായകൻ",
+        "നായിക",
+        "വില്ലൻ"
+      ],
+      "kannada": [
+        "acting",
+        "actor",
+        "actress",
+        "hero",
+        "heroine",
+        "khalanaayaka",
+        "naayaka",
+        "naayaki",
+        "nata",
+        "nati",
+        "villain",
+        "villan",
+        "ಖಳನಾಯಕ",
+        "ನಟ",
+        "ನಟಿ",
+        "ನಾಯಕ",
+        "ನಾಯಕಿ"
+      ],
+      "english": [
+        "hero",
+        "heroine",
+        "villain",
+        "actor",
+        "actress",
+        "character",
+        "role",
+        "casting",
+        "lead"
+      ]
+    }
+  }
+}
