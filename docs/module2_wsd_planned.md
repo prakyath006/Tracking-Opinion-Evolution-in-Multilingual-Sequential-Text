@@ -1,10 +1,14 @@
-# Module 2 — Word Sense Disambiguation: Planned, Not Implemented
+# Module 2 — Word Sense Disambiguation: Original Planning Document
 
-**Status: NOT BUILT.** This document describes what Module 2 would measure
-if implemented. No WSD logic exists anywhere in this repository. This is
-intentional and explicitly scoped — Word Sense Disambiguation and the
-aspect-level ontology extension were paused pending guide confirmation on
-scope and timeline, and stay paused in this task.
+**SUPERSEDED. This document records what Module 2 was planned to measure while
+it was still paused pending guide confirmation. It is kept for provenance —
+its status claims are no longer accurate.**
+
+Guide confirmed WSD on 2026-09-03 and Steps A1–A6 were implemented. For the
+current state, real measured numbers, and the one open defect, see
+**`docs/module2_wsd_status.md`**.
+
+The historical text below is preserved unchanged from that point on.
 
 ## Why this exists as a document rather than code
 
