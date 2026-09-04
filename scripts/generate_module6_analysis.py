@@ -63,6 +63,18 @@ def fmt(v):
     return f"{v:.4f}" if isinstance(v, (int, float)) else "N/A"
 
 
+def cap(v):
+    """Render an encoder-capacity value, distinguishing 'not recorded' from 0."""
+    return "n/a" if v is None else str(v)
+
+
+def comparable(a, b):
+    """True/False when both capacities are known, None when either is not."""
+    if a is None or b is None:
+        return None
+    return a == b
+
+
 def delta(full, other):
     if full is None or other is None:
         return "N/A"
@@ -85,12 +97,16 @@ def generate(rows, source: str) -> str:
         )
         return "\n".join(lines)
 
+    full_cap = full_row.get("encoder_finetune_layers")
+    mismatched = []
+
     lines.append(
-        "| Model | Sentiment F1 | Trajectory F1 | SCS | Δ Sentiment F1 (full - baseline) | Δ Trajectory F1 |"
+        "| Model | Encoder layers trained | Sentiment F1 | Trajectory F1 | SCS | "
+        "Δ Sentiment F1 (full - baseline) | Δ Trajectory F1 |"
     )
-    lines.append("|---|---|---|---|---|---|")
+    lines.append("|---|---|---|---|---|---|---|")
     lines.append(
-        f"| **{FULL_MODEL_NAME}** | {fmt(full_row['sentiment_f1_macro'])} | "
+        f"| **{FULL_MODEL_NAME}** | {cap(full_cap)} | {fmt(full_row['sentiment_f1_macro'])} | "
         f"{fmt(full_row['trajectory_f1_macro'])} | {fmt(full_row['scs_mean'])} | - | - |"
     )
 
@@ -100,14 +116,38 @@ def generate(rows, source: str) -> str:
             continue
         d_sent = delta(full_row["sentiment_f1_macro"], row["sentiment_f1_macro"])
         d_traj = delta(full_row.get("trajectory_f1_macro"), row.get("trajectory_f1_macro"))
+        row_cap = row.get("encoder_finetune_layers")
+        unequal = comparable(full_cap, row_cap) is False
+        if unequal:
+            mismatched.append((row["model"], row_cap))
+        flag = " (!)" if unequal else ""
         lines.append(
-            f"| {row['model']} | {fmt(row['sentiment_f1_macro'])} | "
+            f"| {row['model']}{flag} | {cap(row_cap)} | {fmt(row['sentiment_f1_macro'])} | "
             f"{fmt(row.get('trajectory_f1_macro'))} | {fmt(row.get('scs_mean'))} | "
             f"{d_sent} | {d_traj} |"
         )
         story = BASELINE_STORY.get(row["model"], "")
+        note = (
+            " **Not a valid architectural comparison** -- this baseline trained "
+            f"{cap(row_cap)} encoder layers against the full model's {cap(full_cap)}, "
+            "so the delta reflects trainable capacity, not architecture."
+            if unequal else ""
+        )
         findings.append(f"- **{row['model']}** ({story}): "
-                         f"sentiment F1 delta {d_sent}, trajectory F1 delta {d_traj}.")
+                         f"sentiment F1 delta {d_sent}, trajectory F1 delta {d_traj}.{note}")
+
+    if mismatched:
+        names = ", ".join(f"`{m}` ({cap(c)} layers)" for m, c in mismatched)
+        target = full_cap if full_cap is not None else 0
+        lines.append(
+            "\n> **Capacity mismatch -- the flagged deltas below are not "
+            "architectural evidence.** The full model trained "
+            f"{cap(full_cap)} encoder layer(s); {names} trained a different "
+            "number. A model with more trainable encoder capacity usually scores "
+            "higher regardless of its architecture, so those rows compare training "
+            "budgets, not designs. Re-run the flagged baselines with "
+            f"`--encoder_finetune_layers {target}` before citing any of it.\n"
+        )
 
     lines.append("\n### What the numbers say\n")
     lines.extend(findings)
@@ -136,7 +176,15 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         f.write("\n".join(doc))
     logger.info(f"Saved: {out_path}")
-    print("\n".join(doc))
+
+    # Windows consoles default to cp1252 and cannot encode the report's
+    # Delta characters; the file itself is always written as UTF-8.
+    body = "\n".join(doc)
+    try:
+        print(body)
+    except UnicodeEncodeError:
+        enc = getattr(sys.stdout, "encoding", None) or "utf-8"
+        print(body.encode(enc, errors="replace").decode(enc, errors="replace"))
 
 
 if __name__ == "__main__":

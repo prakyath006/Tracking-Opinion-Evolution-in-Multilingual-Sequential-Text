@@ -38,7 +38,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)-8s | 
 logger = logging.getLogger(__name__)
 
 COLUMNS = [
-    "model", "setting", "source", "target",
+    "model", "setting", "source", "target", "encoder_finetune_layers",
     "sentiment_accuracy", "sentiment_f1_macro",
     "trend_f1_macro", "trajectory_accuracy", "trajectory_f1_macro",
     "scs_mean",
@@ -59,6 +59,7 @@ def row_from_full_model_test_results(run_id: str, data: Dict) -> Dict:
         "model": "full_model (OpinionEvolutionTracker)",
         "setting": "in-domain",
         "source": run_id, "target": run_id,
+        "encoder_finetune_layers": data.get("encoder_finetune_layers"),
         "sentiment_accuracy": sent.get("accuracy"), "sentiment_f1_macro": sent.get("f1_macro"),
         "trend_f1_macro": trend.get("f1_macro"),
         "trajectory_accuracy": traj.get("accuracy"), "trajectory_f1_macro": traj.get("f1_macro"),
@@ -73,6 +74,7 @@ def row_from_baseline_result(data: Dict) -> Dict:
         "model": data.get("baseline"),
         "setting": "in-domain",
         "source": data.get("run_id"), "target": data.get("run_id"),
+        "encoder_finetune_layers": data.get("encoder_finetune_layers"),
         "sentiment_accuracy": sent.get("accuracy"), "sentiment_f1_macro": sent.get("f1_macro"),
         "trend_f1_macro": None,  # Group A/B baselines don't have a trend head (see train_baselines.py)
         "trajectory_accuracy": traj.get("accuracy"), "trajectory_f1_macro": traj.get("f1_macro"),
@@ -95,6 +97,7 @@ def rows_from_cross_domain_result(data: Dict) -> List[Dict]:
             "model": "full_model (OpinionEvolutionTracker)",
             "setting": setting,
             "source": src, "target": tgt,
+            "encoder_finetune_layers": data.get("encoder_finetune_layers"),
             "sentiment_accuracy": sent.get("accuracy"), "sentiment_f1_macro": sent.get("f1_macro"),
             "trend_f1_macro": None,  # evaluate_cross_domain() scores sentiment+trajectory only
             "trajectory_accuracy": traj.get("accuracy"), "trajectory_f1_macro": traj.get("f1_macro"),

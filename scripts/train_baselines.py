@@ -153,6 +153,7 @@ def train_group_a(
         tokenizer = MultilingualTokenizer(model_name)
         model = get_baseline_model(
             baseline_name, num_classes=num_classes, use_cuda=not args.no_cuda,
+            finetune_layers=args.encoder_finetune_layers,
         )
 
         def encode(texts):
@@ -219,6 +220,10 @@ def train_group_a(
 
     return {
         "baseline": baseline_name, "run_id": run_id, "training_log": training_log,
+        "encoder_finetune_layers": (
+            None if baseline_name == "textcnn" else getattr(model, "finetune_layers", None)
+        ),
+        "trainable_params": sum(p.numel() for p in model.parameters() if p.requires_grad),
         "test": {"sentiment": test_metrics},
         "confusion_matrices": {"sentiment": test_cm.tolist()},
     }
@@ -234,8 +239,13 @@ def encode_sequence_batch(
     texts_batch: List[List[str]],
     max_token_length: int,
     device: torch.device,
+    enable_grad: bool = False,
 ) -> torch.Tensor:
-    """Mirrors OpinionEvolutionTracker.encode_texts() -- see src/model.py."""
+    """Mirrors OpinionEvolutionTracker.encode_texts() -- see src/model.py.
+
+    `enable_grad` must be True whenever the embedder has trainable layers,
+    otherwise the encoder is unfrozen but never receives a gradient.
+    """
     batch_size = len(texts_batch)
     seq_lens = [len(t) for t in texts_batch]
     max_seq_len = max(seq_lens)
@@ -246,7 +256,7 @@ def encode_sequence_batch(
         if not texts:
             continue
         tokenized = tokenizer.encode_batch(texts, max_length=max_token_length)
-        with torch.no_grad():
+        with torch.set_grad_enabled(enable_grad):
             emb = embedder.generate_embeddings(tokenized, strategy="cls")
         all_embeddings[i, :len(texts), :] = emb
     return all_embeddings
@@ -263,9 +273,12 @@ def train_group_b(
 
     tokenizer = MultilingualTokenizer(args.model_name)
     embedder = DomainAdaptedEmbeddings(
-        model_name=args.model_name, use_cuda=not args.no_cuda, finetune_layers=0,
+        model_name=args.model_name, use_cuda=not args.no_cuda,
+        finetune_layers=args.encoder_finetune_layers,
     )
-    embedder.eval()
+    tune_encoder = args.encoder_finetune_layers > 0
+    if not tune_encoder:
+        embedder.eval()
 
     if baseline_name == "lstm_only":
         model = get_baseline_model(
@@ -280,10 +293,15 @@ def train_group_b(
 
     sentiment_loss_fn = nn.CrossEntropyLoss(ignore_index=-1, weight=class_weights["sentiment"].to(device))
     trajectory_loss_fn = nn.CrossEntropyLoss(weight=class_weights["trajectory"].to(device))
-    optimizer = AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    trainable_params = list(model.parameters())
+    if tune_encoder:
+        trainable_params += [p for p in embedder.parameters() if p.requires_grad]
+    optimizer = AdamW(trainable_params, lr=args.lr, weight_decay=args.weight_decay)
 
     def run_epoch(loader, train: bool):
         model.train(train)
+        if tune_encoder:
+            embedder.train(train)
         total_loss, n_batches = 0.0, 0
         sent_true, sent_pred, traj_true, traj_pred = [], [], [], []
         pred_sequences, seq_lens_all = [], []
@@ -296,6 +314,7 @@ def train_group_b(
 
             embeddings = encode_sequence_batch(
                 tokenizer, embedder, texts_batch, args.max_token_length, device,
+                enable_grad=train and tune_encoder,
             )
 
             with torch.set_grad_enabled(train):
@@ -317,7 +336,7 @@ def train_group_b(
             if train:
                 optimizer.zero_grad()
                 loss.backward()
-                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+                torch.nn.utils.clip_grad_norm_(trainable_params, max_norm=1.0)
                 optimizer.step()
 
             total_loss += loss.item()
@@ -369,6 +388,8 @@ def train_group_b(
 
     return {
         "baseline": baseline_name, "run_id": run_id, "training_log": training_log,
+        "encoder_finetune_layers": args.encoder_finetune_layers,
+        "trainable_params": sum(p.numel() for p in trainable_params if p.requires_grad),
         "test": {"sentiment": sent_metrics, "trajectory": traj_metrics, "scs": scs},
         "confusion_matrices": {"sentiment": sent_cm.tolist(), "trajectory": traj_cm.tolist()},
     }
@@ -443,6 +464,16 @@ def parse_args():
     parser.add_argument("--lr", type=float, default=2e-5)
     parser.add_argument("--weight_decay", type=float, default=1e-4)
     parser.add_argument("--no_cuda", action="store_true")
+    parser.add_argument(
+        "--encoder_finetune_layers", type=int, default=0,
+        help="Transformer layers to unfreeze from the top, for every baseline "
+             "with an encoder. Default 0 matches scripts/train.py's default "
+             "(--freeze_encoder is on there), so baselines and the full model "
+             "get equal trainable encoder capacity. Set 3 to match "
+             "--no_freeze_encoder runs of the full model. The original runs "
+             "used 12 for mbert_sentence/xlmr_sentence and 0 everywhere else, "
+             "which is why those two baselines outscored the full model.",
+    )
     return parser.parse_args()
 
 

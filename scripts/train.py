@@ -469,6 +469,8 @@ def train(args):
     results_path = os.path.join(logs_dir, f"test_results_{run_id}.json")
     with open(results_path, "w") as f:
         json.dump({
+            "encoder_finetune_layers": 0 if args.freeze_encoder else 3,
+            "trainable_params": sum(p.numel() for p in model.parameters() if p.requires_grad),
             "losses": test_results["losses"],
             "sentiment": test_results["sentiment_metrics"],
             "trend": test_results["trend_metrics"],

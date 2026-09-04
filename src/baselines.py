@@ -53,8 +53,28 @@ class SentenceLevelTransformer(nn.Module):
         num_classes: int = 4,
         dropout: float = 0.3,
         freeze_encoder: bool = False,
+        finetune_layers: Optional[int] = None,
         use_cuda: bool = True,
     ):
+        """
+        Parameters
+        ----------
+        freeze_encoder : bool
+            Legacy all-or-nothing switch. Only consulted when
+            `finetune_layers` is None.
+        finetune_layers : int or None
+            Number of transformer layers to unfreeze from the top, matching
+            DomainAdaptedEmbeddings' parameter of the same name (see
+            src/embeddings.py). When set, this is authoritative and
+            `freeze_encoder` is ignored: 0 freezes the encoder entirely, 3
+            trains the top 3 layers, and so on.
+
+            This exists so a baseline can be given the SAME trainable encoder
+            capacity as OpinionEvolutionTracker. Leaving it None reproduces
+            the original default, which fine-tunes ALL encoder layers and so
+            gives this baseline far more trainable capacity than the full
+            model receives -- not a valid architectural comparison.
+        """
         super().__init__()
         
         self.device = torch.device(
@@ -64,9 +84,47 @@ class SentenceLevelTransformer(nn.Module):
         self.encoder = AutoModel.from_pretrained(model_name)
         hidden_size = self.encoder.config.hidden_size  # 768
         
-        if freeze_encoder:
+        if finetune_layers is not None:
+            # Capacity-matched mode: freeze all, then unfreeze the top N.
+            # Mirrors DomainAdaptedEmbeddings so the two are comparable.
             for param in self.encoder.parameters():
                 param.requires_grad = False
+
+            if finetune_layers > 0:
+                if hasattr(self.encoder, "encoder"):
+                    encoder_layers = self.encoder.encoder.layer
+                else:
+                    encoder_layers = self.encoder.layers
+
+                total_layers = len(encoder_layers)
+                unfreeze_from = max(0, total_layers - finetune_layers)
+
+                for i in range(unfreeze_from, total_layers):
+                    for param in encoder_layers[i].parameters():
+                        param.requires_grad = True
+
+                if hasattr(self.encoder, "pooler") and self.encoder.pooler is not None:
+                    for param in self.encoder.pooler.parameters():
+                        param.requires_grad = True
+
+                logger.info(
+                    f"Fine-tuning last {finetune_layers} of {total_layers} layers "
+                    f"(layers {unfreeze_from}-{total_layers - 1} are trainable)"
+                )
+            else:
+                logger.info("All encoder layers frozen (no fine-tuning)")
+            self.finetune_layers = finetune_layers
+        elif freeze_encoder:
+            for param in self.encoder.parameters():
+                param.requires_grad = False
+            self.finetune_layers = 0
+        else:
+            # Legacy default: every encoder layer is trainable.
+            self.finetune_layers = len(
+                self.encoder.encoder.layer
+                if hasattr(self.encoder, "encoder")
+                else self.encoder.layers
+            )
         
         self.classifier = nn.Sequential(
             nn.Dropout(dropout),
