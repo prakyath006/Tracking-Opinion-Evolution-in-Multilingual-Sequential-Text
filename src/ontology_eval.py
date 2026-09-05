@@ -537,4 +537,14 @@ def generate_module1_report(write: bool = True) -> str:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)-8s | %(message)s", datefmt="%H:%M:%S")
-    print(generate_module1_report())
+    # Both reports: the full ontology evaluation (Steps 1-2) and the
+    # Module 1 summary. __main__ previously generated only the latter, so
+    # outputs/ontology_evaluation_report.md was never written.
+    generate_ontology_eval_report(write=True)
+    report = generate_module1_report()
+    try:
+        print(report)
+    except UnicodeEncodeError:
+        # Windows consoles default to cp1252; the .md file is always UTF-8.
+        enc = getattr(sys.stdout, "encoding", None) or "utf-8"
+        print(report.encode(enc, errors="replace").decode(enc, errors="replace"))
