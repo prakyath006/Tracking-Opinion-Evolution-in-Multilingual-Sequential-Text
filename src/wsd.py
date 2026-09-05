@@ -168,6 +168,16 @@ class ContextWindowDisambiguator:
         return (best_aspect, round(confidence, 4))
 
 
+# Surface forms whose aspect reading is cancelled by the word that follows.
+# Measured over all 53,263 Dravidian rows: of 1,200 occurrences of "hit", 604
+# (50.3%) are followed by "like"/"likes" -- the YouTube call-to-action "fans hit
+# like", which is not a box-office reference. Without this guard half of the
+# box_office_collection matches are false positives.
+NON_ASPECT_COLLOCATIONS: Dict[str, set] = {
+    "hit": {"like", "likes"},
+}
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # 3. Main WSD Module
 # ──────────────────────────────────────────────────────────────────────────────
@@ -215,15 +225,42 @@ class WordSenseDisambiguator:
         words = self.tokenize(text)
         results = []
 
-        for i, word in enumerate(words):
+        i = 0
+        while i < len(words):
+            word = words[i]
+
+            # Multi-word forms first ("box office", "first look", "background
+            # music"). The lexicon stores these with a space, so a single-token
+            # lookup could never match them and they were dead entries.
+            if i + 1 < len(words):
+                bigram = word + " " + words[i + 1]
+                if self.lexicon.lookup(bigram):
+                    aspect_id, confidence = self.disambiguator.disambiguate_word(
+                        bigram, words, i
+                    )
+                    if confidence >= self.min_confidence:
+                        results.append((bigram, aspect_id, confidence))
+                    i += 2          # both tokens consumed
+                    continue
+
             matches = self.lexicon.lookup(word)
             if not matches:
+                i += 1
                 continue
+
+            # Skip readings cancelled by the following word (see
+            # NON_ASPECT_COLLOCATIONS).
+            blocked = NON_ASPECT_COLLOCATIONS.get(word)
+            if blocked and i + 1 < len(words) and words[i + 1] in blocked:
+                i += 1
+                continue
+
             aspect_id, confidence = self.disambiguator.disambiguate_word(
                 word, words, i
             )
             if confidence >= self.min_confidence:
                 results.append((word, aspect_id, confidence))
+            i += 1
 
         return results
 
