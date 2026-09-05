@@ -131,7 +131,21 @@ def compile_all() -> List[Dict]:
         rows.extend(rows_from_cross_domain_result(data))
         logger.info(f"Loaded cross-domain results: {os.path.basename(path)}")
 
-    return rows
+    # cross_domain_eval.py also scores each source domain against itself, so its
+    # amazon_to_amazon / tamil_to_tamil entries duplicate the in-domain rows
+    # already loaded from test_results_*.json. Keep the first occurrence, which
+    # is the test_results row -- it carries encoder_finetune_layers, while the
+    # cross-domain file does not record capacity at all.
+    deduped, seen = [], set()
+    for row in rows:
+        key = (row["model"], row["setting"], row["source"], row["target"])
+        if key in seen:
+            logger.info(f"Dropped duplicate row: {key}")
+            continue
+        seen.add(key)
+        deduped.append(row)
+
+    return deduped
 
 
 def format_markdown(rows: List[Dict]) -> str:
