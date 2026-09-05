@@ -7,7 +7,36 @@
       "malayalam",
       "kannada",
       "english"
-    ]
+    ],
+    "polysemy": {
+      "why": "Aspect categories were originally vocabulary-disjoint, so WSDLexicon.is_ambiguous() returned False for every corpus token and ContextWindowDisambiguator never ran. These forms carry more than one aspect sense in this corpus and are deliberately mapped to several categories so disambiguation is actually exercised.",
+      "method": "Immediate-collocation analysis (preceding and following token) plus +/-5-token co-occurrence with other aspects' vocabulary, over the 53,263 rows of tamil/mal/kannada_sentiment_train_preprocessed.csv.",
+      "entries": {
+        "mass": {
+          "aspects": [
+            "dialogue",
+            "fan_stardom",
+            "music_bgm",
+            "trailer_teaser"
+          ],
+          "evidence": "n=3510. Functions as an intensifier that takes the aspect of the word it modifies: followed by trailer(97), dialogue(43), bgm(40). Preceded by Tamil intensifiers marana(541), semma(174), pakka(150), kola(103), which carry no aspect of their own. An aspect keyword occurs within +/-5 tokens in ~23% of its uses (trailer_teaser 442, music_bgm 241, dialogue 125)."
+        },
+        "punch": {
+          "aspects": [
+            "dialogue",
+            "hero_character"
+          ],
+          "evidence": "n=75. Two distinct senses: 'punch dialogue/dialogues' (15) is speech, while 'superman punch'(9) and 'mass punch'(3) describe an action beat performed by the hero."
+        },
+        "climax": {
+          "aspects": [
+            "dialogue",
+            "story_screenplay"
+          ],
+          "evidence": "n=96. 'climax dialog'(4) and 'climax dialogue'(3) refer to the spoken line, not the plot structure; 'climax scene'(5) and 'climax la'(17) refer to the plot point."
+        }
+      }
+    }
   },
   "categories": {
     "fan_stardom": {
@@ -95,7 +124,8 @@
         "teaser",
         "promo",
         "preview",
-        "first look"
+        "first look",
+        "mass"
       ]
     },
     "music_bgm": {
@@ -147,7 +177,8 @@
         "soundtrack",
         "melody",
         "tune",
-        "lyrics"
+        "lyrics",
+        "mass"
       ]
     },
     "box_office_collection": {
@@ -232,7 +263,9 @@
         "punch",
         "punchline",
         "delivery",
-        "lines"
+        "lines",
+        "mass",
+        "climax"
       ]
     },
     "story_screenplay": {
@@ -346,7 +379,8 @@
         "character",
         "role",
         "casting",
-        "lead"
+        "lead",
+        "punch"
       ]
     }
   }
