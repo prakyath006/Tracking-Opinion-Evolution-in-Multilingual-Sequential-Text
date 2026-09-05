@@ -16,7 +16,7 @@ Models compared:
   3. xlmr_sentence (Fine-tuned XLM-R, sentence-level)
   4. lstm_only (mBERT + BiLSTM without attention, sequence-level ablation)
   5. attention_only (mBERT + Attention without BiLSTM, sequence-level ablation)
-  6. textcnn (TextCNN with GloVe/FastText embeddings, sentence-level)
+  6. textcnn (TextCNN with randomly-initialised 300d embeddings, sentence-level)
 
 Author: Opinion Evolution Tracking Project
 Date: 2026
@@ -115,14 +115,14 @@ def build_comparison_matrix() -> Dict[str, Any]:
         "description": "Pretrained encoder representation quality and domain adaptation fit via Masked Language Modeling perplexity (src/mlm_perplexity_eval.py).",
         "evaluations": {
             "Full Model (OET)": {
-                "encoder_type": "bert-base-multilingual-cased (top 3 layers fine-tuned)",
+                "encoder_type": "bert-base-multilingual-cased (0 layers trainable -- run used --freeze_encoder)",
                 "mlm_perplexity_applicability": "Applicable (mBERT backbone)",
                 "vocab_size": "119,547 tokens (WordPiece multilingual)",
-                "params": "~177.8M total (~21.8M trainable adapted)",
+                "params": "180,946,443 total; 177,853,440 frozen encoder; 3,093,003 trainable (BiLSTM 2,828,032 + classifier 199,179 + attention 65,792)",
                 "notes": "Captures subwords for Dravidian code-mixed scripts; perplexity evaluated via MLM evaluation head."
             },
             "mBERT Sentence": {
-                "encoder_type": "bert-base-multilingual-cased (frozen or full fine-tune)",
+                "encoder_type": "bert-base-multilingual-cased (all 12 layers trainable in the 2026-09-04 run; set --encoder_finetune_layers to match the full model)",
                 "mlm_perplexity_applicability": "Applicable (identical encoder backbone)",
                 "vocab_size": "119,547 tokens",
                 "params": "~110M (encoder only)",
@@ -150,9 +150,9 @@ def build_comparison_matrix() -> Dict[str, Any]:
                 "notes": "Shares encoder with full model; differs only by absence of BiLSTM encoder."
             },
             "TextCNN": {
-                "encoder_type": "Static Pretrained Word Embeddings (GloVe / FastText 300d)",
+                "encoder_type": "Randomly-initialised nn.Embedding (300d), learned from scratch -- no pretrained vectors",
                 "mlm_perplexity_applicability": "N/A — Non-transformer architecture",
-                "vocab_size": "Corpus-derived word vocabulary",
+                "vocab_size": "<=20,000 whitespace tokens built from the training split (build_vocab)",
                 "params": "<5M",
                 "notes": "Cannot compute MLM perplexity because no masked language model pretraining exists."
             }
@@ -217,7 +217,7 @@ def build_comparison_matrix() -> Dict[str, Any]:
                 "notes": "Ablation model proving that attention without recurrent order memory degrades temporal tracking."
             },
             "TextCNN": {
-                "sequential_encoder": "1D Convolution over word tokens (kernel sizes 3, 4, 5)",
+                "sequential_encoder": "1D Convolution over word tokens (kernel sizes 2, 3, 4, 5)",
                 "sentiment_head": "Supported (single-review logits [batch, 4])",
                 "trend_head": "N/A — no sequence modeling",
                 "trajectory_head": "N/A — no trajectory prediction",
