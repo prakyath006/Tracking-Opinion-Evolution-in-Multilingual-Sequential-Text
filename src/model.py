@@ -223,6 +223,15 @@ class OpinionEvolutionTracker(nn.Module):
             batch_size, max_seq_len, embedding_dim, device=self.device
         )
         
+        # Gradients must reach the encoder whenever it has trainable layers,
+        # otherwise --no_freeze_encoder unfreezes weights that never receive a
+        # gradient. Staying under no_grad when the encoder is frozen keeps the
+        # memory saving that made this a no_grad block in the first place.
+        encoder_is_trainable = any(
+            p.requires_grad for p in self.embedding_generator.parameters()
+        )
+        grad_enabled = self.training and encoder_is_trainable
+
         # Process each review through tokenizer + encoder
         for i, texts in enumerate(texts_batch):
             if len(texts) == 0:
@@ -234,7 +243,7 @@ class OpinionEvolutionTracker(nn.Module):
             )
             
             # Generate embeddings (CLS pooling by default)
-            with torch.no_grad():
+            with torch.set_grad_enabled(grad_enabled):
                 embeddings = self.embedding_generator.generate_embeddings(
                     tokenized, strategy=self.embedding_strategy
                 )
