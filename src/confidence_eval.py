@@ -47,7 +47,7 @@ the actual predictions produced).
 Usage:
     python src/confidence_eval.py --domain amazon
     python src/confidence_eval.py --domain dravidian --language tamil
-    -> outputs/metrics/module4_sequential_model.md
+    -> outputs/metrics/module4_sequential_model_<run_id>.md
 =============================================================================
 """
 
@@ -78,7 +78,15 @@ logger = logging.getLogger(__name__)
 
 METRICS_DIR = os.path.join(WORKSPACE_ROOT, "outputs", "metrics")
 CHECKPOINT_DIR = os.path.join(WORKSPACE_ROOT, "outputs", "checkpoints")
-REPORT_PATH = os.path.join(METRICS_DIR, "module4_sequential_model.md")
+def report_path(run_id: str) -> str:
+    """Per-domain report path.
+
+    A single fixed filename meant `--domain amazon` then
+    `--domain dravidian` left only the second run's numbers on disk, with
+    no warning. Named by run_id for the same reason scripts/train.py names
+    checkpoints best_model_<run_id>.pt.
+    """
+    return os.path.join(METRICS_DIR, f"module4_sequential_model_{run_id}.md")
 
 HEADS = {
     "sentiment": SentimentState,
@@ -420,9 +428,10 @@ def generate_module4_report(
 
     if write:
         os.makedirs(METRICS_DIR, exist_ok=True)
-        with open(REPORT_PATH, "w", encoding="utf-8") as f:
+        out_path = report_path(run_id)
+        with open(out_path, "w", encoding="utf-8") as f:
             f.write(report)
-        logger.info(f"Saved: {REPORT_PATH}")
+        logger.info(f"Saved: {out_path}")
 
     return report
 
