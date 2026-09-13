@@ -551,6 +551,13 @@ elif page == "⚖️ Module 4: 5 Baselines & Comparison":
                 unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Capability matrix and measured in-domain results</div>',
                 unsafe_allow_html=True)
+    st.info(
+        "📋 **Every number on this page — full model included — is a recorded "
+        "metric from a prior training run**, read from "
+        "`outputs/metrics/results_table.json`. Nothing on this page runs "
+        "inference now. For a live prediction on text you type, use "
+        "**🎮 Live Interactive Playground**."
+    )
 
     rows = [r for r in results_rows() if r["setting"] == "in-domain"]
     if not rows:
@@ -676,6 +683,14 @@ elif page == "🌐 Module 5: Cross-Domain Transfer":
     )
     fuzzy = load_csv("fuzzy_domain_scores.csv")
     if fuzzy is not None:
+        st.warning(
+            "📊 **Reference scores, not computed against your input.** This "
+            "table is the pre-computed typicality of each **test-set** "
+            "sequence against every domain centroid — it does not score "
+            "whatever you type in the Playground. Live per-input typicality "
+            "scoring is not implemented; this page can only show what was "
+            "already measured on the fixed test sets."
+        )
         st.dataframe(fuzzy.head(50), width="stretch")
         st.caption(f"{len(fuzzy):,} rows from `outputs/fuzzy_domain_scores.csv`.")
     else:
