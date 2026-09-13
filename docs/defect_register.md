@@ -19,7 +19,27 @@ tensors = exactly the 43 non-encoder tensors).
 
 **Fix:** `--encoder_finetune_layers` (default 0) applied uniformly to every
 baseline; `SentenceLevelTransformer` gained `finetune_layers` mirroring
-`DomainAdaptedEmbeddings`. **Requires a GPU re-run of 4 baselines to close.**
+`DomainAdaptedEmbeddings`.
+
+**Closed 2026-09-05** (commit `b3b4f98`): the 4 affected baselines were
+re-run at matched (0-layer) capacity and `outputs/metrics/results_table.md` /
+`module6_analysis.md` were regenerated with the real post-re-run numbers.
+*Verified by this audit* (2026-09-13) by diffing `results_table.md`'s git
+history: `fa43658` (2026-09-04) shows `mbert_sentence`/`xlmr_sentence` still
+at `encoder_finetune_layers=12` with their original (invalidated) F1 scores
+(Amazon 0.6419/0.6768, Tamil 0.7206/0.6626); the very next commit, `b3b4f98`
+(2026-09-05), replaces both with `encoder_finetune_layers=0` and materially
+different, lower F1 scores (Amazon 0.4837/0.6188, Tamil 0.4198/0.3669) —
+consistent with a genuinely re-run frozen-encoder baseline, not a relabeling.
+This closes O1 below; the "Still open" and `docs/capacity_matched_comparison.md`
+entries describing it as pending were stale and are corrected in this pass.
+
+**Result post-re-run, matched capacity (0 encoder layers) throughout:** the
+full model still wins sentiment F1 on Tamil (0.3930) against `xlmr_sentence`
+(0.3669), but **loses** on Tamil to `mbert_sentence` (0.4198) and **loses** on
+Amazon to `xlmr_sentence` (0.6188 vs 0.5329). These sentence-level losses are
+real at matched capacity — they are no longer explained by D1's budget
+confound, and should be reported as genuine findings, not fixed further.
 
 ### D2. The full model's encoder could never be fine-tuned — FIXED
 `OpinionEvolutionTracker.encode_texts()` wrapped the encoder in an
@@ -191,13 +211,23 @@ unverifiable discrepancy in the future.
 
 ## Still open — not defects, but outstanding work
 
-| # | Item | Blocked on |
+| # | Item | Status |
 |---|---|---|
-| O1 | Re-run 4 baselines at matched capacity (closes D1) | Kaggle GPU, ~3h, in progress |
-| O2 | WSD sense-disambiguation **accuracy** | 100-sample human-review set needs annotating; no gold labels exist |
-| O3 | LLM-based baseline (listed as a panel requirement) | Not coded; needs a model choice and API access |
-| O4 | Modules 3/4/5 reports | Running locally on CPU |
-| O5 | `README.md` describes only the August preprocessing stage | Nothing — just needs writing |
+| O1 | Re-run 4 baselines at matched capacity (closes D1) | **DONE** (2026-09-05, commit `b3b4f98`) — see D1 above |
+| O2 | WSD sense-disambiguation **accuracy** | Still open — 33-sample human-review set needs annotating; no gold labels exist |
+| O3 | LLM-based baseline (listed as a panel requirement) | Still open — not coded; needs a model choice, and a GPU or API access to actually run it |
+| O4 | Module 5 report (cross-domain fuzzy typicality) | Still open — `generate_module5_report()` now wired into `__main__` (2026-09-13) but its inputs (`outputs/cross_domain/*.json`, `outputs/fuzzy_domain_scores.csv`) require re-embedding through a trained checkpoint on GPU; see `outputs/metrics/module5_cross_domain.md` for the honest "Pending" report and exact commands to close it. Modules 1/3/4 reports are done (see their files in `outputs/metrics/`). |
+| O5 | `README.md` describes only the August preprocessing stage | **DONE** — rewritten 2026-09-12 (commit `201f1e5`) |
+
+Note on how O1 stayed misreported for over a week: the fix landed in
+`outputs/metrics/*.md` on 2026-09-05, but nothing updated this table or
+`docs/capacity_matched_comparison.md`'s "Re-run needed" section to say so —
+both kept describing it as pending until this 2026-09-13 audit re-verified
+every claim in this file against the actual committed output files rather
+than trusting the table. Worth remembering: this register is not
+self-updating: check it against `outputs/metrics/*.json`/`.md` before citing
+a status from it, the same way this document already asks of everything
+else.
 
 One known inconsistency, documented rather than fixed:
 `WordSenseDisambiguator.get_coverage_stats()` looks up single tokens directly,
@@ -209,8 +239,9 @@ resolution counts are unaffected.
 
 ## Summary
 
-**14 defects found, 13 fully fixed.** D1 is fixed in code and needs the GPU
-re-run to close in the results. All 31 ontology consistency tests pass.
+**14 defects found, all 14 fully fixed** (D1 closed 2026-09-05 by the GPU
+re-run, verified 2026-09-13 against git history — see D1 above). All 31
+ontology consistency tests pass.
 
 The two that would most have hurt at a review: **D1**, which made the headline
 comparison say a plain baseline beat the proposed model, and **D7**, which

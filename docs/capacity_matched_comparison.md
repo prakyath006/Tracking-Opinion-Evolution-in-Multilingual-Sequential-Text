@@ -66,11 +66,16 @@ applied uniformly to every baseline with an encoder:
   onto the existing 2026-09-04 result files, so the corrected report could be
   regenerated without retraining.
 
-## Re-run needed (Kaggle / Colab GPU)
+## Re-run: DONE (2026-09-05)
 
-Only `mbert_sentence` and `xlmr_sentence`, on both domains — four runs. The
-other three baselines and the full model are already capacity-matched and do
-not need retraining.
+`mbert_sentence` and `xlmr_sentence` were re-run on both domains (four runs)
+with the commands below, at `--encoder_finetune_layers 0 --lr 1e-3`, matching
+everyone else's 0 trainable encoder layers. `outputs/metrics/results_table.md`
+and `module6_analysis.md` were recompiled and regenerated the same day
+(commit `b3b4f98`). *Re-verified 2026-09-13*: this doc's own "Still open" /
+"Re-run needed" framing had gone stale — the results were already sitting in
+the committed reports, just never cross-referenced back here. See D1 in
+`docs/defect_register.md` for the git-history verification.
 
 ```bash
 # Amazon
@@ -85,7 +90,7 @@ python scripts/train_baselines.py --baseline mbert_sentence \
 python scripts/train_baselines.py --baseline xlmr_sentence \
     --domain dravidian --language tamil --encoder_finetune_layers 0 --lr 1e-3 --epochs 10
 
-# Recompile and regenerate — the capacity-mismatch warnings should disappear
+# Recompile and regenerate — the capacity-mismatch warnings disappear
 python scripts/compile_metrics.py
 python scripts/generate_module6_analysis.py
 ```
@@ -93,6 +98,28 @@ python scripts/generate_module6_analysis.py
 `--lr 1e-3` matches the full model's recorded learning rate. Without it the
 frozen baselines would train their classifier head at `2e-5` and underperform
 for optimisation reasons, which would bias the comparison the other way.
+
+## Result, matched capacity throughout (0 trainable encoder layers)
+
+| Sentiment F1 | Amazon | Tamil |
+|---|---|---|
+| **full model (OET)** | 0.5329 | **0.3930** |
+| mbert_sentence | 0.4837 | **0.4198** |
+| xlmr_sentence | **0.6188** | 0.3669 |
+| attention_only | 0.4715 | 0.3920 |
+| lstm_only | 0.4377 | 0.2933 |
+| textcnn | 0.4271 | 0.3514 |
+
+Bold marks the winner per column. Even with capacity fairly matched, the full
+model does **not** win every cell: `xlmr_sentence` beats it on Amazon
+(+0.0859 F1) and `mbert_sentence` beats it on Tamil (+0.0268 F1). Both are now
+genuine architectural findings, not artifacts of D1's training-budget
+confound — a sentence-level transformer with no sequential modelling can
+still out-perform the full model on raw per-review sentiment classification,
+particularly in the higher-resource Amazon domain. The full model's structural
+advantage is on trajectory/SCS metrics that sentence-level baselines cannot
+produce at all (see `outputs/metrics/results_table.md`), not a universal
+sentiment-F1 win.
 
 ## Optional stronger result
 
@@ -110,5 +137,12 @@ matched-frozen comparison above is already methodologically sound.
 encoder fine-tuning while our own model's encoder was frozen, so those numbers
 compared training budgets rather than architectures. We identified that,
 recorded trainable capacity in every result file so it cannot recur silently,
-and re-ran the affected baselines at matched capacity. The ablation baselines
-were already matched, and the full model beats all of them."
+and re-ran the affected baselines at matched capacity. The full model wins
+sentiment F1 against every ablation baseline (attention-only, LSTM-only,
+TextCNN) in both domains, and against XLM-R on Tamil — but at matched
+capacity, XLM-R still wins on Amazon and mBERT-sentence still wins on Tamil,
+which we report honestly rather than only citing the comparisons that favour
+our model. The full model's actual advantage is structural: it is the only
+one that produces trend and trajectory predictions and a Sequence Consistency
+Score at all, which sentence-level baselines cannot do regardless of
+capacity."
