@@ -598,6 +598,8 @@ def main():
     print(df.head(10).to_string())
     print(f"\n{len(df)} total sequences scored.")
 
+    generate_module5_report()
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)-8s | %(message)s", datefmt="%H:%M:%S")
