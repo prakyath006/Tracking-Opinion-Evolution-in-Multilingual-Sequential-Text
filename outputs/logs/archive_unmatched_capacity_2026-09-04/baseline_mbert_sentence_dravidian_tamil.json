@@ -1,0 +1,116 @@
+{
+  "baseline": "mbert_sentence",
+  "run_id": "dravidian_tamil",
+  "training_log": [
+    {
+      "epoch": 1,
+      "train_loss": 1.264159780338498,
+      "val_loss": 1.1421471256336182,
+      "val_f1_macro": 0.4561642992768198,
+      "time_seconds": 1089.6103911399841
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.0931227703401647,
+      "val_loss": 1.0680861943436943,
+      "val_f1_macro": 0.5311296874029214,
+      "time_seconds": 1089.2854001522064
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.9049945105926147,
+      "val_loss": 1.006748948104054,
+      "val_f1_macro": 0.5716488670402935,
+      "time_seconds": 1088.9955019950867
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.7149893856487392,
+      "val_loss": 0.9742513796926,
+      "val_f1_macro": 0.6183385345869981,
+      "time_seconds": 1088.1504509449005
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.567577900586684,
+      "val_loss": 1.0556214515062916,
+      "val_f1_macro": 0.6465269946594184,
+      "time_seconds": 1089.8664999008179
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.451650663588676,
+      "val_loss": 1.0316860930894622,
+      "val_f1_macro": 0.6928418643617735,
+      "time_seconds": 1089.3276574611664
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.36381413450841704,
+      "val_loss": 1.1839363147639705,
+      "val_f1_macro": 0.7020483001125413,
+      "time_seconds": 1088.8293528556824
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.31562398992524554,
+      "val_loss": 1.2785534706519461,
+      "val_f1_macro": 0.7262916192796292,
+      "time_seconds": 1088.630625963211
+    }
+  ],
+  "test": {
+    "sentiment": {
+      "accuracy": 0.7905784138342278,
+      "precision_macro": 0.7329049662582965,
+      "recall_macro": 0.7114269944841203,
+      "f1_macro": 0.7206469788968781,
+      "precision_POSITIVE": 0.8535721314701831,
+      "recall_POSITIVE": 0.8779352226720648,
+      "f1_POSITIVE": 0.8655822772178425,
+      "support_POSITIVE": 4940,
+      "precision_NEGATIVE": 0.7497231450719822,
+      "recall_NEGATIVE": 0.6274328081556997,
+      "f1_NEGATIVE": 0.6831483350151363,
+      "support_NEGATIVE": 1079,
+      "precision_MIXED": 0.6292629262926293,
+      "recall_MIXED": 0.6104589114194237,
+      "f1_MIXED": 0.6197183098591549,
+      "support_MIXED": 937,
+      "precision_UNKNOWN": 0.6990616621983914,
+      "recall_UNKNOWN": 0.7298810356892932,
+      "f1_UNKNOWN": 0.7141389934953783,
+      "support_UNKNOWN": 1429
+    }
+  },
+  "confusion_matrices": {
+    "sentiment": [
+      [
+        4337,
+        125,
+        185,
+        293
+      ],
+      [
+        217,
+        677,
+        100,
+        85
+      ],
+      [
+        240,
+        54,
+        572,
+        71
+      ],
+      [
+        287,
+        47,
+        52,
+        1043
+      ]
+    ]
+  },
+  "encoder_finetune_layers": 12,
+  "encoder_finetune_layers_source": "backfilled: SentenceLevelTransformer(freeze_encoder=False) default; all 12 mBERT layers trainable"
+}

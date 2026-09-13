@@ -1,0 +1,228 @@
+{
+  "models": [
+    "Full Model (OET)",
+    "mBERT Sentence",
+    "XLM-R Sentence",
+    "LSTM-Only (Ablation)",
+    "Attention-Only (Ablation)",
+    "TextCNN"
+  ],
+  "modules": [
+    {
+      "module_name": "Module 1: Structural Ontology",
+      "description": "Unified 4-level taxonomy (SentimentState, TransitionType, TrajectoryType, DomainConfig) mapping cross-domain labels to unified closed vocabulary.",
+      "evaluations": {
+        "Full Model (OET)": {
+          "ontology_aware": "Fully Aware (3 Levels)",
+          "sentiment_level": "Yes (SentimentState: 4 classes)",
+          "transition_level": "Yes (TransitionType: 3 classes via pairwise head)",
+          "trajectory_level": "Yes (TrajectoryType: 4 classes via sequence head)",
+          "cross_domain_unification": "Yes — unified loss over Amazon and Dravidian domains",
+          "notes": "Single source of truth across all 3 multi-task heads."
+        },
+        "mBERT Sentence": {
+          "ontology_aware": "Partially Aware (Level 1 only)",
+          "sentiment_level": "Yes (SentimentState: 4 classes)",
+          "transition_level": "N/A — no sequence/transition head",
+          "trajectory_level": "N/A — no trajectory head",
+          "cross_domain_unification": "Yes for sentiment only; cannot reason over transitions/trajectories",
+          "notes": "Inherits unified sentiment states from dataset loader, but isolated from sequential ontology."
+        },
+        "XLM-R Sentence": {
+          "ontology_aware": "Partially Aware (Level 1 only)",
+          "sentiment_level": "Yes (SentimentState: 4 classes)",
+          "transition_level": "N/A — no sequence/transition head",
+          "trajectory_level": "N/A — no trajectory head",
+          "cross_domain_unification": "Yes for sentiment only; cannot reason over transitions/trajectories",
+          "notes": "Same as mBERT sentence; cross-lingual vocabulary benefit at token level only."
+        },
+        "LSTM-Only (Ablation)": {
+          "ontology_aware": "Partially Aware (Levels 1 & 3)",
+          "sentiment_level": "Yes (SentimentState: 4 classes)",
+          "transition_level": "N/A — lacks pairwise trend head",
+          "trajectory_level": "Yes (TrajectoryType: 4 classes)",
+          "cross_domain_unification": "Yes for sentiment and trajectory",
+          "notes": "Evaluates sequential trajectory without attention weighting; no transition head."
+        },
+        "Attention-Only (Ablation)": {
+          "ontology_aware": "Partially Aware (Levels 1 & 3)",
+          "sentiment_level": "Yes (SentimentState: 4 classes)",
+          "transition_level": "N/A — lacks pairwise trend head",
+          "trajectory_level": "Yes (TrajectoryType: 4 classes)",
+          "cross_domain_unification": "Yes for sentiment and trajectory",
+          "notes": "Attends directly over token embeddings into trajectory head; lacks recurrence."
+        },
+        "TextCNN": {
+          "ontology_aware": "Partially Aware (Level 1 only)",
+          "sentiment_level": "Yes (SentimentState: 4 classes)",
+          "transition_level": "N/A — no sequence/transition head",
+          "trajectory_level": "N/A — no trajectory head",
+          "cross_domain_unification": "Yes for sentiment label only",
+          "notes": "Non-transformer baseline; utilizes static embeddings mapped to ontology sentiment classes."
+        }
+      }
+    },
+    {
+      "module_name": "Module 3: Encoder Backbone & MLM Perplexity",
+      "description": "Pretrained encoder representation quality and domain adaptation fit via Masked Language Modeling perplexity (src/mlm_perplexity_eval.py).",
+      "evaluations": {
+        "Full Model (OET)": {
+          "encoder_type": "bert-base-multilingual-cased (0 layers trainable -- run used --freeze_encoder)",
+          "mlm_perplexity_applicability": "Applicable (mBERT backbone)",
+          "vocab_size": "119,547 tokens (WordPiece multilingual)",
+          "params": "180,946,443 total; 177,853,440 frozen encoder; 3,093,003 trainable (BiLSTM 2,828,032 + classifier 199,179 + attention 65,792)",
+          "notes": "Captures subwords for Dravidian code-mixed scripts; perplexity evaluated via MLM evaluation head."
+        },
+        "mBERT Sentence": {
+          "encoder_type": "bert-base-multilingual-cased (all 12 layers trainable in the 2026-09-04 run; set --encoder_finetune_layers to match the full model)",
+          "mlm_perplexity_applicability": "Applicable (identical encoder backbone)",
+          "vocab_size": "119,547 tokens",
+          "params": "~110M (encoder only)",
+          "notes": "Serves as direct comparison for mBERT encoder representation without sequence modeling."
+        },
+        "XLM-R Sentence": {
+          "encoder_type": "xlm-roberta-base (SentencePiece 100-language model)",
+          "mlm_perplexity_applicability": "Applicable (XLM-R backbone)",
+          "vocab_size": "250,002 tokens (BPE multilingual)",
+          "params": "~278M total",
+          "notes": "Larger vocabulary and higher capacity for Dravidian scripts; compared via src/mlm_perplexity_eval.py."
+        },
+        "LSTM-Only (Ablation)": {
+          "encoder_type": "bert-base-multilingual-cased",
+          "mlm_perplexity_applicability": "Applicable (mBERT backbone)",
+          "vocab_size": "119,547 tokens",
+          "params": "~177.8M + BiLSTM",
+          "notes": "Shares encoder with full model; differs only by absence of attention mechanism."
+        },
+        "Attention-Only (Ablation)": {
+          "encoder_type": "bert-base-multilingual-cased",
+          "mlm_perplexity_applicability": "Applicable (mBERT backbone)",
+          "vocab_size": "119,547 tokens",
+          "params": "~177.8M + Attention",
+          "notes": "Shares encoder with full model; differs only by absence of BiLSTM encoder."
+        },
+        "TextCNN": {
+          "encoder_type": "Randomly-initialised nn.Embedding (300d), learned from scratch -- no pretrained vectors",
+          "mlm_perplexity_applicability": "N/A — Non-transformer architecture",
+          "vocab_size": "<=20,000 whitespace tokens built from the training split (build_vocab)",
+          "params": "<5M",
+          "notes": "Cannot compute MLM perplexity because no masked language model pretraining exists."
+        }
+      }
+    },
+    {
+      "module_name": "Module 4: Sequential Opinion Modeling, Calibration & SCS",
+      "description": "Multi-task opinion tracking capabilities: sentiment, pairwise transitions, sequence trajectory, calibration (ECE), entropy, and Sequence Consistency Score (SCS).",
+      "evaluations": {
+        "Full Model (OET)": {
+          "sequential_encoder": "Bidirectional LSTM (2 layers, hidden=256) + Self-Attention",
+          "sentiment_head": "Supported (per-review logits [batch, seq_len, 4])",
+          "trend_head": "Supported (pairwise transition logits [batch, seq_len, 3])",
+          "trajectory_head": "Supported (sequence-level trajectory logits [batch, 4])",
+          "scs_metric": "Supported — calculates temporal prediction consistency across reviews",
+          "prediction_entropy": "Supported (monitored per head: sentiment, trend, trajectory)",
+          "ece_calibration": "Supported — Expected Calibration Error binned over confidence",
+          "notes": "The ONLY model with all 3 classification heads and attention turning-point localization."
+        },
+        "mBERT Sentence": {
+          "sequential_encoder": "None (independent review classification)",
+          "sentiment_head": "Supported (single-review logits [batch, 4])",
+          "trend_head": "N/A — independent sentence predictions lack sequence context",
+          "trajectory_head": "N/A — cannot predict sequence trajectory",
+          "scs_metric": "N/A — sentence-level model produces no sequence trajectories",
+          "prediction_entropy": "Supported for sentiment head only",
+          "ece_calibration": "Supported for sentiment head only",
+          "notes": "Demonstrates performance drop when sequential evolution across reviews is ignored."
+        },
+        "XLM-R Sentence": {
+          "sequential_encoder": "None (independent review classification)",
+          "sentiment_head": "Supported (single-review logits [batch, 4])",
+          "trend_head": "N/A — independent sentence predictions lack sequence context",
+          "trajectory_head": "N/A — cannot predict sequence trajectory",
+          "scs_metric": "N/A — sentence-level model produces no sequence trajectories",
+          "prediction_entropy": "Supported for sentiment head only",
+          "ece_calibration": "Supported for sentiment head only",
+          "notes": "Tests whether stronger multilingual representation can compensate for lack of sequence modeling."
+        },
+        "LSTM-Only (Ablation)": {
+          "sequential_encoder": "Bidirectional LSTM (final hidden state pooled, no attention)",
+          "sentiment_head": "Supported (per-review sequence logits [batch, seq_len, 4])",
+          "trend_head": "N/A — baseline omitted trend head to isolate trajectory ablation",
+          "trajectory_head": "Supported (sequence-level trajectory logits [batch, 4])",
+          "scs_metric": "Supported — sequential predictions permit SCS computation",
+          "prediction_entropy": "Supported for sentiment and trajectory heads",
+          "ece_calibration": "Supported for sentiment and trajectory heads",
+          "notes": "Ablation model proving the necessity of the Attention mechanism for turning points."
+        },
+        "Attention-Only (Ablation)": {
+          "sequential_encoder": "Multi-Head Self-Attention directly over embedding sequence (no LSTM)",
+          "sentiment_head": "Supported (per-review sequence logits [batch, seq_len, 4])",
+          "trend_head": "N/A — baseline omitted trend head to isolate trajectory ablation",
+          "trajectory_head": "Supported (sequence-level trajectory logits [batch, 4])",
+          "scs_metric": "Supported — sequential predictions permit SCS computation",
+          "prediction_entropy": "Supported for sentiment and trajectory heads",
+          "ece_calibration": "Supported for sentiment and trajectory heads",
+          "notes": "Ablation model proving that attention without recurrent order memory degrades temporal tracking."
+        },
+        "TextCNN": {
+          "sequential_encoder": "1D Convolution over word tokens (kernel sizes 2, 3, 4, 5)",
+          "sentiment_head": "Supported (single-review logits [batch, 4])",
+          "trend_head": "N/A — no sequence modeling",
+          "trajectory_head": "N/A — no trajectory prediction",
+          "scs_metric": "N/A — sentence-level only",
+          "prediction_entropy": "Supported for sentiment head only",
+          "ece_calibration": "Supported for sentiment head only",
+          "notes": "Traditional n-gram feature baseline without deep contextualization or temporal tracking."
+        }
+      }
+    },
+    {
+      "module_name": "Module 5: Cross-Domain Generalization & Transfer",
+      "description": "Cross-domain evaluation (Amazon Beauty <-> Dravidian Tamil/Malayalam/Kannada) and fuzzy typicality scoring (src/fuzzy_domain_score.py).",
+      "evaluations": {
+        "Full Model (OET)": {
+          "transfer_directions": "Both directions (Amazon -> Dravidian, Dravidian -> Amazon)",
+          "transfer_mechanism": "Unified ontology states + BiLSTM sequence representations",
+          "fuzzy_typicality_score": "Supported — sequence centroid distance to domain clusters",
+          "expected_degradation": "Moderate — sequence dynamics and attention buffer against domain shifts",
+          "notes": "Full architecture transfers both sentiment vocabulary and temporal trajectory dynamics."
+        },
+        "mBERT Sentence": {
+          "transfer_directions": "Both directions (sentiment task only)",
+          "transfer_mechanism": "Direct sentence-level token transfer",
+          "fuzzy_typicality_score": "Supported at sentence level only",
+          "expected_degradation": "High — lexical shift between Amazon product reviews and Dravidian comments causes steep drop",
+          "notes": "Lacks temporal smoothing; vulnerable to localized vocabulary mismatch."
+        },
+        "XLM-R Sentence": {
+          "transfer_directions": "Both directions (sentiment task only)",
+          "transfer_mechanism": "Direct sentence-level token transfer with 100-language pretraining",
+          "fuzzy_typicality_score": "Supported at sentence level only",
+          "expected_degradation": "High to Moderate — slightly better cross-lingual transfer, but still lacks sequential dynamics",
+          "notes": "Bigger vocabulary aids Dravidian tokens, but trajectory transfer is impossible."
+        },
+        "LSTM-Only (Ablation)": {
+          "transfer_directions": "Both directions (sentiment + trajectory tasks)",
+          "transfer_mechanism": "Recurrent hidden state sequence transfer",
+          "fuzzy_typicality_score": "Supported at sequence level",
+          "expected_degradation": "Moderate to High — without attention, early/late review bias exacerbates domain shift",
+          "notes": "Shows importance of attention for selectively weighting domain-invariant features."
+        },
+        "Attention-Only (Ablation)": {
+          "transfer_directions": "Both directions (sentiment + trajectory tasks)",
+          "transfer_mechanism": "Direct attention over sequence embeddings",
+          "fuzzy_typicality_score": "Supported at sequence level",
+          "expected_degradation": "Moderate — attention identifies salient tokens, but unordered sequence representations drift",
+          "notes": "Captures salient keywords across domains, but misses temporal transition structure."
+        },
+        "TextCNN": {
+          "transfer_directions": "Both directions (sentiment task only)",
+          "transfer_mechanism": "Static n-gram filter transfer",
+          "fuzzy_typicality_score": "N/A — static embeddings do not align with contextualized centroid space",
+          "expected_degradation": "Severe — static embeddings suffer from high out-of-vocabulary rates across code-mixed domains",
+          "notes": "Fails to generalize across code-mixed scripts without subword tokenization."
+        }
+      }
+    }
+  ]
+}

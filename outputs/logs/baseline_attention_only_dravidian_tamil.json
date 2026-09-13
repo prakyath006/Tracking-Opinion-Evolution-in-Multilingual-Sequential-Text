@@ -1,0 +1,179 @@
+{
+  "baseline": "attention_only",
+  "run_id": "dravidian_tamil",
+  "training_log": [
+    {
+      "epoch": 1,
+      "train_loss": 2.6995568743512672,
+      "val_loss": 2.6879200208754765,
+      "val_sentiment_f1": 0.3404527182420908,
+      "val_trajectory_f1": 0.25770892123495687,
+      "time_seconds": 437.5143389701843
+    },
+    {
+      "epoch": 2,
+      "train_loss": 2.703021820825058,
+      "val_loss": 2.7176451864696682,
+      "val_sentiment_f1": 0.35729798681812863,
+      "val_trajectory_f1": 0.2441763000888965,
+      "time_seconds": 439.93314719200134
+    },
+    {
+      "epoch": 3,
+      "train_loss": 2.73440142740745,
+      "val_loss": 2.7251615206400555,
+      "val_sentiment_f1": 0.37324991094966475,
+      "val_trajectory_f1": 0.2586382184750392,
+      "time_seconds": 438.522696018219
+    },
+    {
+      "epoch": 4,
+      "train_loss": 2.7068273304430255,
+      "val_loss": 2.7333022798810687,
+      "val_sentiment_f1": 0.3813684626641274,
+      "val_trajectory_f1": 0.24553453175361678,
+      "time_seconds": 440.4597272872925
+    },
+    {
+      "epoch": 5,
+      "train_loss": 2.712986754005916,
+      "val_loss": 2.7231278078896657,
+      "val_sentiment_f1": 0.38599753116428076,
+      "val_trajectory_f1": 0.24393558733647347,
+      "time_seconds": 441.1966440677643
+    },
+    {
+      "epoch": 6,
+      "train_loss": 2.727387008491469,
+      "val_loss": 2.712733963557652,
+      "val_sentiment_f1": 0.3801307105857551,
+      "val_trajectory_f1": 0.24780094889663618,
+      "time_seconds": 440.8577706813812
+    },
+    {
+      "epoch": 7,
+      "train_loss": 2.6805580773967908,
+      "val_loss": 2.698509763535999,
+      "val_sentiment_f1": 0.3892046873133634,
+      "val_trajectory_f1": 0.237623178467341,
+      "time_seconds": 440.42699813842773
+    },
+    {
+      "epoch": 8,
+      "train_loss": 2.692014899965688,
+      "val_loss": 2.688349669320243,
+      "val_sentiment_f1": 0.3934492067584408,
+      "val_trajectory_f1": 0.22601110036252064,
+      "time_seconds": 438.1209828853607
+    }
+  ],
+  "test": {
+    "sentiment": {
+      "accuracy": 0.48598688133571855,
+      "precision_macro": 0.39878007236506785,
+      "recall_macro": 0.42097590766784004,
+      "f1_macro": 0.39204099469038906,
+      "precision_POSITIVE": 0.7838146983128396,
+      "recall_POSITIVE": 0.5548582995951417,
+      "f1_POSITIVE": 0.6497570226383785,
+      "support_POSITIVE": 4940,
+      "precision_NEGATIVE": 0.2460973370064279,
+      "recall_NEGATIVE": 0.49675625579240035,
+      "f1_NEGATIVE": 0.329137242861529,
+      "support_NEGATIVE": 1079,
+      "precision_MIXED": 0.25410872313527183,
+      "recall_MIXED": 0.21451440768409819,
+      "f1_MIXED": 0.2326388888888889,
+      "support_MIXED": 937,
+      "precision_UNKNOWN": 0.3110995310057322,
+      "recall_UNKNOWN": 0.4177746675997201,
+      "f1_UNKNOWN": 0.35663082437275984,
+      "support_UNKNOWN": 1429
+    },
+    "trajectory": {
+      "accuracy": 0.5849731663685152,
+      "precision_macro": 0.26169454106248313,
+      "recall_macro": 0.2597263391071984,
+      "f1_macro": 0.23469405003380664,
+      "precision_IMPROVING": 0.0,
+      "recall_IMPROVING": 0.0,
+      "f1_IMPROVING": 0.0,
+      "support_IMPROVING": 27,
+      "precision_DECLINING": 0.0,
+      "recall_DECLINING": 0.0,
+      "f1_DECLINING": 0.0,
+      "support_DECLINING": 22,
+      "precision_STABLE": 0.6050305914343984,
+      "recall_STABLE": 0.8953722334004024,
+      "f1_STABLE": 0.7221095334685599,
+      "support_STABLE": 994,
+      "precision_VOLATILE": 0.441747572815534,
+      "recall_VOLATILE": 0.14353312302839116,
+      "f1_VOLATILE": 0.21666666666666667,
+      "support_VOLATILE": 634
+    },
+    "scs": {
+      "scs_mean": 0.30873583780560526,
+      "scs_std": 0.2421572693488225,
+      "scs_min": 0.0,
+      "scs_max": 1.0,
+      "num_sequences": 1677
+    }
+  },
+  "confusion_matrices": {
+    "sentiment": [
+      [
+        2741,
+        993,
+        313,
+        893
+      ],
+      [
+        207,
+        536,
+        118,
+        218
+      ],
+      [
+        232,
+        293,
+        201,
+        211
+      ],
+      [
+        317,
+        356,
+        159,
+        597
+      ]
+    ],
+    "trajectory": [
+      [
+        0,
+        0,
+        22,
+        5
+      ],
+      [
+        0,
+        0,
+        16,
+        6
+      ],
+      [
+        0,
+        0,
+        890,
+        104
+      ],
+      [
+        0,
+        0,
+        543,
+        91
+      ]
+    ]
+  },
+  "encoder_finetune_layers": 0,
+  "encoder_finetune_layers_source": "backfilled: train_baselines.py built DomainAdaptedEmbeddings(finetune_layers=0) and called embedder.eval()"
+}

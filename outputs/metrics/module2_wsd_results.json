@@ -1,0 +1,477 @@
+{
+  "per_language": {
+    "tamil": {
+      "total_words": 51021,
+      "aspect_words": 2161,
+      "ambiguous_words": 484,
+      "resolved_words": 96,
+      "coverage_pct": 4.24,
+      "resolution_pct": 19.83
+    },
+    "malayalam": {
+      "total_words": 52070,
+      "aspect_words": 1768,
+      "ambiguous_words": 190,
+      "resolved_words": 22,
+      "coverage_pct": 3.4,
+      "resolution_pct": 11.58
+    },
+    "kannada": {
+      "total_words": 41882,
+      "aspect_words": 1068,
+      "ambiguous_words": 8,
+      "resolved_words": 3,
+      "coverage_pct": 2.55,
+      "resolution_pct": 37.5
+    }
+  },
+  "overall": {
+    "total_words": 144973,
+    "aspect_words": 4997,
+    "ambiguous_words": 682,
+    "resolved_words": 121,
+    "coverage_pct": 3.45,
+    "resolution_pct": 17.74
+  },
+  "aspect_distribution": {
+    "fan_stardom": 920,
+    "music_bgm": 1727,
+    "trailer_teaser": 1127,
+    "story_screenplay": 210,
+    "hero_character": 382,
+    "box_office_collection": 327,
+    "dialogue": 230
+  },
+  "sample_annotations": [
+    {
+      "text": "intha padam vetri pera vazhthukkal from thalapathy fans",
+      "annotations": [
+        {
+          "word": "fans",
+          "aspect": "fan_stardom",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "adipoli trailer..joseph vijay anna .sikiraangaaa vaangaaa can't wait.waiting fr a huge blast..semma trailer..",
+      "annotations": [
+        {
+          "word": "trailer",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        },
+        {
+          "word": "trailer",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "ട്രൈലെർ സൈലന്റ് അപ്പൊ ഒരു കാര്യം ഉറപ്പാ പടം സൂപ്പർ ഹിറ്റ് ആവും ഏട്ടൻ മുത്താണ് മുത്ത്",
+      "annotations": [
+        {
+          "word": "ഹിറ്റ്",
+          "aspect": "box_office_collection",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "2109 blockbuster list la kaithi kandippa varum",
+      "annotations": [
+        {
+          "word": "blockbuster",
+          "aspect": "box_office_collection",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "ellathayum vida lasta yuvan bgm",
+      "annotations": [
+        {
+          "word": "bgm",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "dislike madidavaru dagar rashimka fans",
+      "annotations": [
+        {
+          "word": "fans",
+          "aspect": "fan_stardom",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "pakka super hit",
+      "annotations": [
+        {
+          "word": "hit",
+          "aspect": "box_office_collection",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "superb trailer ..",
+      "annotations": [
+        {
+          "word": "trailer",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "super film. ee song hindi song tu hi haqqeqat pole und kurachokke.",
+      "annotations": [
+        {
+          "word": "song",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        },
+        {
+          "word": "song",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "wow thala semma , yuvan music",
+      "annotations": [
+        {
+          "word": "music",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "thalaiva nee vera level padam sema hit .",
+      "annotations": [
+        {
+          "word": "hit",
+          "aspect": "box_office_collection",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "trailer kandu thudangyalo 7.9m views aarunu. kandu kazinjapo 8m aayi!",
+      "annotations": [
+        {
+          "word": "trailer",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "pakka mass film.lalettan",
+      "annotations": [
+        {
+          "word": "mass",
+          "aspect": "music_bgm",
+          "confidence": 0.5
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "super song",
+      "annotations": [
+        {
+          "word": "song",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "thalaivaaa kola mass therikka viduddinga anna .. thalaivaaa mass bgm ellam therikkudhu",
+      "annotations": [
+        {
+          "word": "mass",
+          "aspect": "music_bgm",
+          "confidence": 0.25
+        },
+        {
+          "word": "mass",
+          "aspect": "music_bgm",
+          "confidence": 0.4
+        },
+        {
+          "word": "bgm",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "therii trailer 1 crore views guarantee",
+      "annotations": [
+        {
+          "word": "trailer",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        },
+        {
+          "word": "crore",
+          "aspect": "box_office_collection",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "en chindi bgm guru sakkath..jai asn. from appu abhimani",
+      "annotations": [
+        {
+          "word": "bgm",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        },
+        {
+          "word": "abhimani",
+          "aspect": "fan_stardom",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "power pack acting and dialogue delivery and vera level look thala..kola waiting for nerkonda parvai.mass bgm.",
+      "annotations": [
+        {
+          "word": "acting",
+          "aspect": "hero_character",
+          "confidence": 1.0
+        },
+        {
+          "word": "dialogue",
+          "aspect": "dialogue",
+          "confidence": 1.0
+        },
+        {
+          "word": "delivery",
+          "aspect": "dialogue",
+          "confidence": 1.0
+        },
+        {
+          "word": "mass",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        },
+        {
+          "word": "bgm",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "ഇന്നാണ് ഈ പാട്ട് ശ്രദ്ധിച്ചത് കേട്ടിട്ടും കേട്ടിട്ടും മതിയാകുന്നില്ല",
+      "annotations": [
+        {
+          "word": "പാട്ട്",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "padam kandu mass alla maranamass",
+      "annotations": [
+        {
+          "word": "mass",
+          "aspect": "music_bgm",
+          "confidence": 0.5
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "song കേട്ടുകൊണ്ട് കമന്റ് വായിക്കാൻ എന്തോ രസം",
+      "annotations": [
+        {
+          "word": "song",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "i am waiting for.. tovino kalki trailer tovino fans like here",
+      "annotations": [
+        {
+          "word": "trailer",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        },
+        {
+          "word": "fans",
+          "aspect": "fan_stardom",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "pakka hit movie",
+      "annotations": [
+        {
+          "word": "hit",
+          "aspect": "box_office_collection",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "surya na summava surya eppavum mass da",
+      "annotations": [
+        {
+          "word": "mass",
+          "aspect": "music_bgm",
+          "confidence": 0.5
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "sema look annaa super semaa mass therii waiting anna ..",
+      "annotations": [
+        {
+          "word": "mass",
+          "aspect": "music_bgm",
+          "confidence": 0.5
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "superbly song by vijay prakash",
+      "annotations": [
+        {
+          "word": "song",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "pakka flop movie!!",
+      "annotations": [
+        {
+          "word": "flop",
+          "aspect": "box_office_collection",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "dance cheyyan ariyilla ennu swayam kuttapeduthumbozhum character ath avashyapedunundenkil 100 vayass aayalum njangade ikka dance cheyum..ikka uyir.",
+      "annotations": [
+        {
+          "word": "character",
+          "aspect": "hero_character",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "music ನಿಂದ ಇ ಸಿನೆಮಾ 100 ದಿನ teater ನಲ್ಲಿ ಇರತ್ತೆ",
+      "annotations": [
+        {
+          "word": "music",
+          "aspect": "music_bgm",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "mass trailer .. vere level anu",
+      "annotations": [
+        {
+          "word": "mass",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        },
+        {
+          "word": "trailer",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "a10 padam ayath kond matrm video keri kand ippo ittichan fans ayavar indel adi like",
+      "annotations": [
+        {
+          "word": "fans",
+          "aspect": "fan_stardom",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "indha trailer paakumbodhu enakkum andha disorder vandhrumo nu irukudhu pa",
+      "annotations": [
+        {
+          "word": "trailer",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    },
+    {
+      "text": "innum neraya,neraya neraya,neraya neraya edir paakuroam ..ppphaaa terrific trailer. thala nee vaaa thala",
+      "annotations": [
+        {
+          "word": "trailer",
+          "aspect": "trailer_teaser",
+          "confidence": 1.0
+        }
+      ],
+      "human_verified": false
+    }
+  ],
+  "baseline_comparison": {
+    "total_compared": 335,
+    "wsd_high_confidence": 301,
+    "mcs_high_confidence": 330,
+    "wsd_high_conf_pct": 89.85,
+    "mcs_high_conf_pct": 98.51
+  }
+}

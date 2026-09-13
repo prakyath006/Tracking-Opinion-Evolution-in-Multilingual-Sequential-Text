@@ -6,18 +6,21 @@ demo_output.txt
 *.log
 .env
 
-# Large data files and directories
+# Raw and preprocessed training data -- hosted on Kaggle (opinion-tracker-data)
 data/
-outputs/*
-!outputs/metrics/
-outputs/metrics/*
-!outputs/metrics/*.md
-!outputs/metrics/**/*.md
 data.zip
+
+# Trained checkpoints are 714 MB each, above GitHub's 100 MB per-file limit.
+# Hosted on Kaggle (opinion-tracker-checkpoints).
+outputs/checkpoints/
+
+# Notes and scratch JSON are ignored by default...
 *.md
 !README.md
 !docs/**/*.md
-!outputs/metrics/*.md
-!outputs/metrics/**/*.md
 *.json
 !ontology/**/*.json
+
+# ...but every result under outputs/ is tracked
+!outputs/**/*.md
+!outputs/**/*.json

@@ -1,0 +1,112 @@
+{
+  "baseline": "mbert_sentence",
+  "run_id": "amazon",
+  "training_log": [
+    {
+      "epoch": 1,
+      "train_loss": 0.837343044258738,
+      "val_loss": 0.7376128555021503,
+      "val_f1_macro": 0.5865781605704433,
+      "time_seconds": 448.5807728767395
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.6723324606421965,
+      "val_loss": 0.7181626457890327,
+      "val_f1_macro": 0.6553467748020626,
+      "time_seconds": 447.95409512519836
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5593044183988166,
+      "val_loss": 0.848035632412542,
+      "val_f1_macro": 0.6588823689917745,
+      "time_seconds": 448.4270625114441
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.47229862488623225,
+      "val_loss": 0.9330136048776859,
+      "val_f1_macro": 0.6533282257747816,
+      "time_seconds": 448.0219178199768
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.4164357391770399,
+      "val_loss": 1.2534802181180567,
+      "val_f1_macro": 0.6374039574337841,
+      "time_seconds": 448.99711513519287
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.36264472347522153,
+      "val_loss": 1.3331961587981576,
+      "val_f1_macro": 0.6437869803529689,
+      "time_seconds": 448.5583188533783
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.3126382143174736,
+      "val_loss": 1.5723826633300633,
+      "val_f1_macro": 0.6398574017078565,
+      "time_seconds": 448.39228200912476
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.2772287153715159,
+      "val_loss": 1.677996299093568,
+      "val_f1_macro": 0.6417667549215107,
+      "time_seconds": 448.4302508831024
+    }
+  ],
+  "test": {
+    "sentiment": {
+      "accuracy": 0.8186375700383368,
+      "precision_macro": 0.6612335614191394,
+      "recall_macro": 0.6333565946175402,
+      "f1_macro": 0.6419339717942832,
+      "precision_POSITIVE": 0.9153726708074534,
+      "recall_POSITIVE": 0.924343394747158,
+      "f1_POSITIVE": 0.919836161497952,
+      "support_POSITIVE": 2551,
+      "precision_NEGATIVE": 0.7335164835164835,
+      "recall_NEGATIVE": 0.559748427672956,
+      "f1_NEGATIVE": 0.6349583828775267,
+      "support_NEGATIVE": 477,
+      "precision_MIXED": 0.3348115299334812,
+      "recall_MIXED": 0.41597796143250687,
+      "f1_MIXED": 0.371007371007371,
+      "support_MIXED": 363
+    }
+  },
+  "confusion_matrices": {
+    "sentiment": [
+      [
+        2358,
+        34,
+        159,
+        0
+      ],
+      [
+        69,
+        267,
+        141,
+        0
+      ],
+      [
+        149,
+        63,
+        151,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "encoder_finetune_layers": 12,
+  "encoder_finetune_layers_source": "backfilled: SentenceLevelTransformer(freeze_encoder=False) default; all 12 mBERT layers trainable"
+}

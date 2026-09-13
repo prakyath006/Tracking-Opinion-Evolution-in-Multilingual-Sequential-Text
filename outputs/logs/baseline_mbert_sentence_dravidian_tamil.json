@@ -1,0 +1,130 @@
+{
+  "baseline": "mbert_sentence",
+  "run_id": "dravidian_tamil",
+  "training_log": [
+    {
+      "epoch": 1,
+      "train_loss": 1.3288175957578334,
+      "val_loss": 1.2625924031470568,
+      "val_f1_macro": 0.37361263902646014,
+      "time_seconds": 420.45205068588257
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.2901164597285062,
+      "val_loss": 1.2492160435396296,
+      "val_f1_macro": 0.3818699567965783,
+      "time_seconds": 419.70933771133423
+    },
+    {
+      "epoch": 3,
+      "train_loss": 1.2760345942403641,
+      "val_loss": 1.2358957681492084,
+      "val_f1_macro": 0.4034845125638145,
+      "time_seconds": 419.3948874473572
+    },
+    {
+      "epoch": 4,
+      "train_loss": 1.266900577476907,
+      "val_loss": 1.2434950023889542,
+      "val_f1_macro": 0.38290670565871743,
+      "time_seconds": 419.4760670661926
+    },
+    {
+      "epoch": 5,
+      "train_loss": 1.2608729107979617,
+      "val_loss": 1.2426170786373487,
+      "val_f1_macro": 0.4059159099753699,
+      "time_seconds": 419.2318880558014
+    },
+    {
+      "epoch": 6,
+      "train_loss": 1.256907903489891,
+      "val_loss": 1.2398603191130033,
+      "val_f1_macro": 0.38675227740465234,
+      "time_seconds": 419.8781042098999
+    },
+    {
+      "epoch": 7,
+      "train_loss": 1.2535888535600985,
+      "val_loss": 1.2272070823734953,
+      "val_f1_macro": 0.41396790745865275,
+      "time_seconds": 419.97306656837463
+    },
+    {
+      "epoch": 8,
+      "train_loss": 1.2530713480918199,
+      "val_loss": 1.2307983375232638,
+      "val_f1_macro": 0.4346361405930788,
+      "time_seconds": 419.3925862312317
+    },
+    {
+      "epoch": 9,
+      "train_loss": 1.2458760680108958,
+      "val_loss": 1.2294952651016584,
+      "val_f1_macro": 0.429042924633119,
+      "time_seconds": 419.14093494415283
+    },
+    {
+      "epoch": 10,
+      "train_loss": 1.2454044226732235,
+      "val_loss": 1.2238068602239813,
+      "val_f1_macro": 0.4201428555104047,
+      "time_seconds": 419.8833968639374
+    }
+  ],
+  "encoder_finetune_layers": 0,
+  "trainable_params": 198404,
+  "test": {
+    "sentiment": {
+      "accuracy": 0.5218843172331544,
+      "precision_macro": 0.43484705932721524,
+      "recall_macro": 0.4498334013446053,
+      "f1_macro": 0.4197687749744217,
+      "precision_POSITIVE": 0.7877051315446731,
+      "recall_POSITIVE": 0.6121457489878542,
+      "f1_POSITIVE": 0.6889167331131109,
+      "support_POSITIVE": 4940,
+      "precision_NEGATIVE": 0.25645097260817784,
+      "recall_NEGATIVE": 0.5987025023169601,
+      "f1_NEGATIVE": 0.35908838243468594,
+      "support_NEGATIVE": 1079,
+      "precision_MIXED": 0.2554671968190855,
+      "recall_MIXED": 0.2742796157950907,
+      "f1_MIXED": 0.2645393721049923,
+      "support_MIXED": 937,
+      "precision_UNKNOWN": 0.4397649363369246,
+      "recall_UNKNOWN": 0.31420573827851644,
+      "f1_UNKNOWN": 0.36653061224489797,
+      "support_UNKNOWN": 1429
+    }
+  },
+  "confusion_matrices": {
+    "sentiment": [
+      [
+        3024,
+        1112,
+        387,
+        417
+      ],
+      [
+        204,
+        646,
+        151,
+        78
+      ],
+      [
+        264,
+        339,
+        257,
+        77
+      ],
+      [
+        347,
+        422,
+        211,
+        449
+      ]
+    ]
+  }
+}

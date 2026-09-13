@@ -1,0 +1,175 @@
+{
+  "baseline": "attention_only",
+  "run_id": "amazon",
+  "training_log": [
+    {
+      "epoch": 1,
+      "train_loss": 2.6555937861168335,
+      "val_loss": 2.5527048015594485,
+      "val_sentiment_f1": 0.3814052813208066,
+      "val_trajectory_f1": 0.26044112502768135,
+      "time_seconds": 170.85048413276672
+    },
+    {
+      "epoch": 2,
+      "train_loss": 2.510543971614265,
+      "val_loss": 2.4765041208267213,
+      "val_sentiment_f1": 0.4286634469265196,
+      "val_trajectory_f1": 0.2810027120972455,
+      "time_seconds": 170.38997960090637
+    },
+    {
+      "epoch": 3,
+      "train_loss": 2.4530208704297634,
+      "val_loss": 2.431838526725769,
+      "val_sentiment_f1": 0.436249640412037,
+      "val_trajectory_f1": 0.2781656088881601,
+      "time_seconds": 169.7111575603485
+    },
+    {
+      "epoch": 4,
+      "train_loss": 2.4140216137718236,
+      "val_loss": 2.4003153610229493,
+      "val_sentiment_f1": 0.4426130794101883,
+      "val_trajectory_f1": 0.24828720515445574,
+      "time_seconds": 169.37385416030884
+    },
+    {
+      "epoch": 5,
+      "train_loss": 2.388576577149747,
+      "val_loss": 2.3759578323364257,
+      "val_sentiment_f1": 0.4634005844735562,
+      "val_trajectory_f1": 0.25045915376766603,
+      "time_seconds": 169.31180262565613
+    },
+    {
+      "epoch": 6,
+      "train_loss": 2.3657080697399353,
+      "val_loss": 2.3536470413208006,
+      "val_sentiment_f1": 0.44674050376453095,
+      "val_trajectory_f1": 0.28273447966142984,
+      "time_seconds": 169.33150601387024
+    },
+    {
+      "epoch": 7,
+      "train_loss": 2.343112912812458,
+      "val_loss": 2.336912546157837,
+      "val_sentiment_f1": 0.4638194674463139,
+      "val_trajectory_f1": 0.24588491517652453,
+      "time_seconds": 169.32244610786438
+    },
+    {
+      "epoch": 8,
+      "train_loss": 2.3306435996370767,
+      "val_loss": 2.3203329992294313,
+      "val_sentiment_f1": 0.46435034777703516,
+      "val_trajectory_f1": 0.27874787936576595,
+      "time_seconds": 169.18933367729187
+    }
+  ],
+  "test": {
+    "sentiment": {
+      "accuracy": 0.575641403715718,
+      "precision_macro": 0.48830261051282986,
+      "recall_macro": 0.5333040171468313,
+      "f1_macro": 0.471532304046349,
+      "precision_POSITIVE": 0.9121338912133892,
+      "recall_POSITIVE": 0.5981967855742846,
+      "f1_POSITIVE": 0.7225378787878788,
+      "support_POSITIVE": 2551,
+      "precision_NEGATIVE": 0.3972602739726027,
+      "recall_NEGATIVE": 0.5471698113207547,
+      "f1_NEGATIVE": 0.4603174603174603,
+      "support_NEGATIVE": 477,
+      "precision_MIXED": 0.15551366635249764,
+      "recall_MIXED": 0.45454545454545453,
+      "f1_MIXED": 0.23174157303370788,
+      "support_MIXED": 363
+    },
+    "trajectory": {
+      "accuracy": 0.4375,
+      "precision_macro": 0.35749521731796957,
+      "recall_macro": 0.3476497493409393,
+      "f1_macro": 0.33068011524367247,
+      "precision_IMPROVING": 0.2,
+      "recall_IMPROVING": 0.10344827586206896,
+      "f1_IMPROVING": 0.13636363636363635,
+      "support_IMPROVING": 87,
+      "precision_DECLINING": 0.2375,
+      "recall_DECLINING": 0.1484375,
+      "f1_DECLINING": 0.18269230769230768,
+      "support_DECLINING": 128,
+      "precision_STABLE": 0.6788079470198676,
+      "recall_STABLE": 0.5163727959697733,
+      "f1_STABLE": 0.586552217453505,
+      "support_STABLE": 397,
+      "precision_VOLATILE": 0.3136729222520107,
+      "recall_VOLATILE": 0.6223404255319149,
+      "f1_VOLATILE": 0.41711229946524064,
+      "support_VOLATILE": 188
+    },
+    "scs": {
+      "scs_mean": 0.5197937221447283,
+      "scs_std": 0.3429277796946565,
+      "scs_min": 0.0,
+      "scs_max": 1.0,
+      "num_sequences": 800
+    }
+  },
+  "confusion_matrices": {
+    "sentiment": [
+      [
+        1526,
+        276,
+        749,
+        0
+      ],
+      [
+        69,
+        261,
+        147,
+        0
+      ],
+      [
+        78,
+        120,
+        165,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "trajectory": [
+      [
+        9,
+        13,
+        16,
+        49
+      ],
+      [
+        16,
+        19,
+        42,
+        51
+      ],
+      [
+        13,
+        23,
+        205,
+        156
+      ],
+      [
+        7,
+        25,
+        39,
+        117
+      ]
+    ]
+  },
+  "encoder_finetune_layers": 0,
+  "encoder_finetune_layers_source": "backfilled: train_baselines.py built DomainAdaptedEmbeddings(finetune_layers=0) and called embedder.eval()"
+}

@@ -1,0 +1,116 @@
+{
+  "baseline": "xlmr_sentence",
+  "run_id": "dravidian_tamil",
+  "training_log": [
+    {
+      "epoch": 1,
+      "train_loss": 1.2669627835170378,
+      "val_loss": 1.1854771951227698,
+      "val_f1_macro": 0.4336585682769005,
+      "time_seconds": 1174.6818373203278
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.1204671715422398,
+      "val_loss": 1.1390063113724913,
+      "val_f1_macro": 0.5025383569865799,
+      "time_seconds": 1174.6702663898468
+    },
+    {
+      "epoch": 3,
+      "train_loss": 1.00681075162439,
+      "val_loss": 1.058165206367733,
+      "val_f1_macro": 0.5537164618400354,
+      "time_seconds": 1174.401912689209
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.8760932592038971,
+      "val_loss": 1.0320483288578404,
+      "val_f1_macro": 0.5685364630193683,
+      "time_seconds": 1173.2641558647156
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.7559775304635853,
+      "val_loss": 0.9568357241005843,
+      "val_f1_macro": 0.6081532046553726,
+      "time_seconds": 1174.349087715149
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.6563187623194634,
+      "val_loss": 1.0162794243629651,
+      "val_f1_macro": 0.6276352927297221,
+      "time_seconds": 1173.0097093582153
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.5553892936229949,
+      "val_loss": 1.067715599720601,
+      "val_f1_macro": 0.6588555999062415,
+      "time_seconds": 1171.4797773361206
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.48594494639212127,
+      "val_loss": 0.9757875459311345,
+      "val_f1_macro": 0.66454463435434,
+      "time_seconds": 1171.61279463768
+    }
+  ],
+  "test": {
+    "sentiment": {
+      "accuracy": 0.7255813953488373,
+      "precision_macro": 0.6412494104168184,
+      "recall_macro": 0.6998214462968037,
+      "f1_macro": 0.6625907158455859,
+      "precision_POSITIVE": 0.8880935337628251,
+      "recall_POSITIVE": 0.7534412955465587,
+      "f1_POSITIVE": 0.8152447705618223,
+      "support_POSITIVE": 4940,
+      "precision_NEGATIVE": 0.5554760200429492,
+      "recall_NEGATIVE": 0.7191844300278035,
+      "f1_NEGATIVE": 0.6268174474959612,
+      "support_NEGATIVE": 1079,
+      "precision_MIXED": 0.4466313398940197,
+      "recall_MIXED": 0.6296691568836713,
+      "f1_MIXED": 0.5225863596102746,
+      "support_MIXED": 937,
+      "precision_UNKNOWN": 0.6747967479674797,
+      "recall_UNKNOWN": 0.6969909027291813,
+      "f1_UNKNOWN": 0.6857142857142857,
+      "support_UNKNOWN": 1429
+    }
+  },
+  "confusion_matrices": {
+    "sentiment": [
+      [
+        3722,
+        368,
+        495,
+        355
+      ],
+      [
+        126,
+        776,
+        121,
+        56
+      ],
+      [
+        151,
+        127,
+        590,
+        69
+      ],
+      [
+        192,
+        126,
+        115,
+        996
+      ]
+    ]
+  },
+  "encoder_finetune_layers": 12,
+  "encoder_finetune_layers_source": "backfilled: SentenceLevelTransformer(freeze_encoder=False) default; all 12 XLM-R layers trainable"
+}

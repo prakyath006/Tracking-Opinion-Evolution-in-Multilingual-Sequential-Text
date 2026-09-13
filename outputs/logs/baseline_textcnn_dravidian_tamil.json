@@ -1,0 +1,116 @@
+{
+  "baseline": "textcnn",
+  "run_id": "dravidian_tamil",
+  "training_log": [
+    {
+      "epoch": 1,
+      "train_loss": 1.4161236511417694,
+      "val_loss": 1.3754692814732326,
+      "val_f1_macro": 0.2932019720355329,
+      "time_seconds": 17.490976572036743
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.3799371803708846,
+      "val_loss": 1.361913625065607,
+      "val_f1_macro": 0.29604607469838284,
+      "time_seconds": 17.35900115966797
+    },
+    {
+      "epoch": 3,
+      "train_loss": 1.3652707412930354,
+      "val_loss": 1.3368368722100294,
+      "val_f1_macro": 0.3293373744951671,
+      "time_seconds": 17.493010759353638
+    },
+    {
+      "epoch": 4,
+      "train_loss": 1.3483946423345305,
+      "val_loss": 1.3118171769244071,
+      "val_f1_macro": 0.35088534231838736,
+      "time_seconds": 17.418058156967163
+    },
+    {
+      "epoch": 5,
+      "train_loss": 1.3325448753887403,
+      "val_loss": 1.294978273506383,
+      "val_f1_macro": 0.34341126924800436,
+      "time_seconds": 17.401838541030884
+    },
+    {
+      "epoch": 6,
+      "train_loss": 1.3193048646357406,
+      "val_loss": 1.2815928915302262,
+      "val_f1_macro": 0.3618404906950847,
+      "time_seconds": 17.420710802078247
+    },
+    {
+      "epoch": 7,
+      "train_loss": 1.3106902982072108,
+      "val_loss": 1.274937511059164,
+      "val_f1_macro": 0.35320253643008276,
+      "time_seconds": 17.08884072303772
+    },
+    {
+      "epoch": 8,
+      "train_loss": 1.3015893297936532,
+      "val_loss": 1.2647422944543927,
+      "val_f1_macro": 0.3613092350578181,
+      "time_seconds": 17.05085277557373
+    }
+  ],
+  "test": {
+    "sentiment": {
+      "accuracy": 0.40322003577817533,
+      "precision_macro": 0.39726867743967664,
+      "recall_macro": 0.40798292927966223,
+      "f1_macro": 0.3513938619631498,
+      "precision_POSITIVE": 0.8585726718885988,
+      "recall_POSITIVE": 0.39939271255060727,
+      "f1_POSITIVE": 0.5451782260292899,
+      "support_POSITIVE": 4940,
+      "precision_NEGATIVE": 0.23306055646481177,
+      "recall_NEGATIVE": 0.659870250231696,
+      "f1_NEGATIVE": 0.34446057087566523,
+      "support_NEGATIVE": 1079,
+      "precision_MIXED": 0.1320113314447592,
+      "recall_MIXED": 0.2486659551760939,
+      "f1_MIXED": 0.17246484085862324,
+      "support_MIXED": 937,
+      "precision_UNKNOWN": 0.3654301499605367,
+      "recall_UNKNOWN": 0.32400279916025193,
+      "f1_UNKNOWN": 0.3434718100890208,
+      "support_UNKNOWN": 1429
+    }
+  },
+  "confusion_matrices": {
+    "sentiment": [
+      [
+        1973,
+        1295,
+        1061,
+        611
+      ],
+      [
+        70,
+        712,
+        191,
+        106
+      ],
+      [
+        133,
+        484,
+        233,
+        87
+      ],
+      [
+        122,
+        564,
+        280,
+        463
+      ]
+    ]
+  },
+  "encoder_finetune_layers": null,
+  "encoder_finetune_layers_source": "backfilled: no transformer encoder; metric not applicable"
+}

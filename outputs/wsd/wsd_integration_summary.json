@@ -1,0 +1,47 @@
+{
+  "tamil": {
+    "total_rows": 33531,
+    "rows_with_aspects": 10679,
+    "coverage_pct": 31.85,
+    "aspect_distribution": {
+      "none": 22852,
+      "fan_stardom": 4117,
+      "trailer_teaser": 2950,
+      "music_bgm": 1370,
+      "hero_character": 726,
+      "box_office_collection": 663,
+      "dialogue": 517,
+      "story_screenplay": 336
+    }
+  },
+  "malayalam": {
+    "total_rows": 14514,
+    "rows_with_aspects": 4087,
+    "coverage_pct": 28.16,
+    "aspect_distribution": {
+      "none": 10427,
+      "trailer_teaser": 1250,
+      "fan_stardom": 1018,
+      "music_bgm": 849,
+      "hero_character": 382,
+      "box_office_collection": 271,
+      "dialogue": 196,
+      "story_screenplay": 121
+    }
+  },
+  "kannada": {
+    "total_rows": 5218,
+    "rows_with_aspects": 957,
+    "coverage_pct": 18.34,
+    "aspect_distribution": {
+      "none": 4261,
+      "music_bgm": 493,
+      "fan_stardom": 188,
+      "story_screenplay": 85,
+      "hero_character": 77,
+      "box_office_collection": 55,
+      "trailer_teaser": 39,
+      "dialogue": 20
+    }
+  }
+}
