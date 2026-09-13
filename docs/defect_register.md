@@ -117,13 +117,20 @@ capacity.
 Committed but never executed, so Module 2 had no measured numbers and
 `module2_wsd_planned.md` still claimed "NOT BUILT". Both now run.
 
-### D10. Modules 1, 3, 4 and 5 metric scripts were never run — PARTIALLY FIXED
+### D10. Modules 1, 3, 4 and 5 metric scripts were never run — FIXED
 `ontology_eval.py`, `mlm_perplexity_eval.py`, `confidence_eval.py` and
 `fuzzy_domain_score.py` all had `__main__` entry points and declared output
 paths, none of which existed.
 
 - Module 1 → `outputs/metrics/module1_ontology.md` + `outputs/ontology_evaluation_report.md` — **done**
-- Modules 3, 4, 5 — **running locally on CPU**; slow but not blocked.
+- Module 3 → `outputs/metrics/module3_bert_perplexity.md` — **done**
+- Module 4 → `outputs/metrics/module4_sequential_model_{amazon,dravidian_tamil}.md` — **done**
+- Module 5 → `outputs/metrics/module5_cross_domain.md` — **done** (2026-09-13, commit `aa249fa`; see O4 below)
+
+*Updated 2026-09-13: this row previously said Modules 3/4/5 were "running
+locally on CPU; slow but not blocked" — all three had in fact finished and
+their reports were sitting in `outputs/metrics/` already. Corrected against
+the real files, not assumed.*
 
 ### D11. `ontology_eval.py`'s full report was unreachable — FIXED
 `generate_ontology_eval_report()` existed but `__main__` only called
@@ -172,40 +179,47 @@ file, the two code paths are mathematically guaranteed to produce an
 identical number. This rules out a genuine calculation difference between the
 two SCS implementations — there is only one implementation.
 
-**What could not be checked:** neither `outputs/logs/training_log_amazon.json`
-nor `outputs/logs/test_results_amazon.json` nor any checkpoint exists in this
-repository (`outputs/checkpoints/`, `outputs/logs/` are gitignored — only
-`outputs/metrics/*.md` is committed), and the 0.5893 figure does not appear in
-any committed file. There is no artifact left to diff against, so the exact
-originating run for 0.5893 cannot be inspected.
+**Update, 2026-09-13:** `outputs/logs/training_log_amazon.json` and
+`outputs/logs/test_results_amazon.json` are now tracked (commit `b75fab1`),
+so this could be re-checked against the real artifacts rather than reasoned
+about in their absence.
 
-**Most likely explanation, given the above:** `train.py`'s log reflects
-whatever checkpoint and dataloader state existed *at the moment that specific
-training run finished*. `best_model_amazon.pt` is overwritten on every
-training run, and this project underwent training-affecting fixes between the
-initial Amazon run and the 2026-09-04 audit (D2/D3 — gradients were silently
-disabled for any non-frozen encoder path; D13 — capacity/trainable-param
-bookkeeping added). If the Amazon model was retrained after any such fix and
-`confidence_eval.py` was then run against that *later* checkpoint, the two
-numbers describe two different trained models, not two different
-calculations of the same model. A second plausible (but unverified, since the
-raw data snapshot isn't retained either) cause is that
-`data/preprocessed/amazon_beauty_sequences.csv` was regenerated between the
-two runs, which would change `n_total` and therefore the seeded split even
-with `random_seed=42` fixed.
+`test_results_amazon.json` records `scs_mean: 0.5635779...` — matches the
+Module 4 report's 0.5636 to four decimal places, confirming that figure is
+exactly this file's test-set SCS, not a re-derived or rounded number.
 
-**Which number is correct:** treat **0.5636** (the Module 4 report, and the
-figure the README cites) as current ground truth. It is the number that was
-actually regenerated against, and is traceable to, the present codebase after
-all 13 closed defects — 0.5893 is not reproducible from anything in this
-repository and should not be cited going forward. This is not a fixed defect
-(no bug was found in either code path) — it is recorded here because the
-discrepancy itself, and the reason it can't be fully resolved, is worth
-knowing: **the project does not retain raw training logs/checkpoints in
-version control, so a claim like "training reported X" can never be verified
-after the fact.** Committing `outputs/logs/*.json` alongside the checkpoints
-(even if the `.pt` files stay gitignored for size) would prevent this class of
-unverifiable discrepancy in the future.
+`training_log_amazon.json` is a 10-epoch list of `val_scs` (validation-set
+SCS logged after each epoch, not test-set SCS). Its values range 0.5424–0.6196
+across epochs, and epoch 10 (the last one, and the one `train.py`'s console
+would have printed right before loading the best checkpoint for final test
+evaluation) is **0.5885** — close to the reported 0.5893, but not an exact
+match, and no `val_scs_std` is logged per epoch at all, so the paired "std
+0.3517" cannot be matched against this file either (`test_results_amazon.json`'s
+own `scs_std` is 0.3383, also not 0.3517). No exact 0.5893/0.3517 pairing
+exists anywhere in the now-tracked logs.
+
+**Most likely explanation, updated:** 0.5893 is very likely the **last
+epoch's validation SCS** (0.5885, off by 0.0008 — plausibly a transcription
+or rounding slip when the figure was quoted from console output rather than
+read back from a saved file) misremembered or mislabeled as the **test** SCS,
+rather than evidence of two different trained models or a stale checkpoint as
+originally hypothesized. Validation SCS and test SCS are computed by the same
+function over different data splits (val vs. test), so they are expected to
+differ — this alone fully explains a gap of this size without needing to
+invoke a retrain or a changed dataset.
+
+**Which number is correct:** treat **0.5636** (`test_results_amazon.json`,
+the Module 4 report, and the figure the README cites) as ground truth for
+"Amazon test-set SCS." 0.5893 is real (or very close to real) but describes
+validation-epoch-10 SCS, a different quantity, and should not be cited as the
+test SCS. This is not a fixed defect (no bug was found in either code path) —
+it is recorded here because the discrepancy was a val/test mismatch that
+using the now-tracked logs could confirm directly.
+
+The original recommendation to commit `outputs/logs/*.json` (made when this
+section was first written, before those files were tracked) has since been
+acted on — see commit `b75fab1` — which is exactly what made this update
+possible.
 
 ---
 
@@ -214,20 +228,21 @@ unverifiable discrepancy in the future.
 | # | Item | Status |
 |---|---|---|
 | O1 | Re-run 4 baselines at matched capacity (closes D1) | **DONE** (2026-09-05, commit `b3b4f98`) — see D1 above |
-| O2 | WSD sense-disambiguation **accuracy** | Still open — 33-sample human-review set needs annotating; no gold labels exist |
+| O2 | WSD sense-disambiguation **accuracy** | Still open — no gold labels exist yet, so no accuracy figure can be computed. The 33-sample human-review set (`outputs/metrics/module2_wsd_results.json`'s `sample_annotations`, 45 word-level annotations) is now exported to `outputs/wsd_human_annotation_sample.csv` (2026-09-13) with empty `correct_sense`/`is_correct` columns, ready for a team member to fill in by hand. **Do not mark this closed until that file comes back annotated and an accuracy number is computed from it** — exporting the sample is not the same as measuring accuracy. |
 | O3 | LLM-based baseline (listed as a panel requirement) | Still open — not coded; needs a model choice, and a GPU or API access to actually run it |
-| O4 | Module 5 report (cross-domain fuzzy typicality) | Still open — `generate_module5_report()` now wired into `__main__` (2026-09-13) but its inputs (`outputs/cross_domain/*.json`, `outputs/fuzzy_domain_scores.csv`) require re-embedding through a trained checkpoint on GPU; see `outputs/metrics/module5_cross_domain.md` for the honest "Pending" report and exact commands to close it. Modules 1/3/4 reports are done (see their files in `outputs/metrics/`). |
+| O4 | Module 5 report (cross-domain fuzzy typicality) | **DONE** (2026-09-13, commit `aa249fa`) — `outputs/cross_domain/cross_domain_results_tamil.json` and `outputs/fuzzy_domain_scores.csv` were generated on GPU and tracked (commit `b75fab1`), then `generate_module5_report()` ran against them for real. `outputs/metrics/module5_cross_domain.md` now reports in-domain vs. cross-domain F1 and % degradation for all 8 setups, F1 stability ratios per head, and fuzzy typicality scores per domain — no "Pending" sections remain. All of Modules 1/3/4/5/6 are done. |
 | O5 | `README.md` describes only the August preprocessing stage | **DONE** — rewritten 2026-09-12 (commit `201f1e5`) |
 
-Note on how O1 stayed misreported for over a week: the fix landed in
-`outputs/metrics/*.md` on 2026-09-05, but nothing updated this table or
-`docs/capacity_matched_comparison.md`'s "Re-run needed" section to say so —
-both kept describing it as pending until this 2026-09-13 audit re-verified
-every claim in this file against the actual committed output files rather
-than trusting the table. Worth remembering: this register is not
-self-updating: check it against `outputs/metrics/*.json`/`.md` before citing
-a status from it, the same way this document already asks of everything
-else.
+Note on how O1 *and* O4 stayed misreported after the underlying work was
+already done: O1's fix landed on 2026-09-05 but this table still said
+"pending" until a 2026-09-13 pass diffed the actual commit history. O4 landed
+on 2026-09-13 (commit `aa249fa`) but this table still said "Still open" in
+the very next commit that same day, because updating the register isn't part
+of what closing a module does automatically. Same root cause both times: this
+register is not self-updating. Check it against `outputs/metrics/*.json`/`.md`
+(and, now that they're tracked, `outputs/logs/`, `outputs/cross_domain/`)
+before citing a status from it, the same way this document already asks of
+everything else.
 
 One known inconsistency, documented rather than fixed:
 `WordSenseDisambiguator.get_coverage_stats()` looks up single tokens directly,
@@ -243,6 +258,19 @@ resolution counts are unaffected.
 re-run, verified 2026-09-13 against git history — see D1 above). All 31
 ontology consistency tests pass.
 
-The two that would most have hurt at a review: **D1**, which made the headline
-comparison say a plain baseline beat the proposed model, and **D7**, which
-claimed pretrained embeddings the CNN baseline never used.
+Module status as of 2026-09-13: **Modules 1, 2 (except accuracy), 3, 4, 5, 6
+are all complete**, each with a real, populated report in `outputs/metrics/`.
+The one number still missing project-wide is Module 2's WSD sense
+**accuracy** (O2) — the sample is now ready for human annotation
+(`outputs/wsd_human_annotation_sample.csv`), but no one has filled it in yet,
+so accuracy stays unmeasured until they do. O3 (LLM-based baseline) remains
+uncoded, blocked on GPU/API access.
+
+The two defects that would most have hurt at a review: **D1**, which made the
+headline comparison say a plain baseline beat the proposed model, and **D7**,
+which claimed pretrained embeddings the CNN baseline never used. The one
+process lesson worth carrying forward: **O1 and O4 both sat "closed in the
+data but open in this document" for a week or more** — closing a module in
+the actual output files and updating this register are two different steps,
+and only re-checking this file against `outputs/` directly (not against its
+own prior claims) caught the drift both times.
