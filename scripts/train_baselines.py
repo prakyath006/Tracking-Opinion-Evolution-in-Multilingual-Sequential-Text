@@ -11,11 +11,13 @@ Baselines fall into two groups by what they consume:
   Group A -- single-review classifiers (no sequence modeling at all):
     mbert_sentence, xlmr_sentence  -- SentenceLevelTransformer
     textcnn                        -- TextCNN
+    llm_prompt                     -- LLMPromptClassifier (flan-t5-base, prompted
+                                       text-to-text; see src/baselines.py docstring)
     Trained on flattened (single review text, sentiment label) pairs, the
     sentiment task only. This is deliberate, not a shortcut: these baselines
     exist specifically to show what sequential modeling buys you, so they
     are evaluated on the *same* sentiment task the full model's sentiment
-    head performs, with no sequence signal available to either baseline.
+    head performs, with no sequence signal available to any of them.
 
   Group B -- ablation variants (sequence-aware, minus one component):
     lstm_only       -- Bi-LSTM but no attention (final hidden state instead)
@@ -73,7 +75,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-GROUP_A = {"mbert_sentence", "xlmr_sentence", "textcnn"}
+GROUP_A = {"mbert_sentence", "xlmr_sentence", "textcnn", "llm_prompt"}
 GROUP_B = {"lstm_only", "attention_only"}
 
 
@@ -148,6 +150,17 @@ def train_group_a(
 
         def encode(texts):
             return {"input_ids": encode_for_textcnn(texts, vocab)}
+    elif baseline_name == "llm_prompt":
+        # No shared MultilingualTokenizer here -- LLMPromptClassifier wraps
+        # each text in its own prompt template and tokenizes that itself
+        # (src/baselines.py), so raw text is passed straight through.
+        model = get_baseline_model(
+            "llm_prompt", num_classes=num_classes, use_cuda=not args.no_cuda,
+            finetune_layers=args.encoder_finetune_layers,
+        )
+
+        def encode(texts):
+            return {"texts": texts}
     else:
         model_name = BASELINE_REGISTRY[baseline_name]["default_args"]["model_name"]
         tokenizer = MultilingualTokenizer(model_name)

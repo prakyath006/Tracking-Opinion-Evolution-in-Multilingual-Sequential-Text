@@ -2,18 +2,24 @@
 =============================================================================
 Baseline Models for Comparison
 =============================================================================
-Implements 4 baseline models to compare against the full Opinion Evolution
+Implements 6 baseline models to compare against the full Opinion Evolution
 Tracker (mBERT + Bi-LSTM + Attention + Multi-task):
 
   Baseline 1: mBERT Sentence-Level     — Fine-tuned mBERT, each review independently
   Baseline 2: XLM-R Sentence-Level     — Fine-tuned XLM-R, each review independently
   Baseline 3: LSTM-only (no attention)  — mBERT + LSTM without attention mechanism
-  Baseline 4: TextCNN                   — CNN-based text classifier with pretrained embeddings
+  Baseline 4: Attention-only (no LSTM)  — mBERT + attention without recurrence
+  Baseline 5: TextCNN                   — CNN-based text classifier, embeddings learned from scratch
+  Baseline 6: LLM Prompt (flan-t5-base) — instruction-tuned LLM prompted to generate a sentiment label,
+                                           no added classification head (see LLMPromptClassifier)
 
 These baselines demonstrate the value of each component:
   - Baselines 1,2 show why sequential modeling (LSTM) matters
   - Baseline 3 shows why attention matters
-  - Baseline 4 shows why pretrained transformers matter
+  - Baseline 5 shows why pretrained transformers matter
+  - Baseline 6 shows how a general-purpose instruction-tuned LLM, prompted
+    rather than trained with a task-specific head, compares to models built
+    specifically for this task
 
 Author : Opinion Evolution Tracking Project
 Date   : 2026
@@ -473,6 +479,170 @@ class AttentionOnlyModel(nn.Module):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# Baseline 6: LLM-based prompted text-to-text classification
+# ──────────────────────────────────────────────────────────────────────────────
+
+class LLMPromptClassifier(nn.Module):
+    """
+    Baseline 6: an instruction-tuned encoder-decoder LLM (flan-t5-base by
+    default), prompted to generate a sentiment label from the ontology's
+    vocabulary, rather than trained with an added nn.Linear classification
+    head the way every other baseline in this file is.
+
+    Two prediction paths, both real, used for different purposes:
+      - `forward()` scores each of the 4 candidate label strings by their
+        teacher-forced conditional log-likelihood under the decoder (a
+        standard rank-classification technique for text-to-text models --
+        see e.g. how T0/FLAN evaluation harnesses score multiple-choice
+        answers) and returns a [batch, num_classes] tensor of those scores
+        as "logits". This is what train_baselines.py's shared train/eval
+        loop calls, because it needs a fixed-size, differentiable,
+        argmax-able tensor to compute cross-entropy loss and predictions
+        exactly like every other baseline. Argmax over these scores is what
+        greedy `.generate()` would produce for a vocabulary this
+        well-separated (each label is a distinct first generated token).
+      - `generate_and_parse()` runs real, unconstrained `.generate()` and
+        parses the produced text back into a class id by substring match
+        against LABEL_VOCAB, falling back to UNKNOWN if nothing matches.
+        This is the literal "generate then parse" path; it is not used by
+        the shared training loop (which needs a differentiable tensor,
+        and `.generate()` is not differentiable) but is the reported
+        prediction path for qualitative spot checks.
+
+    Capacity discipline (mirrors SentenceLevelTransformer / D1's fix, see
+    docs/defect_register.md): every encoder and decoder transformer block is
+    frozen by default, with only the top `finetune_layers` blocks of each
+    unfrozen. Unlike every other baseline, this model has no separate
+    classification head at all -- at `finetune_layers=0` (the matched-capacity
+    default every other baseline is evaluated at) there would be nothing
+    trainable and no gradient path at all, so a small per-class calibration
+    bias (`class_bias`, exactly `num_classes` parameters) is always
+    trainable, added to the scores before they're returned. This is a real,
+    known technique (contextual/prior calibration for prompted
+    classifiers), not a disguised classification head -- it cannot represent
+    anything input-dependent, only a fixed per-class offset. At
+    `finetune_layers=0` this baseline is therefore effectively a zero-shot
+    evaluation of the base LLM plus a 4-parameter calibration term, which is
+    the honest characterization to report, not "fine-tuned" like the other
+    baselines at higher finetune_layers settings.
+    """
+
+    LABEL_VOCAB = ["POSITIVE", "NEGATIVE", "MIXED", "UNKNOWN"]  # index i must equal SentimentState(i).name
+
+    PROMPT_TEMPLATE = (
+        "Classify the sentiment of this review or comment. "
+        "Answer with exactly one word: POSITIVE, NEGATIVE, MIXED, or UNKNOWN.\n"
+        "Text: {text}\nSentiment:"
+    )
+
+    def __init__(
+        self,
+        model_name: str = "google/flan-t5-base",
+        num_classes: int = 4,
+        finetune_layers: int = 0,
+        use_cuda: bool = True,
+    ):
+        super().__init__()
+        if num_classes != len(self.LABEL_VOCAB):
+            raise ValueError(
+                f"LLMPromptClassifier's LABEL_VOCAB has {len(self.LABEL_VOCAB)} "
+                f"entries; num_classes={num_classes} must match SentimentState.num_classes()"
+            )
+        from transformers import T5ForConditionalGeneration, AutoTokenizer
+
+        self.device = torch.device(
+            "cuda" if (use_cuda and torch.cuda.is_available()) else "cpu"
+        )
+        self.model = T5ForConditionalGeneration.from_pretrained(model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+        # Freeze everything, then unfreeze the top `finetune_layers` encoder
+        # AND decoder blocks -- mirrors SentenceLevelTransformer.finetune_layers.
+        for param in self.model.parameters():
+            param.requires_grad = False
+        self.finetune_layers = finetune_layers
+        if finetune_layers > 0:
+            for blocks in (self.model.encoder.block, self.model.decoder.block):
+                total = len(blocks)
+                unfreeze_from = max(0, total - finetune_layers)
+                for i in range(unfreeze_from, total):
+                    for p in blocks[i].parameters():
+                        p.requires_grad = True
+            logger.info(
+                f"LLMPromptClassifier: fine-tuning top {finetune_layers} "
+                f"encoder+decoder blocks"
+            )
+        else:
+            logger.info("LLMPromptClassifier: encoder and decoder fully frozen (zero-shot + calibration only)")
+
+        # Always-trainable per-class calibration bias -- see class docstring.
+        # This is what makes training possible at finetune_layers=0 without
+        # a disguised classification head.
+        self.class_bias = nn.Parameter(torch.zeros(len(self.LABEL_VOCAB)))
+
+        # Pre-tokenize each label's target token sequence once (fixed, tiny).
+        self._label_token_ids = [
+            self.tokenizer(label, return_tensors="pt").input_ids
+            for label in self.LABEL_VOCAB
+        ]
+
+        self.to(self.device)
+        self._label_token_ids = [t.to(self.device) for t in self._label_token_ids]
+        trainable = sum(p.numel() for p in self.parameters() if p.requires_grad)
+        logger.info(
+            f"LLMPromptClassifier ({model_name}): {trainable:,} trainable params "
+            f"(finetune_layers={finetune_layers})"
+        )
+
+    def _prompts(self, texts: List[str]) -> List[str]:
+        return [self.PROMPT_TEMPLATE.format(text=t) for t in texts]
+
+    def forward(self, texts: List[str], **kwargs) -> torch.Tensor:
+        """
+        Returns [batch, num_classes] label-likelihood scores (see class
+        docstring for why this is the reported "logits" tensor rather than
+        raw .generate() output).
+        """
+        prompts = self._prompts(texts)
+        enc = self.tokenizer(
+            prompts, return_tensors="pt", padding=True, truncation=True, max_length=256
+        ).to(self.device)
+
+        batch_size = len(texts)
+        scores = torch.zeros(batch_size, len(self.LABEL_VOCAB), device=self.device)
+        for c, label_ids in enumerate(self._label_token_ids):
+            decoder_labels = label_ids.repeat(batch_size, 1)
+            out = self.model(
+                input_ids=enc["input_ids"], attention_mask=enc["attention_mask"],
+                labels=decoder_labels,
+            )
+            log_probs = torch.log_softmax(out.logits, dim=-1)  # [batch, tgt_len, vocab]
+            token_ll = log_probs.gather(-1, decoder_labels.unsqueeze(-1)).squeeze(-1)  # [batch, tgt_len]
+            scores[:, c] = token_ll.sum(dim=-1)  # higher (less negative) = more likely
+
+        return scores + self.class_bias
+
+    @torch.no_grad()
+    def generate_and_parse(self, texts: List[str], max_new_tokens: int = 8):
+        """Real generation path: .generate() then parse text back to a class id."""
+        was_training = self.training
+        self.eval()
+        prompts = self._prompts(texts)
+        enc = self.tokenizer(
+            prompts, return_tensors="pt", padding=True, truncation=True, max_length=256
+        ).to(self.device)
+        out_ids = self.model.generate(**enc, max_new_tokens=max_new_tokens)
+        generated = self.tokenizer.batch_decode(out_ids, skip_special_tokens=True)
+        preds = []
+        for text in generated:
+            text_upper = text.strip().upper()
+            match = next((i for i, lbl in enumerate(self.LABEL_VOCAB) if lbl in text_upper), None)
+            preds.append(match if match is not None else self.LABEL_VOCAB.index("UNKNOWN"))
+        self.train(was_training)
+        return preds, generated
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # Baseline Comparison Summary
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -501,6 +671,11 @@ BASELINE_REGISTRY = {
         "class": TextCNN,
         "default_args": {},
         "description": "TextCNN with word embeddings (no transformers, no LSTM)",
+    },
+    "llm_prompt": {
+        "class": LLMPromptClassifier,
+        "default_args": {"model_name": "google/flan-t5-base"},
+        "description": "flan-t5-base prompted to generate a sentiment label (text-to-text, no added classification head)",
     },
 }
 
