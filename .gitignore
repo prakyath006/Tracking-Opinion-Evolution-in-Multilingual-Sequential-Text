@@ -18,6 +18,7 @@ outputs/checkpoints/
 *.md
 !README.md
 !docs/**/*.md
+!web_demo/*.md
 *.json
 !ontology/**/*.json
 
