@@ -4,12 +4,12 @@
 
 | Model | Encoder Architecture | Vocabulary | MLM Perplexity Applicability |
 | :--- | :--- | :--- | :--- |
-| **Full Model (OET)** | `bert-base-multilingual-cased` (top-3 adapted) | 119,547 (WordPiece) | **Applicable** (mBERT backbone) |
-| **mBERT Sentence** | `bert-base-multilingual-cased` (frozen/fine-tuned) | 119,547 (WordPiece) | **Applicable** (direct baseline) |
-| **XLM-R Sentence** | `xlm-roberta-base` | 250,002 (BPE) | **Applicable** (high-capacity benchmark) |
+| **Full Model (OET)** | `bert-base-multilingual-cased` (frozen -- 0 trainable encoder layers; only Bi-LSTM + Attention + heads train, 3,093,003 params) | 119,547 (WordPiece) | **Applicable** (mBERT backbone) |
+| **mBERT Sentence** | `bert-base-multilingual-cased` (all 12 layers trainable in the 2026-09-04 run; re-run pending at matched 0-layer capacity, see `docs/capacity_matched_comparison.md`) | 119,547 (WordPiece) | **Applicable** (direct baseline) |
+| **XLM-R Sentence** | `xlm-roberta-base` (all 12 layers trainable in the 2026-09-04 run; re-run pending at matched 0-layer capacity, see `docs/capacity_matched_comparison.md`) | 250,002 (BPE) | **Applicable** (high-capacity benchmark) |
 | **LSTM-Only** | `bert-base-multilingual-cased` | 119,547 (WordPiece) | **Applicable** (identical encoder) |
 | **Attention-Only** | `bert-base-multilingual-cased` | 119,547 (WordPiece) | **Applicable** (identical encoder) |
-| **TextCNN** | Static Word Embeddings (GloVe / FastText 300d) | Corpus-derived | **N/A** (no masked language model) |
+| **TextCNN** | Randomly-initialised `nn.Embedding` (300d), learned from scratch -- no pretrained vectors | <=20,000 whitespace tokens (corpus-derived) | **N/A** (no masked language model) |
 
 ---
 

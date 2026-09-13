@@ -133,6 +133,62 @@ models of differing capacity without flagging it.
 
 ---
 
+## Investigated — Amazon SCS discrepancy (train.py log vs Module 4 report)
+
+A panel review flagged that `train.py`'s own end-of-training console log for
+the Amazon run reported **SCS = 0.5893 (std 0.3517)**, while the committed
+Module 4 report (`outputs/metrics/module4_sequential_model_amazon.md`, via
+`src/confidence_eval.py`) reports **SCS = 0.5636**.
+
+**What was checked:** `train.py` (`test_results["scs"]`, line ~458) and
+`confidence_eval.py` (line ~412) both call the *same* function,
+`sequence_consistency_score()` in `src/evaluation.py` — a pure, deterministic
+function of the model's predicted label sequences (mean/std of per-sequence
+flip counts; order-independent). Both load the checkpoint from the same path
+convention (`outputs/checkpoints/best_model_amazon.pt`) and both evaluate the
+`test` split of `get_amazon_dataloader()`, which uses a fixed `random_seed=42`
+train/val/test permutation — so for a *fixed* checkpoint and a *fixed* data
+file, the two code paths are mathematically guaranteed to produce an
+identical number. This rules out a genuine calculation difference between the
+two SCS implementations — there is only one implementation.
+
+**What could not be checked:** neither `outputs/logs/training_log_amazon.json`
+nor `outputs/logs/test_results_amazon.json` nor any checkpoint exists in this
+repository (`outputs/checkpoints/`, `outputs/logs/` are gitignored — only
+`outputs/metrics/*.md` is committed), and the 0.5893 figure does not appear in
+any committed file. There is no artifact left to diff against, so the exact
+originating run for 0.5893 cannot be inspected.
+
+**Most likely explanation, given the above:** `train.py`'s log reflects
+whatever checkpoint and dataloader state existed *at the moment that specific
+training run finished*. `best_model_amazon.pt` is overwritten on every
+training run, and this project underwent training-affecting fixes between the
+initial Amazon run and the 2026-09-04 audit (D2/D3 — gradients were silently
+disabled for any non-frozen encoder path; D13 — capacity/trainable-param
+bookkeeping added). If the Amazon model was retrained after any such fix and
+`confidence_eval.py` was then run against that *later* checkpoint, the two
+numbers describe two different trained models, not two different
+calculations of the same model. A second plausible (but unverified, since the
+raw data snapshot isn't retained either) cause is that
+`data/preprocessed/amazon_beauty_sequences.csv` was regenerated between the
+two runs, which would change `n_total` and therefore the seeded split even
+with `random_seed=42` fixed.
+
+**Which number is correct:** treat **0.5636** (the Module 4 report, and the
+figure the README cites) as current ground truth. It is the number that was
+actually regenerated against, and is traceable to, the present codebase after
+all 13 closed defects — 0.5893 is not reproducible from anything in this
+repository and should not be cited going forward. This is not a fixed defect
+(no bug was found in either code path) — it is recorded here because the
+discrepancy itself, and the reason it can't be fully resolved, is worth
+knowing: **the project does not retain raw training logs/checkpoints in
+version control, so a claim like "training reported X" can never be verified
+after the fact.** Committing `outputs/logs/*.json` alongside the checkpoints
+(even if the `.pt` files stay gitignored for size) would prevent this class of
+unverifiable discrepancy in the future.
+
+---
+
 ## Still open — not defects, but outstanding work
 
 | # | Item | Blocked on |
