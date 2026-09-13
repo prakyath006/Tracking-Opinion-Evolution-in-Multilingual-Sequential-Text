@@ -74,17 +74,17 @@
           "notes": "Captures subwords for Dravidian code-mixed scripts; perplexity evaluated via MLM evaluation head."
         },
         "mBERT Sentence": {
-          "encoder_type": "bert-base-multilingual-cased (all 12 layers trainable in the 2026-09-04 run; set --encoder_finetune_layers to match the full model)",
+          "encoder_type": "bert-base-multilingual-cased (0 layers trainable -- re-run 2026-09-05 at matched capacity, see docs/capacity_matched_comparison.md; superseded the original 2026-09-04 run's all-12-layers-trainable configuration)",
           "mlm_perplexity_applicability": "Applicable (identical encoder backbone)",
           "vocab_size": "119,547 tokens",
-          "params": "~110M (encoder only)",
+          "params": "177,853,440 frozen encoder; 198,404 trainable (linear classifier head only, outputs/logs/baseline_mbert_sentence_amazon.json)",
           "notes": "Serves as direct comparison for mBERT encoder representation without sequence modeling."
         },
         "XLM-R Sentence": {
-          "encoder_type": "xlm-roberta-base (SentencePiece 100-language model)",
+          "encoder_type": "xlm-roberta-base (SentencePiece 100-language model; 0 layers trainable -- re-run 2026-09-05 at matched capacity, see docs/capacity_matched_comparison.md)",
           "mlm_perplexity_applicability": "Applicable (XLM-R backbone)",
           "vocab_size": "250,002 tokens (BPE multilingual)",
-          "params": "~278M total",
+          "params": "~278M total encoder (frozen); 198,404 trainable (linear classifier head only, outputs/logs/baseline_xlmr_sentence_amazon.json)",
           "notes": "Larger vocabulary and higher capacity for Dravidian scripts; compared via src/mlm_perplexity_eval.py."
         },
         "LSTM-Only (Ablation)": {
