@@ -18,15 +18,15 @@ contradicted the project's real measurements (56.75%, 0.5636, and ECE never
 computed at all). Anyone comparing the demo against the report would have
 concluded the results were fabricated. Do not reintroduce hardcoded metrics.
 
-Modules Covered:
-  - Overview: architecture and research contributions
-  - Module 1: Structural Ontology (live coverage computation)
-  - Module 2: Word Sense Disambiguation & Code-Mixing (live inference)
-  - Module 3: Multi-Domain Functional Layer
-  - Module 4: 5 Baselines & Model Comparison Matrix
-  - Module 5: Cross-Domain Transfer (Fuzzy Typicality)
-  - Module 6: Performance & Novel Metrics (SCS, ECE, Uncertainty)
-  - Interactive Playground: live trajectory prediction on arbitrary sequences
+Sections:
+  - Try it: live trajectory prediction on a real trained checkpoint (the hero)
+  - Overview: what the system does and why
+  - Taxonomy: the cross-domain ontology (live coverage computation)
+  - Aspects & code-mixing: word-sense disambiguation (live inference)
+  - Architecture: mBERT + Bi-LSTM + self-attention + multi-task heads
+  - Compare models: 5 baselines and an ablation, capacity-matched
+  - Cross-domain transfer: zero-shot generalization, fuzzy typicality
+  - Metrics & calibration: SCS, ECE, prediction uncertainty
 
 Run:
     streamlit run web_demo/app.py
@@ -147,12 +147,42 @@ def full_model_name() -> str:
     return "full_model (OpinionEvolutionTracker)"
 
 
+def state_kind(name: str) -> str:
+    """Map an ontology label to one of four fixed semantic colors, used
+    identically everywhere a state appears (chip, chart, table)."""
+    name = (name or "").upper()
+    if name in ("POSITIVE", "IMPROVING", "UPGRADE"):
+        return "positive"
+    if name in ("NEGATIVE", "DECLINING", "DOWNGRADE"):
+        return "negative"
+    if name in ("MIXED", "MIXED_FEELINGS", "VOLATILE"):
+        return "mixed"
+    return "neutral"  # STABLE, UNKNOWN and anything else
+
+
+def chip(name: str) -> str:
+    """Render one ontology state as a colored inline chip (HTML)."""
+    return f'<span class="chip chip-{state_kind(name)}">{name}</span>'
+
+
+def chip_row(items) -> str:
+    """A left-aligned strip of chips, for building small HTML tables."""
+    return " ".join(chip(i) for i in items)
+
+
 # =============================================================================
 # Page configuration and styling
+#
+# Color is the taxonomy, not decoration: the four fixed ontology states
+# (positive/negative/mixed/neutral) get one hue each, reused identically in
+# every chip, chart and table across the whole app -- see state_kind() above.
+# System messages (st.info/warning/error/success) keep Streamlit's own
+# semantics and are deliberately NOT recolored to match, so a reader never
+# confuses "the model predicted NEGATIVE" with "something went wrong".
 # =============================================================================
 
 st.set_page_config(
-    page_title="Opinion Evolution Tracker — Interactive Panel Demo",
+    page_title="Opinion Evolution Tracker",
     page_icon="🧭",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -161,72 +191,156 @@ st.set_page_config(
 st.markdown(
     """
 <style>
-    .main-header { font-size: 2.2rem; font-weight: 700; color: #1E3A8A; margin-bottom: 0.2rem; }
-    .sub-header  { font-size: 1.1rem; color: #4B5563; margin-bottom: 1.5rem; }
-    .stTabs [data-baseweb="tab-list"] { gap: 10px; }
-    .stTabs [data-baseweb="tab"] { padding-top: 10px; padding-bottom: 10px; font-weight: 600; }
+@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
+
+:root {
+    --ink: #0B1620;
+    --surface: #12212E;
+    --line: #223547;
+    --paper: #EDF3F6;
+    --mist: #8CA0B3;
+    --pulse: #48B58A;
+    --decline: #E1685C;
+    --caution: #D9A544;
+    --neutral: #7C8DA6;
+}
+
+html, body, [class*="css"] { font-family: 'IBM Plex Sans', sans-serif; }
+
+/* Headline treatment -- the display face carries the product's identity */
+.main-header {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 2.1rem;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.3rem;
+}
+.sub-header {
+    font-size: 1.02rem;
+    color: var(--mist);
+    max-width: 62ch;
+    line-height: 1.5;
+    margin-bottom: 1.6rem;
+}
+.wordmark {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--paper);
+    padding: 0.9rem 0 0.2rem 0;
+}
+.wordmark-strap { color: var(--mist); font-size: 0.85rem; margin-bottom: 0.6rem; }
+
+/* Sidebar as a quiet vertical index rather than a form control */
+[data-testid="stSidebar"] div[role="radiogroup"] label {
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    margin-bottom: 0.05rem;
+}
+[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
+    background: rgba(72, 181, 138, 0.08);
+}
+
+/* Numeric readouts get the monospace cut -- data, not decoration */
+[data-testid="stMetricValue"] { font-family: 'IBM Plex Mono', monospace; }
+
+/* Ontology-state chips -- the one place color carries meaning end to end */
+.chip {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.12rem 0.55rem;
+    border-radius: 4px;
+    border: 1px solid;
+    margin: 0.1rem 0.15rem 0.1rem 0;
+    white-space: nowrap;
+}
+.chip-positive { color: #A9E4CB; background: rgba(72, 181, 138, 0.14); border-color: rgba(72, 181, 138, 0.4); }
+.chip-negative { color: #F3B3AB; background: rgba(225, 104, 92, 0.14); border-color: rgba(225, 104, 92, 0.4); }
+.chip-mixed    { color: #EFD08C; background: rgba(217, 165, 68, 0.14); border-color: rgba(217, 165, 68, 0.4); }
+.chip-neutral  { color: #C3CEDA; background: rgba(124, 141, 166, 0.14); border-color: rgba(124, 141, 166, 0.4); }
+
+.chip-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.chip-table th {
+    text-align: left; color: var(--mist); font-weight: 500;
+    border-bottom: 1px solid var(--line); padding: 0.4rem 0.6rem;
+}
+.chip-table td {
+    border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem;
+    color: var(--paper); vertical-align: middle;
+}
+
+.stTabs [data-baseweb="tab-list"] { gap: 10px; }
+.stTabs [data-baseweb="tab"] { padding-top: 10px; padding-bottom: 10px; font-weight: 500; }
 </style>
 """,
     unsafe_allow_html=True,
 )
 
-st.sidebar.title("🧭 Navigation")
+st.sidebar.markdown('<div class="wordmark">Opinion Evolution Tracker</div>',
+                     unsafe_allow_html=True)
+st.sidebar.markdown('<div class="wordmark-strap">Follows how an opinion moves, review by review.</div>',
+                     unsafe_allow_html=True)
+
 page = st.sidebar.radio(
-    "Select Evaluation Module:",
+    "Section",
     [
-        "🏠 Executive Overview",
-        "📘 Module 1: Structural Ontology",
-        "🔍 Module 2: WSD & Code-Mixing",
-        "🧠 Module 3: Deep Neural Architecture",
-        "⚖️ Module 4: 5 Baselines & Comparison",
-        "🌐 Module 5: Cross-Domain Transfer",
-        "📊 Module 6: Performance & Novel Metrics",
-        "🎮 Live Interactive Playground",
+        "Try it",
+        "Overview",
+        "Taxonomy",
+        "Aspects & code-mixing",
+        "Architecture",
+        "Compare models",
+        "Cross-domain transfer",
+        "Metrics & calibration",
     ],
+    label_visibility="collapsed",
 )
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 📌 Project Metadata")
-st.sidebar.info(
-    """
-**Project:** Tracking Opinion Evolution in Multilingual Sequential Text
-**Architecture:** mBERT + Bi-LSTM + Self-Attention
-**Languages:** English, Tamil, Malayalam, Kannada
-**Domains:** E-Commerce (Amazon) & Social Media (YouTube)
-"""
+st.sidebar.caption(
+    "mBERT + Bi-LSTM + self-attention · English, Tamil, Malayalam, Kannada · "
+    "e-commerce and social media"
 )
 
 # Data freshness panel -- shows exactly which results are live and how old.
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 🗂️ Data Sources")
+st.sidebar.markdown("**Data behind this page**")
 SOURCES = [
     ("Results table", "metrics/results_table.json"),
-    ("Module 1 ontology", "metrics/module1_ontology.md"),
-    ("Module 2 WSD", "metrics/module2_wsd_results.json"),
-    ("Module 3 perplexity", "metrics/module3_bert_perplexity.md"),
-    ("Module 4 confidence", "metrics/module4_sequential_model_amazon.md"),
-    ("Module 4 confidence (tamil)", "metrics/module4_sequential_model_dravidian_tamil.md"),
-    ("Module 5 fuzzy scores", "fuzzy_domain_scores.csv"),
-    ("Cross-domain", "cross_domain/cross_domain_results_tamil.json"),
+    ("Taxonomy coverage", "metrics/module1_ontology.md"),
+    ("Aspect detection", "metrics/module2_wsd_results.json"),
+    ("Encoder perplexity", "metrics/module3_bert_perplexity.md"),
+    ("Calibration (amazon)", "metrics/module4_sequential_model_amazon.md"),
+    ("Calibration (tamil)", "metrics/module4_sequential_model_dravidian_tamil.md"),
+    ("Domain typicality", "fuzzy_domain_scores.csv"),
+    ("Cross-domain transfer", "cross_domain/cross_domain_results_tamil.json"),
 ]
 for label, rel in SOURCES:
     ts = _mtime(os.path.join(OUTPUTS, rel))
-    st.sidebar.caption(f"{'✅' if ts else '⬜'} {label} — {ts or 'not generated'}")
+    dot = '<span style="color:#48B58A">●</span>' if ts else '<span style="color:#5A6C7D">○</span>'
+    st.sidebar.markdown(
+        f'<span style="font-size:0.8rem;color:#8CA0B3">{dot} {label} — {ts or "not generated"}</span>',
+        unsafe_allow_html=True,
+    )
 
 if not BACKEND_AVAILABLE:
     st.sidebar.error(f"Backend import failed: {BACKEND_ERROR}")
 
 
 # =============================================================================
-# PAGE: Executive Overview
+# PAGE: Overview
 # =============================================================================
-if page == "🏠 Executive Overview":
+if page == "Overview":
     st.markdown(
-        '<div class="main-header">Tracking Opinion Evolution in Multilingual Sequential Text</div>',
+        '<div class="main-header">What this system does</div>',
         unsafe_allow_html=True,
     )
     st.markdown(
-        '<div class="sub-header">A Multi-Task Framework with Structural Ontology and Aspect Disambiguation</div>',
+        '<div class="sub-header">A multi-task model that reads a person\'s reviews in order and tracks '
+        'how their opinion moves, across languages and across e-commerce and social media.</div>',
         unsafe_allow_html=True,
     )
 
@@ -243,31 +357,35 @@ if page == "🏠 Executive Overview":
               ", ".join(sorted(domains)) if domains else "no results yet")
 
     st.markdown("---")
-    st.subheader("💡 Core Research Motivation")
+    st.subheader("Why this is a hard problem")
 
     left, right = st.columns([1.2, 1])
     with left:
         st.markdown(
             """
-Standard sentiment models evaluate **each review in isolation**. In reality:
+Most sentiment models score each review on its own. In reality:
 
-- A user's opinion **evolves over time** across multiple reviews.
-- Social media text is heavily **code-mixed** (Tamil words in Latin script).
-- Domains use conflicting label systems (Amazon **1–5 stars**, YouTube **text labels**).
+- An opinion **moves over time**, across a person's whole sequence of reviews.
+- Social media text is heavily **code-mixed** — Tamil, Malayalam and Kannada
+  words written in Latin script, next to English.
+- Every platform grades opinions differently — Amazon uses **1–5 stars**,
+  YouTube comments carry **text labels** — so nothing is directly comparable
+  until it is put on one scale.
 
-### Four contributions
+**Four things this project builds to address that:**
 
-1. **Top-Down Structural Ontology** — a closed-vocabulary mapping
-   (`SentimentState`, `TransitionType`, `TrajectoryType`) unifying cross-domain labels.
-2. **Word Sense Disambiguation** — context-window disambiguation of aspects
-   (Hero, BGM, Story, Trailer) in code-mixed text.
-3. **Bi-LSTM + Self-Attention** — order memory plus attention over turning points.
-4. **Sequence Consistency Score (SCS)** — a metric for temporal coherence that
-   accuracy alone cannot capture.
+- A closed-vocabulary ontology (`SentimentState`, `TransitionType`,
+  `TrajectoryType`) that puts every domain's labels on one scale.
+- Word-sense disambiguation for aspects (hero, BGM, story, trailer) inside
+  code-mixed text.
+- A Bi-LSTM plus self-attention encoder that reads the sequence in order and
+  weighs which review mattered most.
+- Sequence Consistency Score (SCS), a metric for whether a run of
+  predictions holds together over time — something accuracy alone misses.
 """
         )
     with right:
-        st.markdown("### 🔄 End-to-End Pipeline")
+        st.markdown("### How a sequence flows through the model")
         st.code(
             """
 [Raw Multilingual Text]
@@ -298,16 +416,17 @@ Standard sentiment models evaluate **each review in isolation**. In reality:
 
 
 # =============================================================================
-# PAGE: Module 1 — Structural Ontology
+# PAGE: Taxonomy
 # =============================================================================
-elif page == "📘 Module 1: Structural Ontology":
-    st.markdown('<div class="main-header">Module 1: Structural Ontology</div>',
+elif page == "Taxonomy":
+    st.markdown('<div class="main-header">One scale for every domain</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Unified top-down hierarchy standardizing cross-domain labels</div>',
+    st.markdown('<div class="sub-header">A closed-vocabulary hierarchy that puts Amazon star ratings and '
+                'Tamil, Malayalam and Kannada social-media labels on the same scale.</div>',
                 unsafe_allow_html=True)
 
     tab1, tab2, tab3 = st.tabs(
-        ["🌳 Taxonomy Hierarchy", "🔄 Live Label Mapper", "📊 Coverage (computed live)"]
+        ["Hierarchy", "Map a label", "Coverage"]
     )
 
     with tab1:
@@ -318,15 +437,16 @@ elif page == "📘 Module 1: Structural Ontology":
         a, b, c = st.columns(3)
         if BACKEND_AVAILABLE:
             with a:
-                st.info("### Level 1: SentimentState\n"
-                        + "\n".join(f"- **{n}**" for n in SentimentState.label_names()))
+                st.markdown("**Sentiment, per review**")
+                st.markdown(chip_row(SentimentState.label_names()), unsafe_allow_html=True)
             with b:
-                st.success("### Level 2: TransitionType\n"
-                           + "\n".join(f"- **{n}**" for n in TransitionType.label_names()))
+                st.markdown("**Transition, between reviews**")
+                st.markdown(chip_row(TransitionType.label_names()), unsafe_allow_html=True)
             with c:
-                st.warning("### Level 3: TrajectoryType\n"
-                           + "\n".join(f"- **{n}**" for n in TrajectoryType.label_names()))
-            st.caption("Class names read live from `src/ontology.py` — not transcribed.")
+                st.markdown("**Trajectory, whole sequence**")
+                st.markdown(chip_row(TrajectoryType.label_names()), unsafe_allow_html=True)
+            st.caption("Class names read live from `src/ontology.py` — not transcribed. "
+                       "Each color is fixed and used the same way everywhere in this app.")
         else:
             st.error("Backend unavailable; cannot read the ontology.")
 
@@ -341,7 +461,7 @@ elif page == "📘 Module 1: Structural Ontology":
         )
 
     with tab2:
-        st.subheader("Test closed-vocabulary mapping live")
+        st.subheader("Map a raw dataset label onto the ontology")
         if BACKEND_AVAILABLE:
             domain_choice = st.selectbox("Domain:", sorted(DOMAIN_CONFIGS.keys()))
             samples = {
@@ -354,9 +474,9 @@ elif page == "📘 Module 1: Structural Ontology":
             test_label = st.selectbox("Raw dataset label:", options)
             try:
                 state = map_labels_to_ontology([test_label], domain=domain_choice)[0]
-                st.success(
-                    f"**Raw label** `{test_label}` ➡️ **Ontology state** "
-                    f"`{state.name}` (id `{state.value}`)"
+                st.markdown(
+                    f"`{test_label}` maps to {chip(state.name)} (id `{state.value}`)",
+                    unsafe_allow_html=True,
                 )
                 st.caption("Computed by `map_labels_to_ontology()` at click time.")
             except Exception as e:
@@ -399,12 +519,13 @@ elif page == "📘 Module 1: Structural Ontology":
 
 
 # =============================================================================
-# PAGE: Module 2 — WSD & Code-Mixing
+# PAGE: Aspects & code-mixing
 # =============================================================================
-elif page == "🔍 Module 2: WSD & Code-Mixing":
-    st.markdown('<div class="main-header">Module 2: Word Sense Disambiguation</div>',
+elif page == "Aspects & code-mixing":
+    st.markdown('<div class="main-header">Finding what a comment is actually about</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Aspect extraction in code-mixed text via IndoWordNet + context overlap</div>',
+    st.markdown('<div class="sub-header">Aspect detection in code-mixed text, disambiguated by context — '
+                'via IndoWordNet and a surrounding-word overlap check.</div>',
                 unsafe_allow_html=True)
 
     left, right = st.columns([1.2, 1])
@@ -494,12 +615,13 @@ elif page == "🔍 Module 2: WSD & Code-Mixing":
 
 
 # =============================================================================
-# PAGE: Module 3 — Architecture
+# PAGE: Architecture
 # =============================================================================
-elif page == "🧠 Module 3: Deep Neural Architecture":
-    st.markdown('<div class="main-header">Module 3: Multi-Domain Functional Layer</div>',
+elif page == "Architecture":
+    st.markdown('<div class="main-header">Inside the model</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">mBERT + Bi-LSTM + Self-Attention + multi-task heads</div>',
+    st.markdown('<div class="sub-header">mBERT, a Bi-LSTM, self-attention and three task heads, '
+                'working on one domain-agnostic pipeline.</div>',
                 unsafe_allow_html=True)
 
     rows = results_rows()
@@ -544,19 +666,19 @@ elif page == "🧠 Module 3: Deep Neural Architecture":
 
 
 # =============================================================================
-# PAGE: Module 4 — Baselines & comparison
+# PAGE: Compare models
 # =============================================================================
-elif page == "⚖️ Module 4: 5 Baselines & Comparison":
-    st.markdown('<div class="main-header">Module 4: Model Comparison & 5 Baselines</div>',
+elif page == "Compare models":
+    st.markdown('<div class="main-header">How the full model compares</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Capability matrix and measured in-domain results</div>',
+    st.markdown('<div class="sub-header">Five baselines and an ablation, measured at equal '
+                'trainable encoder capacity so the comparison is architecture, not training budget.</div>',
                 unsafe_allow_html=True)
     st.info(
-        "📋 **Every number on this page — full model included — is a recorded "
+        "**Every number on this page — full model included — is a recorded "
         "metric from a prior training run**, read from "
         "`outputs/metrics/results_table.json`. Nothing on this page runs "
-        "inference now. For a live prediction on text you type, use "
-        "**🎮 Live Interactive Playground**."
+        "inference now. For a live prediction on text you type, open **Try it**."
     )
 
     rows = [r for r in results_rows() if r["setting"] == "in-domain"]
@@ -620,12 +742,13 @@ elif page == "⚖️ Module 4: 5 Baselines & Comparison":
 
 
 # =============================================================================
-# PAGE: Module 5 — Cross-domain transfer
+# PAGE: Cross-domain transfer
 # =============================================================================
-elif page == "🌐 Module 5: Cross-Domain Transfer":
-    st.markdown('<div class="main-header">Module 5: Cross-Domain Transfer</div>',
+elif page == "Cross-domain transfer":
+    st.markdown('<div class="main-header">Does it generalize to a language it never saw?</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Zero-shot generalization between disjoint domains</div>',
+    st.markdown('<div class="sub-header">Zero-shot transfer between domains the model was never '
+                'jointly trained on.</div>',
                 unsafe_allow_html=True)
 
     rows = results_rows()
@@ -684,10 +807,10 @@ elif page == "🌐 Module 5: Cross-Domain Transfer":
     fuzzy = load_csv("fuzzy_domain_scores.csv")
     if fuzzy is not None:
         st.warning(
-            "📊 **Reference scores, not computed against your input.** This "
+            "**Reference scores, not computed against your input.** This "
             "table is the pre-computed typicality of each **test-set** "
             "sequence against every domain centroid — it does not score "
-            "whatever you type in the Playground. Live per-input typicality "
+            "whatever you type on the Try it page. Live per-input typicality "
             "scoring is not implemented; this page can only show what was "
             "already measured on the fixed test sets."
         )
@@ -698,15 +821,16 @@ elif page == "🌐 Module 5: Cross-Domain Transfer":
 
 
 # =============================================================================
-# PAGE: Module 6 — Performance & novel metrics
+# PAGE: Metrics & calibration
 # =============================================================================
-elif page == "📊 Module 6: Performance & Novel Metrics":
-    st.markdown('<div class="main-header">Module 6: Performance & Novel Metrics</div>',
+elif page == "Metrics & calibration":
+    st.markdown('<div class="main-header">Does the model know when it\'s unsure?</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Sequence Consistency Score, calibration and uncertainty</div>',
+    st.markdown('<div class="sub-header">Sequence Consistency Score, calibration and prediction '
+                'uncertainty.</div>',
                 unsafe_allow_html=True)
 
-    st.subheader("🌟 Sequence Consistency Score (SCS)")
+    st.subheader("Sequence Consistency Score (SCS)")
     st.markdown(
         "Accuracy counts individual correct answers. **SCS measures whether a "
         "sequence of predictions is internally coherent over time** — if "
@@ -777,12 +901,13 @@ elif page == "📊 Module 6: Performance & Novel Metrics":
 
 
 # =============================================================================
-# PAGE: Live Interactive Playground
+# PAGE: Try it
 # =============================================================================
-elif page == "🎮 Live Interactive Playground":
-    st.markdown('<div class="main-header">Live Interactive Playground</div>',
+elif page == "Try it":
+    st.markdown('<div class="main-header">Opinion Evolution Tracker</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Enter a sequence of reviews and watch the opinion trajectory being predicted</div>',
+    st.markdown('<div class="sub-header">Type a sequence of reviews, in order. The model reads them as '
+                'one thread and predicts how the opinion moved — and exactly where it turned.</div>',
                 unsafe_allow_html=True)
 
     checkpoints = sorted(glob.glob(os.path.join(OUTPUTS, "checkpoints", "best_model_*.pt")))
@@ -829,7 +954,7 @@ elif page == "🎮 Live Interactive Playground":
         )
         reviews = [r.strip() for r in raw.splitlines() if r.strip()]
 
-        if st.button("▶️ Predict trajectory", type="primary") and reviews:
+        if st.button("Predict trajectory", type="primary") and reviews:
             if len(reviews) < 2:
                 st.error("Enter at least two reviews — a trajectory needs a sequence.")
             else:
@@ -845,7 +970,11 @@ elif page == "🎮 Live Interactive Playground":
                     trajectory = traj_names[out["trajectory"]]
                     attention = out["attention_weights"].tolist()[:len(reviews)]
 
-                    st.success(f"### Predicted trajectory: **{trajectory}**")
+                    st.markdown(
+                        f'<div style="font-size:1.3rem;margin:0.4rem 0 1rem 0;">'
+                        f'Predicted trajectory: {chip(trajectory)}</div>',
+                        unsafe_allow_html=True,
+                    )
 
                     # ---- Phase 3: the timeline visual -------------------------
                     order = {n: i for i, n in enumerate(sent_names)}
@@ -900,14 +1029,20 @@ elif page == "🎮 Live Interactive Playground":
                     with a2:
                         st.markdown("#### Per-review detail")
                         trends = out["trends"].tolist()[:len(reviews)]
-                        st.dataframe(pd.DataFrame({
-                            "Review": labels,
-                            "Text": [r[:60] for r in reviews],
-                            "Sentiment": sentiments,
-                            "Transition": [trend_names[t] if i else "—"
-                                           for i, t in enumerate(trends)],
-                            "Attention": [round(a, 4) for a in attention],
-                        }), width="stretch")
+                        table_rows = "".join(
+                            f"<tr><td>{labels[i]}</td><td>{reviews[i][:50]}</td>"
+                            f"<td>{chip(sentiments[i])}</td>"
+                            f"<td>{chip(trend_names[trends[i]]) if i else '—'}</td>"
+                            f"<td>{attention[i]:.3f}</td></tr>"
+                            for i in range(len(reviews))
+                        )
+                        st.markdown(
+                            '<table class="chip-table"><thead><tr>'
+                            "<th>Review</th><th>Text</th><th>Sentiment</th>"
+                            "<th>Transition</th><th>Attention</th>"
+                            f"</tr></thead><tbody>{table_rows}</tbody></table>",
+                            unsafe_allow_html=True,
+                        )
 
                     if BACKEND_AVAILABLE:
                         wsd = WordSenseDisambiguator()
@@ -917,7 +1052,7 @@ elif page == "🎮 Live Interactive Playground":
                                 asp.append({"Review": labels[i], "Word": w,
                                             "Aspect": a, "Confidence": round(c, 2)})
                         if asp:
-                            st.markdown("#### Aspects detected (Module 2, live)")
+                            st.markdown("#### Aspects detected, live")
                             st.dataframe(pd.DataFrame(asp), width="stretch")
 
                     st.caption(

@@ -13,6 +13,7 @@ data.zip
 # Trained checkpoints are 714 MB each, above GitHub's 100 MB per-file limit.
 # Hosted on Kaggle (opinion-tracker-checkpoints).
 outputs/checkpoints/
+outputs/checkpoints.zip
 
 # Notes and scratch JSON are ignored by default...
 *.md
