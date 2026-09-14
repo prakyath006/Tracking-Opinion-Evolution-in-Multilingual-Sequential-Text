@@ -1,9 +1,9 @@
 """
 =============================================================================
-Interactive Web Demo — Tracking Opinion Evolution in Multilingual Sequential Text
+Opinion Evolution Tracker -- interactive demo
 =============================================================================
-Module-by-module presentation dashboard for academic evaluation and panel
-review.
+A product-shaped front end over a real trained model: reads a sequence of
+reviews and predicts how the opinion moved, review by review.
 
 TRUTHFULNESS CONTRACT
 ---------------------
@@ -18,15 +18,14 @@ contradicted the project's real measurements (56.75%, 0.5636, and ECE never
 computed at all). Anyone comparing the demo against the report would have
 concluded the results were fabricated. Do not reintroduce hardcoded metrics.
 
-Sections:
-  - Try it: live trajectory prediction on a real trained checkpoint (the hero)
-  - Overview: what the system does and why
-  - Taxonomy: the cross-domain ontology (live coverage computation)
-  - Aspects & code-mixing: word-sense disambiguation (live inference)
-  - Architecture: mBERT + Bi-LSTM + self-attention + multi-task heads
-  - Compare models: 5 baselines and an ablation, capacity-matched
-  - Cross-domain transfer: zero-shot generalization, fuzzy typicality
-  - Metrics & calibration: SCS, ECE, prediction uncertainty
+Four sections, deliberately not one page per research module:
+  - Analyze: live trajectory prediction on a real trained checkpoint (the
+    default landing page)
+  - Insights: how the model performs -- baselines, cross-domain transfer,
+    calibration -- as tabs within one section, not three separate ones
+  - How it works: the ontology, code-mixed aspect detection, and the
+    architecture, also as tabs within one section
+  - About: what the system does and why
 
 Run:
     streamlit run web_demo/app.py
@@ -108,7 +107,7 @@ def load_csv(relpath: str):
 
 @st.cache_data(show_spinner=True)
 def compute_ontology_coverage():
-    """Module 1 coverage, computed live from the real corpus."""
+    """Ontology coverage, computed live from the real corpus."""
     try:
         from ontology_eval import (
             compute_all_domain_coverage, check_label_mapping_consistency,
@@ -286,16 +285,7 @@ st.sidebar.markdown('<div class="wordmark-strap">Follows how an opinion moves, r
 
 page = st.sidebar.radio(
     "Section",
-    [
-        "Try it",
-        "Overview",
-        "Taxonomy",
-        "Aspects & code-mixing",
-        "Architecture",
-        "Compare models",
-        "Cross-domain transfer",
-        "Metrics & calibration",
-    ],
+    ["Analyze", "Insights", "How it works", "About"],
     label_visibility="collapsed",
 )
 
@@ -331,9 +321,13 @@ if not BACKEND_AVAILABLE:
 
 
 # =============================================================================
-# PAGE: Overview
 # =============================================================================
-if page == "Overview":
+# Page bodies -- one function per section's content. Grouped into a product
+# information architecture below (Analyze / Insights / How it works / About),
+# not a one-to-one list of research modules.
+# =============================================================================
+
+def render_about():
     st.markdown(
         '<div class="main-header">What this system does</div>',
         unsafe_allow_html=True,
@@ -390,9 +384,9 @@ Most sentiment models score each review on its own. In reality:
             """
 [Raw Multilingual Text]
        |
-[Module 2: Code-Mix & WSD]  -> aspect + CMI
+[Code-Mix & Aspect Detection]  -> aspect + CMI
        |
-[Module 1: Structural Ontology] -> 4-level schema
+[Structural Ontology] -> 4-level schema
        |
 [mBERT Subword Embeddings]
        |
@@ -415,118 +409,108 @@ Most sentiment models score each review on its own. In reality:
     )
 
 
-# =============================================================================
-# PAGE: Taxonomy
-# =============================================================================
-elif page == "Taxonomy":
-    st.markdown('<div class="main-header">One scale for every domain</div>',
-                unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">A closed-vocabulary hierarchy that puts Amazon star ratings and '
-                'Tamil, Malayalam and Kannada social-media labels on the same scale.</div>',
-                unsafe_allow_html=True)
 
-    tab1, tab2, tab3 = st.tabs(
-        ["Hierarchy", "Map a label", "Coverage"]
+
+def render_ontology():
+    st.caption("A closed-vocabulary hierarchy that puts Amazon star ratings and "
+               "Tamil, Malayalam and Kannada social-media labels on the same scale.")
+
+    st.subheader("Taxonomy hierarchy")
+    st.write(
+        "The ontology resolves the label conflict between e-commerce star "
+        "ratings and social-media text tags."
     )
+    a, b, c = st.columns(3)
+    if BACKEND_AVAILABLE:
+        with a:
+            st.markdown("**Sentiment, per review**")
+            st.markdown(chip_row(SentimentState.label_names()), unsafe_allow_html=True)
+        with b:
+            st.markdown("**Transition, between reviews**")
+            st.markdown(chip_row(TransitionType.label_names()), unsafe_allow_html=True)
+        with c:
+            st.markdown("**Trajectory, whole sequence**")
+            st.markdown(chip_row(TrajectoryType.label_names()), unsafe_allow_html=True)
+        st.caption("Class names read live from `src/ontology.py` — not transcribed. "
+                   "Each color is fixed and used the same way everywhere in this app.")
+    else:
+        st.error("Backend unavailable; cannot read the ontology.")
 
-    with tab1:
-        st.write(
-            "The ontology resolves the label conflict between e-commerce star "
-            "ratings and social-media text tags."
-        )
-        a, b, c = st.columns(3)
-        if BACKEND_AVAILABLE:
-            with a:
-                st.markdown("**Sentiment, per review**")
-                st.markdown(chip_row(SentimentState.label_names()), unsafe_allow_html=True)
-            with b:
-                st.markdown("**Transition, between reviews**")
-                st.markdown(chip_row(TransitionType.label_names()), unsafe_allow_html=True)
-            with c:
-                st.markdown("**Trajectory, whole sequence**")
-                st.markdown(chip_row(TrajectoryType.label_names()), unsafe_allow_html=True)
-            st.caption("Class names read live from `src/ontology.py` — not transcribed. "
-                       "Each color is fixed and used the same way everywhere in this app.")
-        else:
-            st.error("Backend unavailable; cannot read the ontology.")
-
-        st.markdown("### Why top-down?")
-        st.markdown(
-            """
+    st.markdown("### Why top-down?")
+    st.markdown(
+        """
 - **Avoids inconsistent clustering** — bottom-up induction would produce
   divergent category systems for Amazon vs. Tamil social media.
 - **Closed-vocabulary guarantee** — adding a dataset (e.g. Telugu) needs only a
   new `DomainConfig`. Loss functions, heads and sequence logic never change.
 """
+    )
+
+
+    st.markdown("---")
+    st.subheader("Map a raw dataset label onto the ontology")
+    if BACKEND_AVAILABLE:
+        domain_choice = st.selectbox("Domain:", sorted(DOMAIN_CONFIGS.keys()), key="ontology_domain")
+        samples = {
+            "amazon_beauty": ["5.0", "4.0", "3.0", "2.0", "1.0"],
+        }
+        options = samples.get(
+            domain_choice,
+            ["Positive", "Negative", "Mixed_feelings", "unknown_state"],
         )
-
-    with tab2:
-        st.subheader("Map a raw dataset label onto the ontology")
-        if BACKEND_AVAILABLE:
-            domain_choice = st.selectbox("Domain:", sorted(DOMAIN_CONFIGS.keys()))
-            samples = {
-                "amazon_beauty": ["5.0", "4.0", "3.0", "2.0", "1.0"],
-            }
-            options = samples.get(
-                domain_choice,
-                ["Positive", "Negative", "Mixed_feelings", "unknown_state"],
+        test_label = st.selectbox("Raw dataset label:", options)
+        try:
+            state = map_labels_to_ontology([test_label], domain=domain_choice)[0]
+            st.markdown(
+                f"`{test_label}` maps to {chip(state.name)} (id `{state.value}`)",
+                unsafe_allow_html=True,
             )
-            test_label = st.selectbox("Raw dataset label:", options)
-            try:
-                state = map_labels_to_ontology([test_label], domain=domain_choice)[0]
-                st.markdown(
-                    f"`{test_label}` maps to {chip(state.name)} (id `{state.value}`)",
-                    unsafe_allow_html=True,
-                )
-                st.caption("Computed by `map_labels_to_ontology()` at click time.")
-            except Exception as e:
-                st.error(f"Mapping failed: {e}")
-        else:
-            st.error("Backend unavailable.")
+            st.caption("Computed by `map_labels_to_ontology()` at click time.")
+        except Exception as e:
+            st.error(f"Mapping failed: {e}")
+    else:
+        st.error("Backend unavailable.")
 
-    with tab3:
-        st.subheader("Ontology coverage — computed from the real corpus")
-        data = compute_ontology_coverage()
-        if "error" in data:
-            not_measured(
-                "Ontology coverage", "python src/ontology_eval.py",
-                f"Live computation failed: {data['error']}",
+
+    st.markdown("---")
+    st.subheader("Ontology coverage — computed from the real corpus")
+    data = compute_ontology_coverage()
+    if "error" in data:
+        not_measured(
+            "Ontology coverage", "python src/ontology_eval.py",
+            f"Live computation failed: {data['error']}",
+        )
+    else:
+        cov = pd.DataFrame(data["coverage"])
+        if not cov.empty and "coverage_pct" in cov.columns:
+            show = cov[[c for c in ("domain", "coverage_pct", "unknown_pct",
+                                    "total") if c in cov.columns]]
+            st.dataframe(show, width="stretch")
+            fig = px.bar(
+                cov, x="domain", y="coverage_pct", color="domain",
+                text="coverage_pct",
+                title="Ontology label coverage per domain (live)",
+            )
+            fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
+            st.plotly_chart(fig, width="stretch")
+            st.caption(
+                "Computed by `ontology_eval.compute_all_domain_coverage()` "
+                "against `data/preprocessed/` on page load."
             )
         else:
-            cov = pd.DataFrame(data["coverage"])
-            if not cov.empty and "coverage_pct" in cov.columns:
-                show = cov[[c for c in ("domain", "coverage_pct", "unknown_pct",
-                                        "total") if c in cov.columns]]
-                st.dataframe(show, width="stretch")
-                fig = px.bar(
-                    cov, x="domain", y="coverage_pct", color="domain",
-                    text="coverage_pct",
-                    title="Ontology label coverage per domain (live)",
-                )
-                fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
-                st.plotly_chart(fig, width="stretch")
-                st.caption(
-                    "Computed by `ontology_eval.compute_all_domain_coverage()` "
-                    "against `data/preprocessed/` on page load."
-                )
-            else:
-                st.warning("Coverage computation returned no rows.")
+            st.warning("Coverage computation returned no rows.")
 
-            report = load_text("metrics/module1_ontology.md")
-            if report:
-                with st.expander("Full Module 1 report"):
-                    st.markdown(report)
+        report = load_text("metrics/module1_ontology.md")
+        if report:
+            with st.expander("Full coverage report"):
+                st.markdown(report)
 
 
-# =============================================================================
-# PAGE: Aspects & code-mixing
-# =============================================================================
-elif page == "Aspects & code-mixing":
-    st.markdown('<div class="main-header">Finding what a comment is actually about</div>',
-                unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Aspect detection in code-mixed text, disambiguated by context — '
-                'via IndoWordNet and a surrounding-word overlap check.</div>',
-                unsafe_allow_html=True)
+
+
+def render_aspects():
+    st.caption("Aspect detection in code-mixed text, disambiguated by context — "
+               "via IndoWordNet and a surrounding-word overlap check.")
 
     left, right = st.columns([1.2, 1])
 
@@ -614,15 +598,11 @@ elif page == "Aspects & code-mixing":
             )
 
 
-# =============================================================================
-# PAGE: Architecture
-# =============================================================================
-elif page == "Architecture":
-    st.markdown('<div class="main-header">Inside the model</div>',
-                unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">mBERT, a Bi-LSTM, self-attention and three task heads, '
-                'working on one domain-agnostic pipeline.</div>',
-                unsafe_allow_html=True)
+
+
+def render_architecture():
+    st.caption("mBERT, a Bi-LSTM, self-attention and three task heads, "
+               "working on one domain-agnostic pipeline.")
 
     rows = results_rows()
     full = next((r for r in rows if r["model"] == full_model_name()), None)
@@ -653,7 +633,7 @@ elif page == "Architecture":
         )
 
     st.markdown("---")
-    st.subheader("Module 3 metric: MLM perplexity (mBERT vs XLM-R)")
+    st.subheader("Encoder perplexity: mBERT vs. XLM-R")
     perplexity = load_text("metrics/module3_bert_perplexity.md")
     if perplexity:
         st.markdown(perplexity)
@@ -665,15 +645,11 @@ elif page == "Architecture":
         )
 
 
-# =============================================================================
-# PAGE: Compare models
-# =============================================================================
-elif page == "Compare models":
-    st.markdown('<div class="main-header">How the full model compares</div>',
-                unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Five baselines and an ablation, measured at equal '
-                'trainable encoder capacity so the comparison is architecture, not training budget.</div>',
-                unsafe_allow_html=True)
+
+
+def render_performance():
+    st.caption("Five baselines and an ablation, measured at equal trainable "
+               "encoder capacity so the comparison is architecture, not training budget.")
     st.info(
         "**Every number on this page — full model included — is a recorded "
         "metric from a prior training run**, read from "
@@ -691,7 +667,7 @@ elif page == "Compare models":
     else:
         df = pd.DataFrame(rows)
         sources = sorted(df["source"].unique())
-        pick = st.selectbox("Domain:", sources)
+        pick = st.selectbox("Domain:", sources, key="performance_domain")
         sub = df[df["source"] == pick].copy()
 
         caps = sub["encoder_finetune_layers"].dropna().unique().tolist()
@@ -725,7 +701,7 @@ elif page == "Compare models":
         st.caption("Read from `outputs/metrics/results_table.json`.")
 
     st.markdown("---")
-    st.subheader("Module-by-baseline capability matrix")
+    st.subheader("Capability matrix, by baseline")
     matrix = load_text("metrics/module_by_baseline_comparison.md")
     if matrix:
         with st.expander("Show full matrix (generated deliverable)", expanded=False):
@@ -741,15 +717,10 @@ elif page == "Compare models":
         )
 
 
-# =============================================================================
-# PAGE: Cross-domain transfer
-# =============================================================================
-elif page == "Cross-domain transfer":
-    st.markdown('<div class="main-header">Does it generalize to a language it never saw?</div>',
-                unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Zero-shot transfer between domains the model was never '
-                'jointly trained on.</div>',
-                unsafe_allow_html=True)
+
+
+def render_cross_domain():
+    st.caption("Zero-shot transfer between domains the model was never jointly trained on.")
 
     rows = results_rows()
     cross = [r for r in rows if r["setting"] == "cross-domain"]
@@ -820,15 +791,10 @@ elif page == "Cross-domain transfer":
         not_measured("Fuzzy typicality scores", "python src/fuzzy_domain_score.py")
 
 
-# =============================================================================
-# PAGE: Metrics & calibration
-# =============================================================================
-elif page == "Metrics & calibration":
-    st.markdown('<div class="main-header">Does the model know when it\'s unsure?</div>',
-                unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Sequence Consistency Score, calibration and prediction '
-                'uncertainty.</div>',
-                unsafe_allow_html=True)
+
+
+def render_calibration():
+    st.caption("Sequence Consistency Score, calibration and prediction uncertainty.")
 
     st.subheader("Sequence Consistency Score (SCS)")
     st.markdown(
@@ -850,7 +816,7 @@ elif page == "Metrics & calibration":
         )
     else:
         df = pd.DataFrame(scs_rows)
-        pick = st.selectbox("Domain:", sorted(df["source"].unique()))
+        pick = st.selectbox("Domain:", sorted(df["source"].unique()), key="scs_domain")
         sub = df[df["source"] == pick]
 
         fig = px.bar(
@@ -896,14 +862,13 @@ elif page == "Metrics & calibration":
     st.markdown("---")
     analysis = load_text("metrics/module6_analysis.md")
     if analysis:
-        with st.expander("Full Module 6 analysis (generated)"):
+        with st.expander("Full written analysis"):
             st.markdown(analysis)
 
 
-# =============================================================================
-# PAGE: Try it
-# =============================================================================
-elif page == "Try it":
+
+
+def render_analyze():
     st.markdown('<div class="main-header">Opinion Evolution Tracker</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Type a sequence of reviews, in order. The model reads them as '
@@ -1065,6 +1030,43 @@ elif page == "Try it":
                     st.error(f"Inference failed: {e}")
                     st.exception(e)
 
+
+
+# =============================================================================
+# Routing -- four sections, the shape a real product would have
+# =============================================================================
+
+if page == "Analyze":
+    render_analyze()
+
+elif page == "Insights":
+    st.markdown('<div class="main-header">How well does it work?</div>',
+                unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Measured against five baselines, across domains it was never jointly trained on, with its own confidence checked.</div>',
+                unsafe_allow_html=True)
+    t1, t2, t3 = st.tabs(["Performance", "Cross-domain transfer", "Calibration & confidence"])
+    with t1:
+        render_performance()
+    with t2:
+        render_cross_domain()
+    with t3:
+        render_calibration()
+
+elif page == "How it works":
+    st.markdown('<div class="main-header">How it understands text</div>',
+                unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">One scale for every domain, aspect detection in code-mixed text, and the architecture that reads a sequence in order.</div>',
+                unsafe_allow_html=True)
+    t1, t2, t3 = st.tabs(["Ontology", "Code-mixing & aspects", "Architecture"])
+    with t1:
+        render_ontology()
+    with t2:
+        render_aspects()
+    with t3:
+        render_architecture()
+
+elif page == "About":
+    render_about()
 st.sidebar.markdown("---")
 st.sidebar.caption("© 2026 Opinion Evolution Tracking Project")
 st.sidebar.caption("All figures read live from outputs/ — nothing hardcoded.")
