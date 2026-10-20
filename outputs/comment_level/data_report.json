@@ -1,0 +1,165 @@
+{
+ "description": "Comment-level data; official DravidianCodeMix splits and Amazon reviews (user-level split).",
+ "label_space": {
+  "0": "POSITIVE",
+  "1": "NEGATIVE",
+  "2": "MIXED",
+  "3": "UNKNOWN"
+ },
+ "tamil": {
+  "train": {
+   "rows": 33531,
+   "distinct_texts": 33214,
+   "texts_with_conflicting_labels": 45,
+   "label_counts": {
+    "POSITIVE": 19921,
+    "NEGATIVE": 4160,
+    "MIXED": 3907,
+    "UNKNOWN": 5543
+   }
+  },
+  "dev": {
+   "rows_in": 4209,
+   "empty_removed": 0,
+   "removed_text_seen_in_earlier_split": 60,
+   "within_split_duplicates_removed": 4,
+   "rows_out": 4145,
+   "label_counts": {
+    "POSITIVE": 2408,
+    "NEGATIVE": 517,
+    "MIXED": 506,
+    "UNKNOWN": 714
+   }
+  },
+  "test": {
+   "rows_in": 4191,
+   "empty_removed": 0,
+   "removed_text_seen_in_earlier_split": 76,
+   "within_split_duplicates_removed": 3,
+   "rows_out": 4112,
+   "label_counts": {
+    "POSITIVE": 2451,
+    "NEGATIVE": 544,
+    "MIXED": 499,
+    "UNKNOWN": 618
+   }
+  }
+ },
+ "malayalam": {
+  "train": {
+   "rows": 14514,
+   "distinct_texts": 13913,
+   "texts_with_conflicting_labels": 94,
+   "label_counts": {
+    "POSITIVE": 6373,
+    "NEGATIVE": 2049,
+    "MIXED": 913,
+    "UNKNOWN": 5179
+   }
+  },
+  "dev": {
+   "rows_in": 1841,
+   "empty_removed": 0,
+   "removed_text_seen_in_earlier_split": 157,
+   "within_split_duplicates_removed": 13,
+   "rows_out": 1671,
+   "label_counts": {
+    "POSITIVE": 730,
+    "NEGATIVE": 240,
+    "MIXED": 103,
+    "UNKNOWN": 598
+   }
+  },
+  "test": {
+   "rows_in": 1816,
+   "empty_removed": 0,
+   "removed_text_seen_in_earlier_split": 159,
+   "within_split_duplicates_removed": 3,
+   "rows_out": 1654,
+   "label_counts": {
+    "POSITIVE": 708,
+    "NEGATIVE": 259,
+    "MIXED": 111,
+    "UNKNOWN": 576
+   }
+  }
+ },
+ "kannada": {
+  "train": {
+   "rows": 5218,
+   "distinct_texts": 4984,
+   "texts_with_conflicting_labels": 15,
+   "label_counts": {
+    "POSITIVE": 2813,
+    "NEGATIVE": 1182,
+    "MIXED": 547,
+    "UNKNOWN": 676
+   }
+  },
+  "dev": {
+   "rows_in": 656,
+   "empty_removed": 0,
+   "removed_text_seen_in_earlier_split": 41,
+   "within_split_duplicates_removed": 0,
+   "rows_out": 615,
+   "label_counts": {
+    "POSITIVE": 314,
+    "NEGATIVE": 157,
+    "MIXED": 67,
+    "UNKNOWN": 77
+   }
+  },
+  "test": {
+   "rows_in": 661,
+   "empty_removed": 0,
+   "removed_text_seen_in_earlier_split": 27,
+   "within_split_duplicates_removed": 2,
+   "rows_out": 632,
+   "label_counts": {
+    "POSITIVE": 335,
+    "NEGATIVE": 142,
+    "MIXED": 72,
+    "UNKNOWN": 83
+   }
+  }
+ },
+ "amazon": {
+  "train": {
+   "rows": 15619,
+   "distinct_texts": 14938,
+   "texts_with_conflicting_labels": 15,
+   "label_counts": {
+    "POSITIVE": 12014,
+    "NEGATIVE": 2083,
+    "MIXED": 1522,
+    "UNKNOWN": 0
+   }
+  },
+  "dev": {
+   "rows_in": 3512,
+   "empty_removed": 5,
+   "removed_text_seen_in_earlier_split": 110,
+   "within_split_duplicates_removed": 46,
+   "rows_out": 3351,
+   "label_counts": {
+    "POSITIVE": 2543,
+    "NEGATIVE": 477,
+    "MIXED": 331,
+    "UNKNOWN": 0
+   }
+  },
+  "test": {
+   "rows_in": 3391,
+   "empty_removed": 5,
+   "removed_text_seen_in_earlier_split": 140,
+   "within_split_duplicates_removed": 46,
+   "rows_out": 3200,
+   "label_counts": {
+    "POSITIVE": 2385,
+    "NEGATIVE": 470,
+    "MIXED": 345,
+    "UNKNOWN": 0
+   }
+  }
+ }
+}
