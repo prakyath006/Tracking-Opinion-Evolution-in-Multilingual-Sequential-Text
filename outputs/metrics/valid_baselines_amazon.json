@@ -1,0 +1,349 @@
+{
+ "source": "AmazonSequenceDataset split (seed 42, user level, max_seq_len 20)",
+ "note": "Majority classes are taken from TRAINING labels; test labels are used only for scoring.",
+ "users": {
+  "train": 3726,
+  "val": 798,
+  "test": 800
+ },
+ "positions": {
+  "train": 15619,
+  "val": 3512,
+  "test": 3391
+ },
+ "majority_baselines": {
+  "sentiment (per review)": {
+   "n": 3391,
+   "labels": [
+    0,
+    1,
+    2
+   ],
+   "accuracy": 0.752285461515777,
+   "macro_f1": 0.28621115224952315,
+   "per_class": {
+    "POSITIVE": {
+     "precision": 0.752285461515777,
+     "recall": 1.0,
+     "f1": 0.8586334567485695,
+     "support": 2551
+    },
+    "NEGATIVE": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 477
+    },
+    "MIXED": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 363
+    }
+   },
+   "confusion_matrix": [
+    [
+     2551,
+     0,
+     0
+    ],
+    [
+     477,
+     0,
+     0
+    ],
+    [
+     363,
+     0,
+     0
+    ]
+   ],
+   "majority_class_from_train": 0,
+   "train_class_counts": {
+    "0": 12014,
+    "1": 2083,
+    "2": 1522
+   },
+   "macro_f1_ci95_over_test_users": {
+    "estimate": 0.28621115224952315,
+    "ci_low": 0.2817168888740317,
+    "ci_high": 0.2905178899209021,
+    "resamples": 1000,
+    "unit": "groups"
+   }
+  },
+  "trend, all positions (includes the position-1 placeholder)": {
+   "n": 3391,
+   "labels": [
+    0,
+    1,
+    2
+   ],
+   "accuracy": 0.7575936301975819,
+   "macro_f1": 0.2873601789709172,
+   "per_class": {
+    "UPGRADE": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 381
+    },
+    "DOWNGRADE": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 441
+    },
+    "STABLE": {
+     "precision": 0.7575936301975819,
+     "recall": 1.0,
+     "f1": 0.8620805369127517,
+     "support": 2569
+    }
+   },
+   "confusion_matrix": [
+    [
+     0,
+     0,
+     381
+    ],
+    [
+     0,
+     0,
+     441
+    ],
+    [
+     0,
+     0,
+     2569
+    ]
+   ],
+   "majority_class_from_train": 2,
+   "train_class_counts": {
+    "0": 1827,
+    "1": 1916,
+    "2": 11876
+   },
+   "macro_f1_ci95_over_test_users": {
+    "estimate": 0.2873601789709172,
+    "ci_low": 0.28304015363158447,
+    "ci_high": 0.2912366222744384,
+    "resamples": 1000,
+    "unit": "groups"
+   }
+  },
+  "trend, observed transitions only (positions >= 2)": {
+   "n": 2591,
+   "labels": [
+    0,
+    1,
+    2
+   ],
+   "accuracy": 0.6827479737553068,
+   "macro_f1": 0.2704892966360856,
+   "per_class": {
+    "UPGRADE": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 381
+    },
+    "DOWNGRADE": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 441
+    },
+    "STABLE": {
+     "precision": 0.6827479737553068,
+     "recall": 1.0,
+     "f1": 0.8114678899082569,
+     "support": 1769
+    }
+   },
+   "confusion_matrix": [
+    [
+     0,
+     0,
+     381
+    ],
+    [
+     0,
+     0,
+     441
+    ],
+    [
+     0,
+     0,
+     1769
+    ]
+   ],
+   "majority_class_from_train": 2,
+   "train_class_counts": {
+    "0": 1827,
+    "1": 1916,
+    "2": 8150
+   },
+   "macro_f1_ci95_over_test_users": {
+    "estimate": 0.2704892966360856,
+    "ci_low": 0.2644184635118974,
+    "ci_high": 0.2761435057038385,
+    "resamples": 1000,
+    "unit": "groups"
+   }
+  },
+  "trajectory (per sequence)": {
+   "n": 800,
+   "labels": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "accuracy": 0.49625,
+   "macro_f1": 0.1658312447786132,
+   "per_class": {
+    "IMPROVING": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 87
+    },
+    "DECLINING": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 128
+    },
+    "STABLE": {
+     "precision": 0.49625,
+     "recall": 1.0,
+     "f1": 0.6633249791144528,
+     "support": 397
+    },
+    "VOLATILE": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 188
+    }
+   },
+   "confusion_matrix": [
+    [
+     0,
+     0,
+     87,
+     0
+    ],
+    [
+     0,
+     0,
+     128,
+     0
+    ],
+    [
+     0,
+     0,
+     397,
+     0
+    ],
+    [
+     0,
+     0,
+     188,
+     0
+    ]
+   ],
+   "majority_class_from_train": 2,
+   "train_class_counts": {
+    "0": 401,
+    "1": 479,
+    "2": 1911,
+    "3": 935
+   },
+   "macro_f1_ci95_over_test_users": {
+    "estimate": 0.1658312447786132,
+    "ci_low": 0.15781987883333137,
+    "ci_high": 0.17293540474243663,
+    "resamples": 1000,
+    "unit": "groups"
+   }
+  }
+ },
+ "class_distributions": {
+  "train": {
+   "sentiment": {
+    "POSITIVE": 12014,
+    "NEGATIVE": 2083,
+    "MIXED": 1522
+   },
+   "trend_all_positions": {
+    "UPGRADE": 1827,
+    "DOWNGRADE": 1916,
+    "STABLE": 11876
+   },
+   "trend_observed_only": {
+    "UPGRADE": 1827,
+    "DOWNGRADE": 1916,
+    "STABLE": 8150
+   },
+   "trajectory": {
+    "IMPROVING": 401,
+    "DECLINING": 479,
+    "STABLE": 1911,
+    "VOLATILE": 935
+   }
+  },
+  "val": {
+   "sentiment": {
+    "POSITIVE": 2680,
+    "NEGATIVE": 493,
+    "MIXED": 339
+   },
+   "trend_all_positions": {
+    "UPGRADE": 398,
+    "DOWNGRADE": 435,
+    "STABLE": 2679
+   },
+   "trend_observed_only": {
+    "UPGRADE": 398,
+    "DOWNGRADE": 435,
+    "STABLE": 1881
+   },
+   "trajectory": {
+    "IMPROVING": 88,
+    "DECLINING": 105,
+    "STABLE": 395,
+    "VOLATILE": 210
+   }
+  },
+  "test": {
+   "sentiment": {
+    "POSITIVE": 2551,
+    "NEGATIVE": 477,
+    "MIXED": 363
+   },
+   "trend_all_positions": {
+    "UPGRADE": 381,
+    "DOWNGRADE": 441,
+    "STABLE": 2569
+   },
+   "trend_observed_only": {
+    "UPGRADE": 381,
+    "DOWNGRADE": 441,
+    "STABLE": 1769
+   },
+   "trajectory": {
+    "IMPROVING": 87,
+    "DECLINING": 128,
+    "STABLE": 397,
+    "VOLATILE": 188
+   }
+  }
+ },
+ "gold_scs_test": {
+  "scs_mean": 0.6698820535866783,
+  "scs_std": 0.3574387859720033,
+  "num_sequences": 800
+ }
+}

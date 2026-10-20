@@ -477,6 +477,8 @@ def parse_args():
     parser.add_argument("--lr", type=float, default=2e-5)
     parser.add_argument("--weight_decay", type=float, default=1e-4)
     parser.add_argument("--no_cuda", action="store_true")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Seed python/numpy/torch (default: unseeded, as in the reported runs)")
     parser.add_argument(
         "--encoder_finetune_layers", type=int, default=0,
         help="Transformer layers to unfreeze from the top, for every baseline "
@@ -492,6 +494,9 @@ def parse_args():
 
 def main():
     args = parse_args()
+    if args.seed is not None:
+        from eval_utils import set_seed
+        set_seed(args.seed)
     names = list(BASELINE_REGISTRY.keys()) if args.baseline == "all" else [args.baseline]
     all_results = {}
     for name in names:

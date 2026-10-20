@@ -546,10 +546,16 @@ def parse_args():
     parser.add_argument("--no_auto_class_weights", dest="auto_class_weights",
                         action="store_false",
                         help="Disable automatic class weighting (uniform loss)")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Seed python/numpy/torch for model init, dropout and batch order "
+                             "(default: unseeded, as in the reported runs)")
 
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
+    if args.seed is not None:
+        from eval_utils import set_seed
+        set_seed(args.seed)
     train(args)
