@@ -53,6 +53,26 @@ sys.path.insert(0, os.path.join(WORKSPACE_ROOT, "src"))
 OUTPUTS = os.path.join(WORKSPACE_ROOT, "outputs")
 METRICS = os.path.join(OUTPUTS, "metrics")
 
+# Large files are not in git; on a fresh deployment they are pulled from free Hugging Face repos.
+HF_CKPT_REPO = "prakyath18/opinion-tracker-checkpoints"     # model repo: best_model_*.pt
+HF_DATA_REPO = "prakyath18/opinion-tracker-data"            # dataset repo: contents of data/preprocessed/
+
+
+@st.cache_resource(show_spinner="Downloading files (first start only)…")
+def fetch_hf(repo_id: str, repo_type: str, local_dir: str) -> str:
+    """Download a Hugging Face repo into local_dir; returns "" on success or the error text."""
+    try:
+        from huggingface_hub import snapshot_download
+        snapshot_download(repo_id=repo_id, repo_type=repo_type, local_dir=local_dir)
+        return ""
+    except Exception as e:                                # pragma: no cover
+        return str(e)
+
+
+_PRE = os.path.join(WORKSPACE_ROOT, "data", "preprocessed")
+if not os.path.isdir(_PRE) or not os.listdir(_PRE):
+    fetch_hf(HF_DATA_REPO, "dataset", _PRE)
+
 try:
     from ontology import (
         SentimentState, TransitionType, TrajectoryType,
@@ -876,6 +896,9 @@ def render_analyze():
                 unsafe_allow_html=True)
 
     checkpoints = sorted(glob.glob(os.path.join(OUTPUTS, "checkpoints", "best_model_*.pt")))
+    if not checkpoints:
+        fetch_hf(HF_CKPT_REPO, "model", os.path.join(OUTPUTS, "checkpoints"))
+        checkpoints = sorted(glob.glob(os.path.join(OUTPUTS, "checkpoints", "best_model_*.pt")))
 
     if not checkpoints:
         not_measured(
