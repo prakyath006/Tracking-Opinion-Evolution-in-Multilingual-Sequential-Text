@@ -220,7 +220,7 @@ tests and the label/metric utilities run on CPU.
 ```bash
 git clone https://github.com/prakyath006/Tracking-Opinion-Evolution-in-Multilingual-Sequential-Text.git
 cd Tracking-Opinion-Evolution-in-Multilingual-Sequential-Text
-python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scriptsctivate
+python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python -m pytest tests -q                             # sanity check: data-dependent tests skip without data/
 ```
