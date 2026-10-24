@@ -7,3 +7,6 @@ tqdm>=4.65
 datasets>=2.19
 huggingface_hub>=0.23
 pytest>=8.0
+streamlit>=1.30
+plotly>=5.18
+sentencepiece>=0.1.99

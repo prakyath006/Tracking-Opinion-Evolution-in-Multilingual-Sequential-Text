@@ -115,7 +115,7 @@ lower perplexity on English (see Module 3).
 | vs `lstm_only` (no attention) | **+0.095** | **+0.100** | +0.122 |
 | vs `attention_only` (no Bi-LSTM) | **+0.061** | +0.001 | **+0.217** |
 
-### Cross-domain transfer — the headline finding
+### Cross-domain transfer (preliminary; sequence-level, single run)
 
 | Trained on | Tested on | Sentiment F1 | % of in-domain retained |
 |---|---|---|---|
@@ -126,10 +126,11 @@ lower perplexity on English (see Module 3).
 | Amazon | Tamil | 0.2300 | 43% |
 | Amazon | Malayalam | 0.2038 | 38% |
 
-**Training on code-mixed text produces a model that generalises far better.** The
-Tamil model retains ~73–74% of its performance on two languages it never saw; the
-Amazon model retains 38–43%. Cross-lingual transfer within the Dravidian family also
-beats cross-domain transfer (0.2878/0.2903 vs 0.2505).
+In this single run the Tamil model retains ~73–74% of its in-domain score on two
+languages it never saw, and the Amazon model retains 38–43%. These Dravidian
+sequences are sliding windows over independent comments and may overlap between
+train and test, so the comparison is indicative only; Module 8 re-evaluates transfer
+at comment level with leakage control.
 
 ### Module 3 — encoder perplexity (why this corpus is hard)
 
@@ -178,12 +179,31 @@ accuracy. See [`docs/module2_wsd_status.md`](docs/module2_wsd_status.md).
 
 ---
 
+## Modules 7–9 — evaluation, multilingual and LLM (implemented, full runs pending)
+
+| Module | What it is | Code | Status |
+|---|---|---|---|
+| 7 | Valid majority baselines, observed-transition trend metrics, gold-sequence SCS, bootstrap intervals, seeding, prediction export | `src/eval_utils.py`, `scripts/compute_valid_baselines.py`, `scripts/export_predictions.py` | baselines **run** (`outputs/metrics/valid_baselines_amazon.md`); full prediction export pending |
+| 8 | Comment-level multilingual and cross-domain sentiment (official DravidianCodeMix splits, leakage control, 5 seeds) | `scripts/prepare_comment_level_data.py`, `scripts/eval_comment_level.py` | data prepared; evaluation smoke-tested, full run pending (GPU) |
+| 9 | Instruction-tuned LLM (flan-t5) classification, zero-shot and source-calibrated | `scripts/eval_llm_comment_level.py` | smoke-tested, full run pending (GPU) |
+
+No multilingual, cross-domain or LLM result from these modules exists yet. Details and Kaggle
+commands: [`docs/new_modules_status.md`](docs/new_modules_status.md).
+
+**Validity notes.** The Amazon task is a rating-derived sentiment trajectory over a user's
+chronological reviews, which mostly cover different products. The Dravidian sequence results above
+come from sliding windows over independent comments (not real histories) and may be affected by
+train/test text overlap; treat them as preliminary until Module 8 replaces them with comment-level,
+leakage-controlled results. Single training runs, no confidence intervals yet for the model results.
+
+---
+
 ## Research gaps addressed
 
 | Gap | Status |
 |---|---|
-| 1 — Transformers ignore sequential opinion evolution | ✅ Solved; ablation confirms both components contribute |
-| 4 — Poor cross-domain generalization | ✅ Solved; 8 transfer pairs, zero-shot to 2 unseen languages |
+| 1 — Transformers ignore sequential opinion evolution | ⚠️ Addressed on Amazon (single run, ablation shows both components contribute); not yet shown with intervals or seeds |
+| 4 — Poor cross-domain generalization | ⚠️ Partial — preliminary transfer results; leakage-controlled comment-level evaluation (Module 8) pending |
 | 2 — Inconsistent multilingual/code-mixed embeddings | ⚠️ Partial — released runs use a **frozen** encoder; `--no_freeze_encoder` is supported but not yet reported |
 | 5 — Lack of aspect-level opinion evolution | ⚠️ Half — aspects are tagged corpus-wide, but no per-aspect trajectory head exists yet |
 | 3 — Heavy dependence on supervised learning | ❌ Scoped as future work |
@@ -243,15 +263,16 @@ python scripts/generate_module_by_baseline_matrix.py
 python -m streamlit run web_demo/app.py
 ```
 
-Eight pages covering every module, plus a playground where you can enter your own
-review sequence and watch the trajectory being predicted live. **Every figure is read
+Four sections (Analyze, Insights, How it works, About), including a playground where you
+can enter your own review sequence and watch the trajectory being predicted live. It needs
+the checkpoints in `outputs/checkpoints/` (hosted on Kaggle, see Datasets). **Every figure is read
 from `outputs/` at page load** — where a result has not been produced, the page says
 so rather than showing a placeholder.
 
 ### Tests
 
 ```bash
-python -m pytest tests/ -q      # 31 ontology consistency tests
+python -m pytest tests/ -q      # 38 tests: 31 ontology consistency + 7 evaluation utilities
 ```
 
 ### GPU
@@ -264,9 +285,9 @@ is a ready-to-run entry point for Colab or Kaggle.
 ## Project structure
 
 ```
-src/                 16 modules — model, ontology, WSD, baselines, evaluation
-scripts/             19 scripts — data building, training, evaluation, reporting
-tests/               ontology consistency suite
+src/                 model, ontology, WSD, baselines, evaluation utilities
+scripts/             data building, training, evaluation, reporting
+tests/               ontology consistency and evaluation-utility tests
 notebooks/           EDA and Colab training
 web_demo/            Streamlit dashboard
 docs/                status documents, literature comparison, defect register
@@ -297,7 +318,8 @@ Notable documents:
   with caution.
 - Adding a new dataset currently requires code changes, not just configuration — the
   model and ontology are domain-agnostic, but the data loaders are not yet registry-driven.
-- **No LLM baseline** has been implemented.
+- **LLM baseline** (Module 9) is implemented but its full run is pending; no LLM result is reported.
+- Results are from single runs; seeded, matched-baseline retraining is pending.
 
 ---
 
@@ -312,6 +334,11 @@ Notable documents:
 
 ---
 
-## Author
+## Authors
 
-**Prakyath Nandigam**
+Kanishkhan J, Prakyath Nandigam, Yaswanth J, Hemanth G; guide: Krishna Priya G.
+Department of Computer Science and Engineering, Amrita School of Computing, Amrita Vishwa Vidyapeetham, Coimbatore.
+
+## License
+
+MIT, see [`LICENSE`](LICENSE).

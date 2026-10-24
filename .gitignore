@@ -26,3 +26,20 @@ outputs/checkpoints.zip
 # ...but every result under outputs/ is tracked
 !outputs/**/*.md
 !outputs/**/*.json
+
+# Local research and paper-preparation work (audits, drafts, LaTeX project, Kaggle diagnostic).
+# Kept out of version control. Listed after the "!docs/**/*.md" and "!outputs/**" rules so these win.
+/submission_latex/
+/submission_latex*.zip
+/docs/research_context/
+/docs/project_context_dossier.md
+/docs/research_evidence_recovery.md
+/docs/stage1_data_validity_audit.md
+/docs/stage2_cloud_execution_guide.md
+/docs/amazon_trajectory_construct_validity.md
+/docs/conference_paper_draft_v1.md
+/docs/conference_paper_submission_draft_v2.md
+/docs/submission_v2_outstanding_items.md
+/outputs/audits/
+/scripts/audit_tamil_checkpoint_leakage.py
+/scripts/make_kaggle_inventory.py
