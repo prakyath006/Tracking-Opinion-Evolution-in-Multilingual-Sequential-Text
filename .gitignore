@@ -43,3 +43,4 @@ outputs/checkpoints.zip
 /outputs/audits/
 /scripts/audit_tamil_checkpoint_leakage.py
 /scripts/make_kaggle_inventory.py
+!CONTRIBUTING.md

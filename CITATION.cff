@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Tracking Opinion Evolution in Multilingual Sequential Text"
+type: software
+license: MIT
+repository-code: "https://github.com/prakyath006/Tracking-Opinion-Evolution-in-Multilingual-Sequential-Text"
+authors:
+  - family-names: "J"
+    given-names: "Kanishkhan"
+  - family-names: "Nandigam"
+    given-names: "Prakyath"
+  - family-names: "J"
+    given-names: "Yaswanth"
+  - family-names: "G"
+    given-names: "Hemanth"
+  - family-names: "G"
+    given-names: "Krishna Priya"

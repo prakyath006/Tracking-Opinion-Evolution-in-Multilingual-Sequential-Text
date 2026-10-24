@@ -214,9 +214,26 @@ leakage-controlled results. Single training runs, no confidence intervals yet fo
 
 ### Install
 
+Requires Python 3.10+ (developed on 3.14; CI uses 3.11). Training and full evaluation need a GPU;
+tests and the label/metric utilities run on CPU.
+
 ```bash
+git clone https://github.com/prakyath006/Tracking-Opinion-Evolution-in-Multilingual-Sequential-Text.git
+cd Tracking-Opinion-Evolution-in-Multilingual-Sequential-Text
+python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scriptsctivate
 pip install -r requirements.txt
+python -m pytest tests -q                             # sanity check: data-dependent tests skip without data/
 ```
+
+### Data and checkpoints
+
+`data/` and `outputs/checkpoints/` are not in the repository (size and dataset licences).
+They are provided as the Kaggle datasets `prakyathnandigam/opinion-tracker-data` and
+`prakyathnandigam/opinion-tracker-checkpoints`. Download them and place the contents in
+`data/` and `outputs/checkpoints/`, or rebuild the data with the scripts in `scripts/`
+(`build_amazon_sequences.py`, `prepare_comment_level_data.py`). Raw datasets (Amazon Reviews 2023,
+DravidianCodeMix) keep their own licences. Without the checkpoints the demo cannot run live
+inference, but the pages that read `outputs/metrics/` still work.
 
 ### Train
 
