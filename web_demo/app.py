@@ -301,9 +301,14 @@ html, body, [class*="css"] { font-family: 'IBM Plex Sans', sans-serif; }
     font-family: 'Spectral', serif; font-weight: 600; font-size: 2.5rem; line-height: 1.2;
     color: var(--paper); letter-spacing: -0.01em; margin: 1rem 0 0.6rem 0; max-width: 30ch;
 }
-.hero { background: linear-gradient(135deg, #FFFFFF 0%, rgba(255,255,255,0.65) 100%);
-    border: 1px solid var(--line); border-top: 5px solid var(--pulse); border-radius: 16px;
-    box-shadow: 0 8px 28px rgba(20,33,43,0.08); padding: 1.8rem 2rem 1.3rem 2rem; margin-bottom: 1.2rem; }
+.hero { background: linear-gradient(120deg, #0B7A6B 0%, #1565C0 100%);
+    border-radius: 18px; box-shadow: 0 14px 36px rgba(21,101,192,0.30); padding: 2rem 2.2rem 1.5rem 2.2rem; margin-bottom: 1.2rem; }
+.hero .hero-title { color: #FFFFFF; }
+.hero .lead { color: rgba(255,255,255,0.92); }
+.hero .hero-tag { color: #FFFFFF; border-color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.12); }
+.hero .btn { background: #FFFFFF; color: #0B5E9B !important; }
+.hero .btn.ghost { background: transparent; color: #FFFFFF !important; border: 1.5px solid #FFFFFF; }
+.hero .stat { background: rgba(255,255,255,0.96); }
 .hero-meta { color: var(--mist); font-size: 1rem; margin-bottom: 0.4rem; }
 .ex-row { display: flex; align-items: center; gap: 0.8rem; padding: 0.45rem 0; border-bottom: 1px solid var(--line); }
 .ex-row .txt { flex: 1; color: var(--paper); font-size: 0.95rem; }
@@ -1267,7 +1272,7 @@ def render_analyze():
 
 # Each section gets its own accent colour and background wash (state colours on chips stay fixed).
 PAGE_THEME = {   # accent, page background gradient (top, bottom), sidebar background
-    "Home":         ("#1E8E6A", "#EAF8F2", "#D8EEFA", "#F4FBF8"),
+    "Home":         ("#0E8F6E", "#C9F0E0", "#B5D3F8", "#E3F6EE"),
     "Analyze":      ("#B9770E", "#FFF6E3", "#FFE6BF", "#FFFAF0"),
     "Insights":     ("#2F5FD0", "#EAF0FF", "#D3E1FF", "#F4F7FF"),
     "How it works": ("#7A4FD6", "#F2EBFF", "#E0D2FF", "#F8F4FF"),
