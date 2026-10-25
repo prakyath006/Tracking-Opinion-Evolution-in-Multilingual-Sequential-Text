@@ -54,6 +54,7 @@ OUTPUTS = os.path.join(WORKSPACE_ROOT, "outputs")
 METRICS = os.path.join(OUTPUTS, "metrics")
 
 # Large files are not in git; on a fresh deployment they are pulled from free Hugging Face repos.
+GITHUB_URL = "https://github.com/prakyath006/Tracking-Opinion-Evolution-in-Multilingual-Sequential-Text"
 HF_CKPT_REPO = "prakyath18/opinion-tracker-checkpoints"     # model repo: best_model_*.pt
 HF_DATA_REPO = "prakyath18/opinion-tracker-data"            # dataset repo: contents of data/preprocessed/
 
@@ -213,15 +214,15 @@ st.markdown(
 @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
 
 :root {
-    --ink: #0B1620;
-    --surface: #12212E;
-    --line: #223547;
-    --paper: #EDF3F6;
-    --mist: #8CA0B3;
-    --pulse: #48B58A;
-    --decline: #E1685C;
-    --caution: #D9A544;
-    --neutral: #7C8DA6;
+    --ink: #F4F8FB;
+    --surface: #FFFFFF;
+    --line: #D3DEE8;
+    --paper: #14212B;
+    --mist: #52647A;
+    --pulse: #1E8E6A;
+    --decline: #C0392B;
+    --caution: #B7791F;
+    --neutral: #5A6B7C;
 }
 
 html, body, [class*="css"] { font-family: 'IBM Plex Sans', sans-serif; }
@@ -258,7 +259,7 @@ html, body, [class*="css"] { font-family: 'IBM Plex Sans', sans-serif; }
     margin-bottom: 0.05rem;
 }
 [data-testid="stSidebar"] div[role="radiogroup"] label:hover {
-    background: rgba(72, 181, 138, 0.08);
+    background: rgba(30, 142, 106, 0.10);
 }
 
 /* Numeric readouts get the monospace cut -- data, not decoration */
@@ -276,10 +277,10 @@ html, body, [class*="css"] { font-family: 'IBM Plex Sans', sans-serif; }
     margin: 0.1rem 0.15rem 0.1rem 0;
     white-space: nowrap;
 }
-.chip-positive { color: #A9E4CB; background: rgba(72, 181, 138, 0.14); border-color: rgba(72, 181, 138, 0.4); }
-.chip-negative { color: #F3B3AB; background: rgba(225, 104, 92, 0.14); border-color: rgba(225, 104, 92, 0.4); }
-.chip-mixed    { color: #EFD08C; background: rgba(217, 165, 68, 0.14); border-color: rgba(217, 165, 68, 0.4); }
-.chip-neutral  { color: #C3CEDA; background: rgba(124, 141, 166, 0.14); border-color: rgba(124, 141, 166, 0.4); }
+.chip-positive { color: #11694D; background: rgba(30, 142, 106, 0.12); border-color: rgba(30, 142, 106, 0.45); }
+.chip-negative { color: #A52A1E; background: rgba(192, 57, 43, 0.10); border-color: rgba(192, 57, 43, 0.45); }
+.chip-mixed    { color: #8A5A0B; background: rgba(183, 121, 31, 0.12); border-color: rgba(183, 121, 31, 0.45); }
+.chip-neutral  { color: #3F5066; background: rgba(90, 107, 124, 0.10); border-color: rgba(90, 107, 124, 0.4); }
 
 .chip-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 .chip-table th {
@@ -291,6 +292,35 @@ html, body, [class*="css"] { font-family: 'IBM Plex Sans', sans-serif; }
     color: var(--paper); vertical-align: middle;
 }
 
+.hero-tag {
+    display: inline-block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--pulse); border: 1px solid var(--pulse);
+    border-radius: 999px; padding: 0.15rem 0.8rem; margin-right: 0.5rem;
+}
+.hero-title {
+    font-family: 'Spectral', serif; font-weight: 600; font-size: 2.5rem; line-height: 1.2;
+    color: var(--paper); letter-spacing: -0.01em; margin: 1rem 0 0.6rem 0; max-width: 30ch;
+}
+.hero { background: linear-gradient(135deg, #FFFFFF 0%, rgba(255,255,255,0.65) 100%);
+    border: 1px solid var(--line); border-top: 5px solid var(--pulse); border-radius: 16px;
+    box-shadow: 0 8px 28px rgba(20,33,43,0.08); padding: 1.8rem 2rem 1.3rem 2rem; margin-bottom: 1.2rem; }
+.hero-meta { color: var(--mist); font-size: 1rem; margin-bottom: 0.4rem; }
+.ex-row { display: flex; align-items: center; gap: 0.8rem; padding: 0.45rem 0; border-bottom: 1px solid var(--line); }
+.ex-row .txt { flex: 1; color: var(--paper); font-size: 0.95rem; }
+.ex-bar { height: 8px; border-radius: 4px; background: var(--pulse); }
+.ex-att { width: 130px; background: var(--line); border-radius: 4px; }
+[data-testid="stMetric"] { background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; padding: 0.7rem 0.9rem; box-shadow: 0 3px 10px rgba(20,33,43,0.05); }
+.hero-meta b { color: var(--paper); }
+.team-table { width: 100%; max-width: 640px; border-collapse: collapse; font-size: 0.95rem; }
+.team-table th { text-align: left; color: var(--mist); font-weight: 500;
+    border-bottom: 1px solid var(--line); padding: 0.4rem 0.6rem; }
+.team-table td { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem; color: var(--paper); }
+.team-table td.mono { font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem; }
+.step-card { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--pulse); border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(20,33,43,0.06); padding: 1rem 1.1rem; height: 100%; }
+.step-card .n { font-family: 'IBM Plex Mono', monospace; color: var(--pulse); font-size: 0.8rem; }
+.step-card b { color: var(--paper); }
+.step-card div.t { color: var(--mist); font-size: 0.92rem; margin-top: 0.3rem; line-height: 1.45; }
 .stTabs [data-baseweb="tab-list"] { gap: 10px; }
 .stTabs [data-baseweb="tab"] { padding-top: 10px; padding-bottom: 10px; font-weight: 500; }
 </style>
@@ -305,7 +335,7 @@ st.sidebar.markdown('<div class="wordmark-strap">Follows how an opinion moves, r
 
 page = st.sidebar.radio(
     "Section",
-    ["Analyze", "Insights", "How it works", "About"],
+    ["Home", "Analyze", "Insights", "How it works", "About"],
     label_visibility="collapsed",
 )
 
@@ -316,26 +346,6 @@ st.sidebar.caption(
 )
 
 # Data freshness panel -- shows exactly which results are live and how old.
-st.sidebar.markdown("---")
-st.sidebar.markdown("**Data behind this page**")
-SOURCES = [
-    ("Results table", "metrics/results_table.json"),
-    ("Taxonomy coverage", "metrics/module1_ontology.md"),
-    ("Aspect detection", "metrics/module2_wsd_results.json"),
-    ("Encoder perplexity", "metrics/module3_bert_perplexity.md"),
-    ("Calibration (amazon)", "metrics/module4_sequential_model_amazon.md"),
-    ("Calibration (tamil)", "metrics/module4_sequential_model_dravidian_tamil.md"),
-    ("Domain typicality", "fuzzy_domain_scores.csv"),
-    ("Cross-domain transfer", "cross_domain/cross_domain_results_tamil.json"),
-]
-for label, rel in SOURCES:
-    ts = _mtime(os.path.join(OUTPUTS, rel))
-    dot = '<span style="color:#48B58A">●</span>' if ts else '<span style="color:#5A6C7D">○</span>'
-    st.sidebar.markdown(
-        f'<span style="font-size:0.8rem;color:#8CA0B3">{dot} {label} — {ts or "not generated"}</span>',
-        unsafe_allow_html=True,
-    )
-
 if not BACKEND_AVAILABLE:
     st.sidebar.error(f"Backend import failed: {BACKEND_ERROR}")
 
@@ -346,6 +356,200 @@ if not BACKEND_AVAILABLE:
 # information architecture below (Analyze / Insights / How it works / About),
 # not a one-to-one list of research modules.
 # =============================================================================
+
+HOME_CSS = """
+.wrap-sec { margin: 2.6rem 0 0.9rem 0; }
+.kicker { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pulse); }
+.sec-title { font-family: 'Spectral', serif; font-weight: 600; font-size: 1.7rem; color: var(--paper); margin: 0.1rem 0 0 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.card { background: #FFFFFF; border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.15rem;
+    box-shadow: 0 4px 16px rgba(20,33,43,0.06); }
+.card h4 { margin: 0 0 0.3rem 0; font-size: 1rem; color: var(--paper); }
+.card p, .card li { margin: 0; color: var(--mist); font-size: 0.93rem; line-height: 1.5; }
+.card .num { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--pulse); font-weight: 600; }
+.card.accent { border-top: 4px solid var(--pulse); }
+.lead { color: var(--mist); font-size: 1.12rem; line-height: 1.55; max-width: 60ch; margin: 0.2rem 0 1.1rem 0; }
+.btn { display: inline-block; background: var(--pulse); color: #FFFFFF !important; text-decoration: none !important;
+    font-weight: 600; font-size: 0.92rem; padding: 0.5rem 1.1rem; border-radius: 999px; margin-right: 0.5rem; }
+.btn.ghost { background: transparent; color: var(--pulse) !important; border: 1.5px solid var(--pulse); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 1.4rem; }
+.stat { background: rgba(255,255,255,0.75); border: 1px solid var(--line); border-radius: 12px; padding: 0.7rem 0.9rem; }
+.stat .v { font-family: 'IBM Plex Mono', monospace; font-size: 1.5rem; font-weight: 600; color: var(--paper); }
+.stat .l { font-size: 0.8rem; color: var(--mist); }
+.pipe { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0.4rem 0 1rem 0; }
+.node { background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 0.5rem 0.8rem;
+    font-size: 0.9rem; color: var(--paper); box-shadow: 0 2px 8px rgba(20,33,43,0.05); }
+.node small { display: block; color: var(--mist); font-size: 0.75rem; }
+.node.key { border-color: var(--pulse); background: rgba(255,255,255,0.95); }
+.arrow { color: var(--pulse); font-weight: 700; }
+.pills span { display: inline-block; background: #FFFFFF; border: 1px solid var(--line); border-radius: 999px;
+    padding: 0.28rem 0.8rem; margin: 0.15rem 0.2rem 0.15rem 0; font-size: 0.86rem; color: var(--paper); }
+.person .n { font-weight: 600; color: var(--paper); }
+.person .r { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--mist); margin-top: 0.15rem; }
+.doclink { text-decoration: none !important; display: block; }
+.doclink .card:hover { border-color: var(--pulse); }
+.st-done { color: #11694D; } .st-run { color: #8A5A0B; } .st-plan { color: #3F5066; }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.45rem; }
+.card ul { padding-left: 1.1rem; margin: 0.4rem 0 0 0; }
+"""
+
+
+def _sec(kicker, title):
+    return (f'<div class="wrap-sec"><div class="kicker">{kicker}</div>'
+            f'<div class="sec-title">{title}</div></div>')
+
+
+def render_home():
+    st.markdown(f"<style>{HOME_CSS}</style>", unsafe_allow_html=True)
+    rows = results_rows()
+    full = next((r for r in rows if r["model"] == full_model_name() and r["source"] == "amazon"
+                 and r["target"] == "amazon"), None)
+    base = (load_json("metrics/valid_baselines_amazon.json") or {}).get("majority_baselines", {})
+    maj = next((v for k, v in base.items() if "trajectory" in k.lower()), None)
+    stats = [("4", "languages: EN, TA, ML, KN"), ("3", "predictions per sequence")]
+    if full:
+        sub = f"trajectory macro-F1 (majority baseline {maj['macro_f1']:.3f})" if maj else "trajectory macro-F1"
+        stats.append((f"{full['trajectory_f1_macro']:.3f}", sub))
+    stats.append(("3.1 M", "trainable of 180.9 M parameters"))
+    stat_html = "".join(f'<div class="stat"><div class="v">{v}</div><div class="l">{l}</div></div>' for v, l in stats)
+    blob = GITHUB_URL + "/blob/main/"
+
+    st.markdown(
+        '<div class="hero">'
+        '<span class="hero-tag">Data Science and Data Analytics</span><span class="hero-tag">Team 78</span>'
+        '<div class="hero-title">A Transformer-Based Framework for Tracking Opinion Evolution in Multilingual Sequential Text</div>'
+        '<div class="lead">Reads a person’s reviews in order and predicts how each one feels, how the opinion moved, '
+        'and where it turned, in English, Tamil, Malayalam and Kannada.</div>'
+        f'<a class="btn" href="{GITHUB_URL}" target="_blank">GitHub repository</a>'
+        f'<a class="btn ghost" href="{blob}README.md" target="_blank">Documentation</a>'
+        f'<div class="stats">{stat_html}</div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    team = [("1", "CB.SC.U4CSE23619", "Gudi Hemanth"), ("2", "CB.SC.U4CSE23622", "Yaswanth Jallipalli"),
+            ("3", "CB.SC.U4CSE23626", "Kanishkhan J"), ("4", "CB.SC.U4CSE23635", "Prakyath Nandigam")]
+    cards = "".join(f'<div class="card person accent"><div class="n">{n}</div><div class="r">{r}</div></div>'
+                    for _, r, n in team)
+    st.markdown(
+        _sec("Team 78", "Team details")
+        + f'<div class="grid">{cards}</div>'
+        + '<p style="color:#52647A;margin:0.8rem 0 0 0"><b>Guide:</b> Ms. Krishna Priya G. &nbsp;·&nbsp; '
+          'Department of Computer Science and Engineering, Amrita School of Computing, '
+          'Amrita Vishwa Vidyapeetham, Coimbatore</p>',
+        unsafe_allow_html=True,
+    )
+
+    objectives = [
+        ("Track opinion over a sequence", "One model reads a person’s reviews in order and predicts each review’s sentiment, the transition between reviews, and the overall trajectory."),
+        ("Find the turning point", "Attention weights show which review moved the opinion."),
+        ("Handle multilingual, code-mixed text", "English, Tamil, Malayalam and Kannada share one label scheme."),
+        ("Measure more than accuracy", "Baselines, ablations, calibration and a consistency score."),
+        ("Test transfer", "How well the model carries across domains and languages, with leakage-controlled evaluation."),
+    ]
+    obj = "".join(f'<div class="card accent"><div class="num">0{i}</div><h4>{t}</h4><p>{d}</p></div>'
+                  for i, (t, d) in enumerate(objectives, 1))
+    st.markdown(_sec("Why we are building it", "Project objectives") + f'<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">{obj}</div>',
+                unsafe_allow_html=True)
+
+    st.markdown(
+        _sec("The gap", "Problem statement")
+        + '<div class="grid">'
+          '<div class="card"><h4>Opinions change</h4><p>A customer may start happy, hit a problem and end disappointed. '
+          'Scoring each review on its own cannot see that change or where it happened.</p></div>'
+          '<div class="card"><h4>Multilingual text is harder</h4><p>Tamil, Malayalam and Kannada mixed with English '
+          'are much less familiar to standard encoders, and platforms label opinion differently '
+          '(star ratings on Amazon, text labels on social media).</p></div>'
+          '<div class="card accent"><h4>Our task</h4><p>Given reviews in chronological order, predict how each feels, '
+          'how the opinion moved from one to the next, and the overall trajectory, across languages and domains.</p></div>'
+          '</div>',
+        unsafe_allow_html=True,
+    )
+
+    nodes = [("Reviews", "in order", False), ("Tokenizer", "multilingual", False), ("mBERT", "frozen encoder", True),
+             ("Bi-LSTM", "2 layers, order memory", True), ("Attention", "turning point", True), ("Three heads", "see below", True)]
+    pipe = '<span class="arrow">→</span>'.join(
+        f'<div class="node{" key" if k else ""}">{a}<small>{b}</small></div>' for a, b, k in nodes)
+    st.markdown(
+        _sec("How it works", "Methodology")
+        + f'<div class="pipe">{pipe}</div>'
+        + '<div class="grid">'
+          '<div class="card"><h4>Sentiment per review</h4><p>Positive, negative, mixed or unknown.</p></div>'
+          '<div class="card"><h4>Transition per step</h4><p>Upgrade, downgrade or stable between consecutive reviews.</p></div>'
+          '<div class="card"><h4>Overall trajectory</h4><p>Improving, declining, stable or volatile.</p></div>'
+          '</div>'
+          '<p style="color:#52647A;margin:0.9rem 0 0.2rem 0;font-size:0.93rem">A shared label ontology puts every dataset on one scale. '
+          'Evaluation uses macro-F1 against majority-class and learned baselines, ablations, calibration (ECE), '
+          'a Sequence Consistency Score and cross-domain transfer.</p>',
+        unsafe_allow_html=True,
+    )
+
+    ex = [("Product looks great, very happy with the purchase", "POSITIVE", "chip-positive", "", 0.004),
+          ("Still working fine after two weeks", "POSITIVE", "chip-positive", "STABLE", 0.156),
+          ("Started having problems, quality dropped", "NEGATIVE", "chip-negative", "DOWNGRADE", 0.333),
+          ("Completely stopped working, very disappointed", "NEGATIVE", "chip-negative", "STABLE", 0.507)]
+    html = ""
+    for text, sent, cls, trans, att in ex:
+        tcls = "chip-negative" if trans == "DOWNGRADE" else "chip-neutral"
+        tchip = f'<span class="chip {tcls}">{trans}</span>' if trans else ""
+        html += (f'<div class="ex-row"><div class="txt">{text}</div><span class="chip {cls}">{sent}</span>{tchip}'
+                 f'<div class="ex-att"><div class="ex-bar" style="width:{int(att * 100 / 0.507)}%"></div></div></div>')
+    st.markdown(
+        '<div class="card" style="margin-top:1rem"><h4>Example: one user’s reviews</h4>'
+        '<p style="margin-bottom:0.5rem">Illustrative output. The bar is attention; try your own reviews in <b>Analyze</b>.</p>'
+        + html
+        + '<div style="margin-top:0.7rem"><span class="chip chip-negative">TRAJECTORY: DECLINING</span></div></div>',
+        unsafe_allow_html=True,
+    )
+
+    stack = ["Python", "PyTorch", "Hugging Face Transformers", "mBERT", "XLM-RoBERTa", "FLAN-T5", "pandas", "NumPy",
+             "scikit-learn", "Streamlit", "Plotly", "pytest", "GitHub Actions"]
+    pills = "".join(f"<span>{x}</span>" for x in stack)
+    st.markdown(
+        _sec("Built with", "Technology stack and data")
+        + f'<div class="pills">{pills}</div>'
+        + '<div class="grid" style="margin-top:0.9rem">'
+          '<div class="card"><h4>Amazon Reviews 2023, Beauty</h4><p>English e-commerce. Users’ chronological reviews: '
+          '3,726 / 798 / 800 users for train / val / test.</p></div>'
+          '<div class="card"><h4>DravidianCodeMix: Tamil</h4><p>Code-mixed social media, 33,531 comments.</p></div>'
+          '<div class="card"><h4>DravidianCodeMix: Malayalam, Kannada</h4><p>Code-mixed social media, used to test transfer to languages not trained on.</p></div>'
+          '</div>',
+        unsafe_allow_html=True,
+    )
+
+    def dot(c):
+        return f'<span class="dot" style="background:{c}"></span>'
+    st.markdown(
+        _sec("Where we are", "Project progress")
+        + '<div class="grid">'
+          f'<div class="card accent"><h4 class="st-done">{dot("#1E8E6A")}Completed</h4><ul>'
+          '<li>Label ontology across domains</li><li>mBERT + Bi-LSTM + attention model with three heads</li>'
+          '<li>Word-sense disambiguation for code-mixed aspects</li><li>Baselines, ablations, calibration, perplexity</li>'
+          '<li>Evaluation utilities, open-source repository, tests and this demo</li></ul></div>'
+          f'<div class="card accent"><h4 class="st-run">{dot("#B7791F")}In progress</h4><ul>'
+          '<li>Leakage-controlled multilingual and cross-domain evaluation</li>'
+          '<li>Instruction-tuned language-model baseline (FLAN-T5)</li></ul></div>'
+          f'<div class="card accent"><h4 class="st-plan">{dot("#5A6B7C")}Planned</h4><ul>'
+          '<li>Repeated seeded runs with confidence intervals</li><li>Aspect-level opinion trajectories</li>'
+          '<li>Fine-tuning the encoder layers</li></ul></div>'
+          '</div>',
+        unsafe_allow_html=True,
+    )
+
+    docs = [("README", "Overview, install and usage", "README.md"),
+            ("Final report", "Project report", "docs/final_report.md"),
+            ("Literature comparison", "Against surveyed papers", "docs/literature_comparison.md"),
+            ("Modules 7–9 status", "Evaluation, multilingual, LLM", "docs/new_modules_status.md"),
+            ("Baseline comparison", "Capacity-matched setup", "docs/capacity_matched_comparison.md"),
+            ("Word-sense status", "Disambiguation results and limits", "docs/module2_wsd_status.md")]
+    dl = "".join(f'<a class="doclink" href="{blob}{p}" target="_blank"><div class="card"><h4>{t}</h4><p>{d}</p></div></a>'
+                 for t, d, p in docs)
+    st.markdown(
+        _sec("Read more", "Documentation") + f'<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">{dl}</div>'
+        + f'<p style="margin-top:1.4rem;color:#52647A">Source code: <a href="{GITHUB_URL}" target="_blank">{GITHUB_URL.replace("https://", "")}</a></p>',
+        unsafe_allow_html=True,
+    )
+
 
 def render_about():
     st.markdown(
@@ -780,11 +984,13 @@ def render_cross_domain():
             fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
             st.plotly_chart(fig, width="stretch")
             st.info(
-                "**Read this chart carefully — it is a genuine finding.** "
-                "The model trained on code-mixed Dravidian text retains far more "
-                "of its in-domain performance when moved to a new language than "
-                "the Amazon-trained model does. Transfer within the Dravidian "
-                "family also beats transfer across domains."
+                "**Preliminary, single run.** In this run the model trained on "
+                "code-mixed Dravidian text retains more of its in-domain "
+                "performance on a new language than the Amazon-trained model. "
+                "The Dravidian sequences are sliding windows over independent "
+                "comments and may overlap between train and test, so this is "
+                "indicative only until the leakage-controlled comment-level "
+                "evaluation is complete."
             )
         st.caption("Read from `outputs/metrics/results_table.json`.")
 
@@ -1059,7 +1265,32 @@ def render_analyze():
 # Routing -- four sections, the shape a real product would have
 # =============================================================================
 
-if page == "Analyze":
+# Each section gets its own accent colour and background wash (state colours on chips stay fixed).
+PAGE_THEME = {   # accent, page background gradient (top, bottom), sidebar background
+    "Home":         ("#1E8E6A", "#EAF8F2", "#D8EEFA", "#F4FBF8"),
+    "Analyze":      ("#B9770E", "#FFF6E3", "#FFE6BF", "#FFFAF0"),
+    "Insights":     ("#2F5FD0", "#EAF0FF", "#D3E1FF", "#F4F7FF"),
+    "How it works": ("#7A4FD6", "#F2EBFF", "#E0D2FF", "#F8F4FF"),
+    "About":        ("#C2417A", "#FFEAF2", "#FFD6E6", "#FFF5F9"),
+}
+_accent, _top, _bottom, _side = PAGE_THEME[page]
+st.markdown(
+    f"""<style>
+:root {{ --pulse: {_accent}; }}
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {{
+    background: linear-gradient(165deg, {_top} 0%, {_bottom} 100%) !important; }}
+[data-testid="stSidebar"], [data-testid="stSidebar"] > div:first-child {{ background: {_side} !important; }}
+.stButton > button, .stLinkButton > a {{ border-color: {_accent} !important; }}
+.stButton > button[kind="primary"], .stButton > button[kind="secondaryFormSubmit"] {{ background: {_accent} !important; color: #FFFFFF !important; }}
+.main-header {{ border-left: 4px solid {_accent}; padding-left: 0.7rem; }}
+</style>""",
+    unsafe_allow_html=True,
+)
+
+if page == "Home":
+    render_home()
+
+elif page == "Analyze":
     render_analyze()
 
 elif page == "Insights":
