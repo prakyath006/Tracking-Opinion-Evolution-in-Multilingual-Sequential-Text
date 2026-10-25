@@ -276,6 +276,10 @@ python scripts/generate_module_by_baseline_matrix.py
 
 ### Interactive demo
 
+**Live demo:** https://tracking-opinion-evolution-in-multilingual-sequential-text.streamlit.app/ (free hosting; it may take a minute to wake, and the first prediction downloads the model files).
+
+Run locally:
+
 ```bash
 python -m streamlit run web_demo/app.py
 ```
