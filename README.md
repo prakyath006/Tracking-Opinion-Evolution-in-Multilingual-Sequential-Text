@@ -179,22 +179,76 @@ accuracy. See [`docs/module2_wsd_status.md`](docs/module2_wsd_status.md).
 
 ---
 
-## Modules 7–9 — evaluation, multilingual and LLM (implemented, full runs pending)
+## Progress since Panel 1
+
+Everything below is backed by files in this repository; nothing is claimed that has no result file or test.
+
+| Component | Status | Where |
+|---|---|---|
+| OET with XLM-R and partial fine-tuning (E0 to E4 experiment framework) | implemented and unit-tested; **results not in this repository yet** | `scripts/train_experiment.py`, `src/experiment_utils.py`, `docs/kaggle_experiments.md` |
+| DravidianCodeMix Tamil, Malayalam, Kannada, comment-level sentiment with XLM-R | **trained and evaluated** on Kaggle (frozen encoder, 5 seeds, leakage-controlled official splits, heads saved) | `scripts/dravidian_evaluation.py`, `outputs/dravidian_evaluation/`, `docs/dravidian_evaluation.md` |
+| Aspect-level annotation pipeline (guidelines v0.2, strict validator, agreement report, adjudication package) | implemented; 250 reviews double-annotated | `docs/aspect_annotation_guidelines.md`, `scripts/validate_aspect_annotations.py`, `outputs/annotation_waves/` |
+| Aspect-conditioned sentiment (XLM-R, top 2 layers) | **trained once** on 459 agreed-only examples (pipeline result, see limits) | `src/aspect_sentiment_model.py`, `scripts/train_aspect_sentiment.py`, `outputs/aspect_experiments/` |
+| Aspect extraction (BIO tagging) | implemented and unit-tested; **not trained** (data below the size floors) | `src/aspect_extractor.py`, `src/aspect_data.py`, `scripts/train_aspect_extractor.py` |
+| Aspect chronological sequence / trajectory model | implemented and unit-tested; **not trained** (series floors not met) | `src/aspect_sequence_model.py`, `scripts/train_aspect_sequence.py` |
+| Product-level splits, leakage guards, data-readiness gates | implemented, tested, checked on the real data | `src/aspect_training.py`, `scripts/aspect_readiness.py` |
+| Shared Amazon + Dravidian multitask encoder | **design only**, no code | `docs/shared_xlmr_multitask_design.md` |
+
+**DravidianCodeMix with XLM-R (comment-level; mean over 5 seeds).** Each comment is independent and
+has no timestamp, author or thread, so this is *not* a temporal result.
+
+| Setup, test language | Accuracy | 4-class macro-F1 | Majority-class macro-F1 |
+|---|---|---|---|
+| Tamil model | 0.467 | 0.392 ± 0.007 | 0.187 |
+| Malayalam model | 0.498 | 0.433 ± 0.008 | 0.150 |
+| Kannada model | 0.495 | 0.437 ± 0.016 | 0.173 |
+| Joint model, on Tamil / Malayalam / Kannada | 0.471 / 0.464 / 0.498 | 0.397 / 0.380 / 0.399 | same |
+
+MIXED is the hardest class (F1 0.09 to 0.29). One joint head is no better than per-language heads
+and is worse for Malayalam and Kannada. These numbers use a different protocol from the Panel 1
+Tamil row above (official splits with overlaps removed, not sliding windows), so they are not a
+like-for-like improvement over it.
+
+**Aspect-conditioned sentiment.** One seed: validation accuracy 0.784 / macro-F1 0.332, test accuracy
+0.851 / macro-F1 0.388. Only POSITIVE and NEGATIVE are learned (NEUTRAL and MIXED score 0 F1), and the
+validation and test sets (74 and 67 examples) are below the project's 100-example floor, so treat it as a
+pipeline result.
+
+**Annotation agreement** (two annotators, spans matched at overlap 0.5): Wave 1, 195 reviews, span F1 0.76,
+category kappa 0.91, sentiment kappa 0.98, span-type kappa 0.82; pilot, 48 reviews, span F1 0.65, category
+kappa 0.78. The 394 Wave 1 disagreements are archived, not adjudicated.
+
+**Data-readiness gates.** The pipeline refuses to train when the data is too small, and the thresholds were
+not lowered: aspect extraction was skipped (6 validation and 8 test mentions against floors of 100) and the
+aspect trajectory model is blocked (17 test series against a floor of 20 on the default product split).
+
+**Not claimed:** any temporal opinion-evolution result for Tamil, Malayalam or Kannada, a trained aspect
+extractor or aspect trajectory model, a trained joint Amazon + Dravidian model, gold-standard aspect labels,
+or an improvement of E4 over the Panel 1 model (no E4 result is in this repository).
+
+One notebook, [`notebooks/kaggle_full_training_pipeline.ipynb`](notebooks/kaggle_full_training_pipeline.ipynb),
+runs the aspect readiness gate, the aspect sentiment training and the five-seed Dravidian evaluation on a
+Kaggle GPU. Nothing here is trained on a laptop.
+
+---
+
+## Modules 7–9 — evaluation, multilingual and LLM
 
 | Module | What it is | Code | Status |
 |---|---|---|---|
 | 7 | Valid majority baselines, observed-transition trend metrics, gold-sequence SCS, bootstrap intervals, seeding, prediction export | `src/eval_utils.py`, `scripts/compute_valid_baselines.py`, `scripts/export_predictions.py` | baselines **run** (`outputs/metrics/valid_baselines_amazon.md`); full prediction export pending |
-| 8 | Comment-level multilingual and cross-domain sentiment (official DravidianCodeMix splits, leakage control, 5 seeds) | `scripts/prepare_comment_level_data.py`, `scripts/eval_comment_level.py` | data prepared; evaluation smoke-tested, full run pending (GPU) |
+| 8 | Comment-level multilingual and cross-domain sentiment (official DravidianCodeMix splits, leakage control, 5 seeds) | `scripts/prepare_comment_level_data.py`, `scripts/eval_comment_level.py` | data prepared; the in-language XLM-R comment-level run is **complete** (5 seeds, see Progress since Panel 1); the cross-domain transfer run is still pending (GPU) |
 | 9 | Instruction-tuned LLM (flan-t5) classification, zero-shot and source-calibrated | `scripts/eval_llm_comment_level.py` | smoke-tested, full run pending (GPU) |
 
-No multilingual, cross-domain or LLM result from these modules exists yet. Details and Kaggle
+The in-language XLM-R results for the three Dravidian languages exist (see Progress since Panel 1); no
+cross-domain comment-level or LLM result exists yet. Details and Kaggle
 commands: [`docs/new_modules_status.md`](docs/new_modules_status.md).
 
 **Validity notes.** The Amazon task is a rating-derived sentiment trajectory over a user's
 chronological reviews, which mostly cover different products. The Dravidian sequence results above
 come from sliding windows over independent comments (not real histories) and may be affected by
-train/test text overlap; treat them as preliminary until Module 8 replaces them with comment-level,
-leakage-controlled results. Single training runs, no confidence intervals yet for the model results.
+train/test text overlap; treat them as preliminary. Module 8 now provides comment-level, leakage-controlled
+results for the three languages (see Progress since Panel 1). Single training runs, no confidence intervals yet for the model results.
 
 ---
 
@@ -203,9 +257,9 @@ leakage-controlled results. Single training runs, no confidence intervals yet fo
 | Gap | Status |
 |---|---|
 | 1 — Transformers ignore sequential opinion evolution | ⚠️ Addressed on Amazon (single run, ablation shows both components contribute); not yet shown with intervals or seeds |
-| 4 — Poor cross-domain generalization | ⚠️ Partial — preliminary transfer results; leakage-controlled comment-level evaluation (Module 8) pending |
-| 2 — Inconsistent multilingual/code-mixed embeddings | ⚠️ Partial — released runs use a **frozen** encoder; `--no_freeze_encoder` is supported but not yet reported |
-| 5 — Lack of aspect-level opinion evolution | ⚠️ Half — aspects are tagged corpus-wide, but no per-aspect trajectory head exists yet |
+| 4 — Poor cross-domain generalization | ⚠️ Partial — preliminary transfer results; leakage-controlled in-language comment-level evaluation done, cross-domain comment-level run pending |
+| 2 — Inconsistent multilingual/code-mixed embeddings | ⚠️ Partial — XLM-R evaluated on Tamil, Malayalam and Kannada at comment level (frozen encoder, 5 seeds); partial fine-tuning is implemented but its results are not in this repository |
+| 5 — Lack of aspect-level opinion evolution | ⚠️ Partial — aspect extraction, aspect-conditioned sentiment and an aspect-level sequence model are implemented and tested; only the sentiment model is trained (small data); extraction and trajectory are blocked by data-size floors |
 | 3 — Heavy dependence on supervised learning | ❌ Scoped as future work |
 
 ---
@@ -293,7 +347,7 @@ so rather than showing a placeholder.
 ### Tests
 
 ```bash
-python -m pytest tests/ -q      # 38 tests: 31 ontology consistency + 7 evaluation utilities
+python -m pytest tests/ -q      # 303 tests (ontology, evaluation utilities, aspect pipeline, annotation tooling, Dravidian evaluation); data-dependent tests skip without data/
 ```
 
 ### GPU
@@ -308,12 +362,12 @@ is a ready-to-run entry point for Colab or Kaggle.
 ```
 src/                 model, ontology, WSD, baselines, evaluation utilities
 scripts/             data building, training, evaluation, reporting
-tests/               ontology consistency and evaluation-utility tests
-notebooks/           EDA and Colab training
+tests/               ontology, evaluation, aspect pipeline, annotation tooling and Dravidian evaluation tests
+notebooks/           EDA, Colab training and the Kaggle full training pipeline
 web_demo/            Streamlit dashboard
 docs/                status documents, literature comparison, defect register
 ontology/            aspect taxonomy and WSD lexicons
-outputs/             results (gitignored except metrics/*.md)
+outputs/             results: metrics, Dravidian evaluation, aspect experiments, annotation outputs (checkpoints are gitignored)
 ```
 
 Notable documents:
@@ -326,13 +380,17 @@ Notable documents:
   open limitation
 - [`docs/literature_comparison.md`](docs/literature_comparison.md) — comparison
   against the surveyed papers
+- [`docs/dravidian_evaluation.md`](docs/dravidian_evaluation.md) — the XLM-R comment-level protocol and results
+- [`docs/aspect_annotation_guidelines.md`](docs/aspect_annotation_guidelines.md) and [`docs/aspect_models.md`](docs/aspect_models.md) — aspect annotation rules and models
+- [`docs/annotation_requirements_and_batch_02.md`](docs/annotation_requirements_and_batch_02.md) — training floors, measured yield and the next annotation batch
+- [`docs/shared_xlmr_multitask_design.md`](docs/shared_xlmr_multitask_design.md) — design (not implemented) of a shared Amazon + Dravidian encoder
 
 ---
 
 ## Known limitations
 
-- The released runs **freeze the encoder**; the fine-tuned variant is supported but not
-  yet reported.
+- The Panel 1 runs **freeze the encoder**; XLM-R partial fine-tuning (E4) is implemented and tested, but no
+  E4 result is in this repository.
 - The **Tamil trajectory head** never predicts IMPROVING or DECLINING.
 - **No WSD accuracy figure** — gold sense labels do not exist for this corpus.
 - **Malayalam labels** are 35.7% `unknown_state`; treat that domain's sentiment labels
@@ -340,7 +398,11 @@ Notable documents:
 - Adding a new dataset currently requires code changes, not just configuration — the
   model and ontology are domain-agnostic, but the data loaders are not yet registry-driven.
 - **LLM baseline** (Module 9) is implemented but its full run is pending; no LLM result is reported.
-- Results are from single runs; seeded, matched-baseline retraining is pending.
+- Only the Dravidian XLM-R evaluation is repeated over 5 seeds; the Amazon OET and aspect results are single runs.
+- The aspect extraction and aspect trajectory models are **not trained**: the agreed-only annotations are below the
+  project's size floors (500 / 100 / 100 mentions, 50 / 20 / 20 series) and the floors were not lowered.
+- The aspect-conditioned sentiment model is a pipeline result only (tiny validation and test sets, NEUTRAL and MIXED not learned).
+- Dravidian data has no time order, so no temporal opinion-evolution claim is made for Tamil, Malayalam or Kannada.
 
 ---
 
