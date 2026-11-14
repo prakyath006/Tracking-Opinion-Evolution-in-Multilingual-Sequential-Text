@@ -1,0 +1,91 @@
+{
+ "split_seed": 0,
+ "ratios": [
+  0.7,
+  0.15,
+  0.15
+ ],
+ "splits": {
+  "train": {
+   "products": [
+    "B000FEF1V4",
+    "B0067BAIM6",
+    "B007MB4YW0",
+    "B00BDB2RLA",
+    "B00NP4RLA0",
+    "B00O6ZZCEY",
+    "B011MTR5QO",
+    "B016APMMQI",
+    "B01CZNI0KG",
+    "B01DP8QD22",
+    "B01DUYNJL4",
+    "B071NG6PVD",
+    "B075SB8WVJ",
+    "B076XNNZYQ",
+    "B077JJ12PY",
+    "B07M6MXTH2",
+    "B07W81JVBC",
+    "B08SW89NWV",
+    "B08YK8B89C",
+    "B0974GWS7Z",
+    "B09FP8PP2K"
+   ],
+   "n_products": 21,
+   "n_messages": 159,
+   "n_mentions": 385,
+   "messages_by_status": {
+    "ASPECT_PRESENT": 159
+   }
+  },
+  "val": {
+   "products": [
+    "B00JZKAUV0",
+    "B014DH4FTC",
+    "B01F6XBNWY",
+    "B0753JSKQZ",
+    "B07V2Y4Z5B"
+   ],
+   "n_products": 5,
+   "n_messages": 31,
+   "n_mentions": 88,
+   "messages_by_status": {
+    "ASPECT_PRESENT": 31
+   }
+  },
+  "test": {
+   "products": [
+    "B0026NCM78",
+    "B01IPXUIDC",
+    "B07WJR4NC4",
+    "B08ZYXV85F"
+   ],
+   "n_products": 4,
+   "n_messages": 31,
+   "n_mentions": 80,
+   "messages_by_status": {
+    "ASPECT_PRESENT": 31
+   }
+  }
+ },
+ "class_counts": {
+  "train": {
+   "POSITIVE": 257,
+   "NEGATIVE": 49,
+   "NEUTRAL": 10,
+   "MIXED": 2
+  },
+  "val": {
+   "POSITIVE": 55,
+   "NEGATIVE": 11,
+   "NEUTRAL": 5,
+   "MIXED": 3
+  },
+  "test": {
+   "POSITIVE": 53,
+   "NEGATIVE": 10,
+   "NEUTRAL": 1,
+   "MIXED": 3
+  }
+ },
+ "identical_texts_across_splits": 0
+}

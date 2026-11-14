@@ -1,0 +1,30 @@
+{
+ "status": "completed",
+ "name": "sentiment_xlmr_top2_agreed_only",
+ "task": "sentiment",
+ "epochs_run": 10,
+ "best_epoch": 6,
+ "selection_metric": "macro_f1",
+ "validation": {
+  "accuracy": 0.7837837837837838,
+  "macro_f1": 0.33242258652094714,
+  "macro_f1_present_classes": 0.33242258652094714,
+  "loss": 1.521604892369863
+ },
+ "test": {
+  "accuracy": 0.8507462686567164,
+  "macro_f1": 0.387624466571835,
+  "macro_f1_present_classes": 0.387624466571835,
+  "loss": 1.3666558585949797
+ },
+ "warnings": [
+  "the val split has only 74 aspect examples (floor 100): metrics are too noisy to compare models",
+  "the val split has fewer than 20 examples of ['NEGATIVE (11)', 'NEUTRAL (5)', 'MIXED (3)']: per-class F1 is unreliable",
+  "the test split has only 4 product(s) (floor 5): its metrics are anecdotal",
+  "the test split has only 67 aspect examples (floor 100): metrics are too noisy to compare models",
+  "the test split has fewer than 20 examples of ['NEGATIVE (10)', 'NEUTRAL (1)', 'MIXED (3)']: per-class F1 is unreliable",
+  "only 318 training aspect examples (floor 500) for an encoder with 100+ million parameters: expect unstable training and overfitting",
+  "treat every number from this run as a pipeline check, not as evidence about model quality"
+ ],
+ "dataset_too_small_for_meaningful_evaluation": true
+}

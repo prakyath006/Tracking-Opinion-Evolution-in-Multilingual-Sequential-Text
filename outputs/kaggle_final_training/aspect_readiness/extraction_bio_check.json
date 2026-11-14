@@ -1,0 +1,15 @@
+{
+ "examples": 35,
+ "report": {
+  "messages": 35,
+  "unclear_masked": 0,
+  "no_aspect_all_O": 0,
+  "mentions": 83,
+  "truncated_mentions": 0,
+  "unaligned_mentions": 0,
+  "partial_boundary_mentions": 0,
+  "examples": 35
+ },
+ "B_tags": 83,
+ "alignment_ok": true
+}

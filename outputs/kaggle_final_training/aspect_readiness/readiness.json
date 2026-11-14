@@ -1,0 +1,97 @@
+{
+ "gate": {
+  "data": true,
+  "safe": true,
+  "leak_sentiment": true,
+  "leak_extraction": true
+ },
+ "extraction": {
+  "mentions": {
+   "train": 69,
+   "val": 6,
+   "test": 8
+  },
+  "products_total": 18,
+  "products_per_split": {
+   "train": 12,
+   "val": 3,
+   "test": 3
+  },
+  "floors": {
+   "total_products": 30,
+   "eval_products": 5,
+   "eval_mentions": 100,
+   "train_mentions": 500
+  },
+  "floors_met": false
+ },
+ "sequence": {
+  "0": {
+   "usable_series": {
+    "train": 67,
+    "val": 21,
+    "test": 17
+   },
+   "blockers": [
+    "17 usable test series (floor 20)"
+   ]
+  },
+  "1": {
+   "usable_series": {
+    "train": 74,
+    "val": 12,
+    "test": 19
+   },
+   "blockers": [
+    "12 usable val series (floor 20)",
+    "19 usable test series (floor 20)"
+   ]
+  },
+  "2": {
+   "usable_series": {
+    "train": 79,
+    "val": 15,
+    "test": 11
+   },
+   "blockers": [
+    "15 usable val series (floor 20)",
+    "11 usable test series (floor 20)"
+   ]
+  },
+  "3": {
+   "usable_series": {
+    "train": 75,
+    "val": 11,
+    "test": 19
+   },
+   "blockers": [
+    "11 usable val series (floor 20)",
+    "19 usable test series (floor 20)"
+   ]
+  },
+  "4": {
+   "usable_series": {
+    "train": 67,
+    "val": 21,
+    "test": 17
+   },
+   "blockers": [
+    "17 usable test series (floor 20)"
+   ]
+  },
+  "5": {
+   "usable_series": {
+    "train": 76,
+    "val": 15,
+    "test": 14
+   },
+   "blockers": [
+    "15 usable val series (floor 20)",
+    "14 usable test series (floor 20)"
+   ]
+  }
+ },
+ "oof_blockers": [],
+ "sentiment_examples": 459,
+ "products": 30
+}

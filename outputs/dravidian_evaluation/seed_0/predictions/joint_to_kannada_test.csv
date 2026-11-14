@@ -1,0 +1,633 @@
+row,text,script_group,gold,gold_name,pred_seed0
+0,heart touching comment nne kelsa aagbeku !!,romanised,0,POSITIVE,3
+1,r report madi avna,romanised,3,UNKNOWN,0
+2,ಈ ಚಿತ್ರ ರಿ ರಿಲೀಸ್ ಆಗ್ಬೇಕು ಈ ಚಿತ್ರಕ್ಕೆ ಗೌರವ ಕೊಡೊಕಾದ್ರು ಚಿತ್ರ ಮಂದಿರಕ್ಕೆ ಹೋಗಿ ಮತ್ತೆ ನೋಡಣ,native_script,0,POSITIVE,1
+3,matte comment yaru kettadagi maadbardantha commenters gu warning kottri idella thappe.public comment antha irodu adu public opinion nivu yaru nam bagge maathadodakke.,romanised,1,NEGATIVE,1
+4,ನೀನು ಒಳ್ಳೆಯದೇ ಮಾತನಾಡಿದಿಯಾ ಗುರು ನಿನ್ನಗೆ ಧನ್ಯವಾದ ಗುರು,native_script,0,POSITIVE,0
+5,ನಮ್ಮ ಕಾಮೆಂಟ್ ನೋಡಿ ಓದಿದವರ ಸಮಸ್ಯೆಗಳು ಬೇಗ ಪರಿಹಾರವಾಗಲಿ.ಓಂ ನಮೋ ನಾರಯಣಯ ನಮಃ,native_script,2,MIXED,0
+6,ಏನು ಮಾಡೋದು ಸರ್ ದೇಶ ಉದ್ದಾರ ಮಾಡುವಷ್ಟು ದುಡ್ಡನ್ನು ನಕಲಿ ಗಾಂಧಿಗಳು ಲೂಟಿ ಮಾಡಿದ್ದಾರೆ ಅದು ಅಲ್ದೇ ಒಬ್ಬ ವಿದೇಶಿ ಮಹಿಳೆ ಕೈಯಲ್ಲಿ ದೇಶ ಸಿಕ್ಕು ಬರಬಾರದ ಪರಸ್ಥಿತಿಯಲ್ಲಿ ಬಂದುಬಿಟ್ಟಿದೆ ಅವಳ ಬ್ಯಾಂಕ್ ಬ್ಯಾಲೆನ್ಸ್ 3 ಬಿಲಿಯನ್ ಇದೆ ಯಾರಪ್ಪನ ಮನೆ ದುಡ್ಡು ಅದು ಸ್ವಲ್ಪ ಅದರ ಬಗ್ಗೆ ಒಂದು ವಿಡಿಯೋ ಮಾಡಿ ಲೂಟಿಕೋರರ ನಕಲಿ ಗಾಂಧಿಗಳ ಬಗ್ಗೆ,native_script,1,NEGATIVE,1
+7,super guru nin voice,romanised,0,POSITIVE,0
+8,mallad luccha fans nimma luccha suderpdu movie nodo ella flop agtive side actor get fit baavali age eddane balegaara correctagi tindu barlike hell baavali,romanised,1,NEGATIVE,1
+9,dislike ಮಾಡೋ ಮೂರ್ಖರ ಬುದ್ದಿಗೆ ಶ್ರದ್ಧಾಂಜಲಿ.,mixed_script,1,NEGATIVE,1
+10,ಮೋದಿ ನೋಡಿ ಕಲಿಯಬೇಕು ಬರಿ ಬಾಯಿ ಮಾತಿನಲ್ಲಿ ಹೇಳಿ ಉಪಯೋಗ ಇಲ್ಲ ಚೀನಾ ತರ ಮಾಡಿ ತೋರಿಸು ಅವರು ರಫ್ತು ಮಾಡುವ ಜಿಡಿಪಿ ನಮ್ಮ ಇಡೀ ದೇಶದಲ್ಲಿ ಇಲ್ಲ ಮೋದಿ ನಿನಗೆ ಮತ್ತು ನಿನ್ನ ಸಂಘಿಗಳಿಗೆ ಬರಿ ಹಿಂದು ಮತ್ತು ಮುಸ್ಲಿಂ ಅಂತ ಕೋಮುವಾದ ಮಾಡಿ ನಮ್ಮ ದೇಶವನ್ನು ಪಾತಲಕೆ ನೂಕಿದೆ,native_script,0,POSITIVE,1
+11,my favourite song edu steps super,romanised,0,POSITIVE,0
+12,parthasarathi ಅಲಾ ಹಾದರಗಿತ್ತಿ ನಿಮ್ಮದು ದೊಡ್ಡ ತುಲ್ಲು ಬಿಡೆ,mixed_script,1,NEGATIVE,1
+13,lyrics artha adoru kay kaal aadsrappa,romanised,0,POSITIVE,3
+14,guru ellidde guru real tallent irodhu ninge,romanised,0,POSITIVE,1
+15,g dambal the,romanised,3,UNKNOWN,3
+16,who is after howdu huliya,romanised,3,UNKNOWN,3
+17,only kannada no english,romanised,3,UNKNOWN,3
+18,super gichhi gili gili boss,romanised,0,POSITIVE,0
+19,ಕನ್ನಡ ನಾಡಿನ ಜನತೆಗೆ ನಿಮ್ಮಕದರ್,native_script,0,POSITIVE,0
+20,vd ಧನ್ಯವಾದಗಳು,mixed_script,2,MIXED,3
+21,ಡುಬೇಕ್ add ಕಾನುನುಬದ್ದವಾಗಿದೆಯ? ಇಂಜಿನಿಯರಿಂಗ್ ಮಾಡಿ ಕೆಲಸ ಮಾಡೊದ ಬಿಟ್ಟು ಜೂಜ್ ಆಡ್ತನಂತೆ ಲಕ್ಷ ಕಳೆದುಕೊಂಡು ಮೇಲೆ ಬುದ್ಧಿ ಬರತ್ತೆ,mixed_script,2,MIXED,1
+22,d yatheesh good job bro,romanised,3,UNKNOWN,2
+23,superb. sandalwood gentle man,romanised,0,POSITIVE,3
+24,ನಿನ್ನ ಪಿಂಡ.,native_script,1,NEGATIVE,3
+25,ನಿನ್ ತುಣ್ಣಿ ಹತ್ರಾ ಶಾಟ ಉದ್ದ ಆಗಿದಾವೆ ಅನ್ಸುತ್ತೆ ಹೋಗಿ ಬೊಳುಸು.. ನಿಮ್ಮ ಅಮ್ಮನ್ d boss ವಿಶ್ಯ ಕ್ಕೇ ಬಂದ್ರೆ ತುಲ್ಲರೆ ಕೊಡ್ತೀನಿ ಮಾತ್ರ. ಹುಶಾರ್.. ಬಾರೋ.. dum ಇದ್ರೆ ಮೆಜೆಸ್ಟಿಕ್.. ಹತ್ರಾ ತುಲ್ಲರೆ ದೆಂಗ್ತಿನಿ ಅಷ್ಟೇ ಮಗನೇ ನಿಮ್ಮ ಅವ್ವ ಹಾದರಗಿತ್ತಿ,mixed_script,1,NEGATIVE,1
+26,d boss movie henge irli fans hatrikk maadtare pakka,romanised,0,POSITIVE,3
+27,sathyavaada maathanna nudidri sir bhagavanthana bagge bhagavanthana neevu kondadidri andre neevu saamaanya vyakthiyalla entha olle maathanna nijavaada obba jnaniyu nudithane aadre neevu nudididdira andre i r so grate bhagavantha nimmanna chennagittirli edthare anno nambike ede thanku sirji,romanised,0,POSITIVE,1
+28,looks like dboss dancing.. ..from dboss fan.,romanised,3,UNKNOWN,0
+29,ಭಾರತದಲ್ಲಿ ಬರಿ ರಾಜಕಾರಣ ಮತ್ತು ತಮ್ಮ ಮಕ್ಕಳ ರಾಜಕೀಯ ಪ್ರವೇಶ ಮತ್ತು ಹಣ ಮಾಡು ರೀತಿ ಯಾವ ಕಾಯೀಲೇ ಬಂದ್ರೇ ಪ್ರವಾಹ ಆದರೆ ಎಷ್ಟೊ ಹಣ ಬರುತ್ತೆ ಮತ್ತುnಯಾವ ರೀತಿ ಬರುತ್ತೆ ಕೂಳ್ಳೇ ಹೊಡೆದು ಯಾವ ಜಾಗದಲ್ಲಿ ಇದರ ಬಗ್ಗೇ ಯೋಚನೆ,mixed_script,0,POSITIVE,1
+30,ತುಂಬ ಚನ್ನಾಗಿ ಅಥ೯ವಾಗುವ ರೀತಿ ಮಾಹಿತಿ ನೀಡಿದ್ದಿರಾ ಧನ್ಯವಾದಗಳು.,native_script,0,POSITIVE,0
+31,all fake bro nija vishaya maatra heli bro ummane janara manasalli sullu nambike yanna huttisa bedi plzz,romanised,1,NEGATIVE,1
+32,sir nanu driver kelsa madidininnevu acting maddanta amar akbar antony cinema dallinreally great sir nevu nanu tumba adrustavanta nimjote edadu,romanised,0,POSITIVE,1
+33,ಈ ಮಹಾನ್ ವ್ಯಕ್ತಿಗೆ ಹೆಚ್ಚು ಹೆಚ್ಚು ಸಿನಿಮಾಗಳಲ್ಲಿ ಅವಕಾಶ ಕೊಡಿ,native_script,0,POSITIVE,0
+34,ee song virat kohli modi ji ge perfect match akkati nasn rakshit anna,romanised,3,UNKNOWN,1
+35,ಲಾಸ್ಟ್ ಅಲ್ಲಿ fork ಎಸೆದಿದ್ದು shaanvi aka lakshmi ಇರಬಹುದಾ ಅನ್ನೋರು like ಮಾಡಿ,mixed_script,3,UNKNOWN,1
+36,ibrunu kannadadavre ibru belibeku. support maadi compare maadbedi,romanised,0,POSITIVE,1
+37,devaru annonu idaane andre avru shaapa kottidddu nijaane aagidre avru idde iruttaare elllooo ondu jaagadallli manushyara kannige kaanollla aste jaiii sri krishna,romanised,0,POSITIVE,1
+38,ನನಗೇನೋ ರಕ್ಷಿತ್ ಶೆಟ್ಟಿ ಶಂಕರ್ನಾಗ್ ಸರ್ ತರಾನೇ ಕಾಣಿಸುತ್ತಾರೆ,native_script,0,POSITIVE,0
+39,ಇದು ಇತಿಹಾಸ ಸೃಷ್ಟಿಸೇೂ ಅವತಾರ..nnಅವನೇ ಶ್ರೀಮನ್ನಾರಯಣ,mixed_script,0,POSITIVE,0
+40,madhukumar ks for a kind information.. audio lunch..,romanised,2,MIXED,0
+41,super anna. neev helid matu 100 nija. onedu matalu oned artayide.,romanised,3,UNKNOWN,1
+42,avne dodda copy,romanised,1,NEGATIVE,3
+43,song ಹೆಂಗೆ..ಹೌದು ಹುಲಿಯಾ.,mixed_script,0,POSITIVE,1
+44,ಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೋ ಚಿತ್ರ ಅನ್ನೋರು ಲೈಕ್ ಮಾಡಿ,native_script,0,POSITIVE,0
+45,ನಿಮ್ಮ ತಂದೆಯ ನಾನು ಫ್ಯಾನ್ ಹಾಗೆ ನಿಮ್ಮ ಫ್ಯಾನ್ ಸೂಪರ್ ಸರ್,native_script,0,POSITIVE,0
+46,super sir.ನಾವು ಚಿಕ್ಕವರಿದ್ದಾಗ ನಮ್ಮ ಕುಟುಂಬದವರು ಎಲ್ಲರೂ ಸೇರಿ ಕೇಳುತ್ತಿದ್ದೆವು.ನಮ್ಮ ಅಪ್ಪನ ಅಚ್ಚುಮೆಚ್ಚಿನ ಹಾಸ್ಯ ಕಾರ್ಯಕ್ರಮ ಇದು,mixed_script,0,POSITIVE,0
+47,akhilanda koti brahmand nayaka simple star,romanised,0,POSITIVE,0
+48,e film yarigella ista agide..,romanised,0,POSITIVE,0
+49,ಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸುವ ಸಾಂಗ್,native_script,0,POSITIVE,0
+50,i love adi acting super,romanised,0,POSITIVE,0
+51,ದೇಶಕ್ಕೋಸ್ಕರ ಒಂದು app uninstall ಮಾಡೊಕೆ ಆಗಲ್ಲ ಇವರಿಗೆ ಥೂ ಇವರ ಜನ್ಮಕ್ಕೆ,mixed_script,1,NEGATIVE,1
+52,kannadiga idhu idhu namma nijavaada kannadigana maathu,romanised,0,POSITIVE,1
+53,sule bindhu. awlge nam sainikaru kintha awllu fame beku.. thu lofer mundde hula bidhu saithya ninu,romanised,1,NEGATIVE,1
+54,is it true,romanised,3,UNKNOWN,3
+55,ottinalli navu uddara,romanised,0,POSITIVE,3
+56,ಉತ್ತರ ಕರ್ನಾಟಕದ ಭಾಗದಲ್ಲಿ ನಡೆದ ನೈಜ ಘಟನೆ ಆಧಾರಿತ ಕಥಾ ಸಂಗ್ರಹ,native_script,3,UNKNOWN,0
+57,ಯಾಕ್ ಗುರು ಈ. ಹಾಡು ಇಷ್ಟು ಅದ್ದಿಕ್ಟ್ ಆಗ್ಬಿಟ್ಟಿದೆ,native_script,1,NEGATIVE,1
+58,ಸೂಪರ್ ಆಗಿ ಹೇಳ್ದೆ ಗುರು,native_script,0,POSITIVE,0
+59,shankar nag nenapugalu,romanised,3,UNKNOWN,0
+60,nam kangu kansli amele nambtivi,romanised,1,NEGATIVE,1
+61,my fevareta song,romanised,0,POSITIVE,3
+62,telugu lo super,romanised,3,UNKNOWN,2
+63,bro ee devru yallru india davre na athava india bittu ogallva,romanised,1,NEGATIVE,1
+64,ಕನ್ನಡ ಸಿನಿಮಾ ಬೆಳೆಸಲು ಕರಾವಳಿಯವರಾದ ಶಂಕ್ರಣ್ಣ,native_script,0,POSITIVE,0
+65,hahaha sisya yavano nin mobile hegrisidane antha kansutte hahahaha.,romanised,1,NEGATIVE,1
+66,tik tok vade gala,romanised,3,UNKNOWN,3
+67,jai appu boss,romanised,0,POSITIVE,3
+68,signature steps awesome.pakka. tag agthe,romanised,0,POSITIVE,3
+69,h jagavar 777 charlie barutte next,romanised,3,UNKNOWN,3
+70,parthasarathi ನಂದಿನಿ ಅವ್ರೆ ನಿಮ್ಮ ಹಾಲು ತುಂಬಾ ಕಾಸ್ಟ್ಲಿ ಅಂತೇ ಹೌದ,mixed_script,1,NEGATIVE,1
+71,huccha venkat dialogue,romanised,2,MIXED,0
+72,12 dislikes by gandu nanmakalu,romanised,1,NEGATIVE,3
+73,trend setting song,romanised,0,POSITIVE,3
+74,ganeshakar hlo ಹೇಳಪ್ಪ ಇದಿನಿ,mixed_script,1,NEGATIVE,1
+75,nikal lowde osmmm dialogue bro..,romanised,1,NEGATIVE,0
+76,kelta kelta finally idu kick kodtu. excellent,romanised,0,POSITIVE,3
+77,most liked video song agutte ee kannada film industry li year,romanised,0,POSITIVE,0
+78,ಕೇಳ್ತಾ ಕೇಳ್ತಾ,native_script,3,UNKNOWN,3
+79,ಚಿತ್ರದ climax ಏ.. ಚಿತ್ರವನ್ನು ಮಂಕಾಗಿಸಿದೆ,mixed_script,1,NEGATIVE,0
+80,nijavaglu belakaythu shankar sir,romanised,0,POSITIVE,0
+81,nim movie scene evaga viral aagidhe anna,romanised,2,MIXED,3
+82,ಸರ್ ಕೆಲವು ಸತ್ಯಗಳನ್ನ ಜಾಸ್ತಿ ಹುದುಕಿ ತಗಿಬರ್ದು ಆದ್ರೆ ಅದು ಸತ್ಯವೇ ಆಗಿರುತ್ತದೆ,native_script,0,POSITIVE,1
+83,super guru tumba channag matadtira i like it,romanised,0,POSITIVE,0
+84,unlike madiroru bevarsigalu.,romanised,1,NEGATIVE,1
+85,ontara different agi ide,romanised,2,MIXED,3
+86,gulama movie tarah ondd movie maadu nin hesrru maate kellsutte,romanised,1,NEGATIVE,1
+87,actually ಇದು ಇದು song ಅಂದ್ರೆ. ಏನಂತೀರಿ ಗೆಳಯರೆ.,mixed_script,0,POSITIVE,2
+88,ಹೊಸತನ ಅಂತ ಇದಕ್ಕೆ ಹೇಳೋದು ಕನ್ನಡದ ಯಶಸ್ಸು ಇನ್ನೊಂದು ಹಂತಕ್ಕೆ .. ಶತದಿನೋತ್ಸವ ಆಚರಿಸಲಿ..ಯಶ್ ಅಭಿಮಾನಿ ಬಳಗ,native_script,0,POSITIVE,0
+89,dynamic prince is back nಕಂಟೆಂಟ್ ಇರೋ ಮೂವಿನ ಕನ್ನಡಿಗರು ಯಾವತ್ತೂ ಕೈ ಬಿಟ್ಟಿಲ್ಲ,mixed_script,0,POSITIVE,1
+90,ನಾನು ಸುಮಾರು ಈ ಹಾಡನ್ನು ಹದಿನೈದು ಬಾರಿ ನೋಡಿದ್ದೇನೆ ಯಾಕೆ ಗೊತ್ತಿಲ್ಲ ಇನ್ನು ನೋಡಬೇಕು ನೋಡಬೇಕು ಅನಿಸುತ್ತದೆ. ಅದೇತರ ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಬಾರಿ ನೋಡುತ್ತಲೇ ಇರುವವರು ಲೈಕ್ ಮಾಡಿ,native_script,0,POSITIVE,0
+91,nayak roberrt bangada goth aagutte,romanised,1,NEGATIVE,1
+92,osm music,romanised,0,POSITIVE,3
+93,nimge interview madoke bere jaga sekilwa,romanised,1,NEGATIVE,1
+94,pakka full gicchi gilili song. en song pa benki aiti.. pakka ella record nu muriteti .. jai karnataka,romanised,0,POSITIVE,1
+95,bro nivu adthiro game yavudu,romanised,2,MIXED,1
+96,hands up song full kirak song,romanised,0,POSITIVE,3
+97,movie super and climax chapper,romanised,2,MIXED,0
+98,anil nimmappa alvenro,romanised,3,UNKNOWN,3
+99,ಅದ್ಭುತ ಹಾಡು,native_script,0,POSITIVE,0
+100,chindi song guru,romanised,1,NEGATIVE,0
+101,ಸತ್ಯವಾಗಿಯೂ ಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸುವ ಸಿನಿಮಾನೇ ಗುರು.,native_script,0,POSITIVE,0
+102,boss nivu rashmi kinta jasthi belibeku,romanised,0,POSITIVE,1
+103,parthasarathi ನಿನ್ ತುಲ್ಲಗೆ ಕಿಂಗಫಿಶರ್ ಬಿಯರ್ ತುರ್ಕಾ. ನಿನ್ ತುಲ್ಲಿಗೆ ನನ್ ರಾಡ್ ಹಾಕ್ಲಿ ಎಷ್ಟೇ ನಿಂದು ತುಲ್ಲು,mixed_script,1,NEGATIVE,1
+104,ಿಚ್ಚನ ಹಾವಳಿ astu cheepalla bido nimtara 60cr above madide pailwan kurukshetra 100cr collection madide,mixed_script,1,NEGATIVE,1
+105,oba mele hogutidane andre navanige melle hogokke sahay madobadallu avan kalu aledu kelage billisoke nodo janare nammalijas,romanised,0,POSITIVE,1
+106,all kannadigas dont forget.,romanised,0,POSITIVE,2
+107,ಚೀನಾದ ಭವಿಷ್ಯ ಕ್ಕಾಗಿ ಸ್ಥಿರ ಆಡಳಿತಕ್ಕಾಗಿ ಜಿನ್ ಪಿಂಗ್ ರನ್ನು ಜೀವಮಾನದ ವರೆಗೆ ಅಧ್ಯಕ್ಷ ರಾಗಿ ಆಯ್ಕೆ ಆಗಿದ್ದಾರೆ. ಆದರೆ ಭಾರತ ದಲ್ಲಿ ಪ್ರತಿ ವರ್ಷ ಒಂದಿಲ್ಲೊಂದು ಚುನಾವಣೆ ಗಳು ಇರ್ತಾವೆ ಈ election ಗೆಲ್ಲೊಕೇ ಹೊಲಸು ರಾಜಕೀಯ ನಾಯಕರ ಹಂದಿಗಳು ಹರಾಚಾಟ ಜಾತಿ ಧರ್ಮ ಬ್ರಷ್ಟಾಚಾರ ಅಧಿಕಾರ ದಾಹ ಸುಳ್ಳುಗಳು ಕೆಸರು ಎರೆಚಾಟ ಇಂತ ಹೊಲಸು ರಾಜಕೀಯ ವನ್ನೇ 24 7 ಬ್ರೇಕಿಂಗ್ ನ್ಯೂಸ್ ಆಗಿ ತೋರಿಸೋ ಮೂರು ಬಿಟ್ಟು ಬಾಯಿ ಬಡುಕೊಳ್ಳೋ news ಚಾನೆಲ್ ಗಳು.. ಇದು ನಮ್ ಗೋಳು ಗಳು nಇದರ ಮಧ್ಯ ಜನ ಸಮಾನ್ಯನಿಗೆ ಶಿಕ್ಷಣ ಆರೋಗ್ಯ ಉದ್ಯೋಗ ಒಳ್ಳೆ ಪರಿಸರ ಬರಿ ಕನಸು.. nಇನ್ನೂ social ಮಿಡಿಯಾ ದಲ್ಲಿ ಭಾರತ ವಿಶ್ವ ಗುರು,mixed_script,1,NEGATIVE,1
+108,complete kwatley guru ninu..,romanised,0,POSITIVE,0
+109,hands up nyuvarathnaa update on december 31stjai drrajkumar,romanised,0,POSITIVE,3
+110,anna super anna anna mind super,romanised,0,POSITIVE,0
+111,guru chinese mobile yen madodu,romanised,1,NEGATIVE,3
+112,give link to that pandi kokku song ..,romanised,3,UNKNOWN,3
+113,olle msg bro.. sakath agi helidira..,romanised,0,POSITIVE,1
+114,super osam music,romanised,0,POSITIVE,0
+115,mulla tq sir,romanised,3,UNKNOWN,3
+116,yuddha maadabeku 'odhabaradhu' katukara mundhe bhagavadhgeethe.,romanised,2,MIXED,1
+117,p neenu devarannu nodidhiya?? illa alva hagadre kai yake mugithi..?.devaru idhana antha thane.idhu kooda haagene,romanised,2,MIXED,1
+118,kumar super,romanised,3,UNKNOWN,0
+119,kilagade melegade alu gadde ulli gadde..,romanised,0,POSITIVE,1
+120,parthasarathi hogo sulemgne urkondu barbeda illi ninna akkna keya wait for roberrt,romanised,1,NEGATIVE,1
+121,anyone after trending,romanised,2,MIXED,3
+122,nam kannada heroes ge support maadade dislike kodtiralla enro neevu.. all the best from d boss fans,romanised,2,MIXED,1
+123,who is here after 300k likes,romanised,2,MIXED,3
+124,ಸಂಗೀತ ಕೊಟ್ಟಿರೋರಿಗೆ. ದೊಡ್ಡ ನಮಸ್ಕಾರ್. ಬ್ಲಾಕ್ ಬಸ್ಟರ್ ಸಾಂಗ್,native_script,0,POSITIVE,0
+125,compare madebda yella nam avre.. talent irodakke beldirodu,romanised,1,NEGATIVE,1
+126,good job team,romanised,0,POSITIVE,0
+127,ಇದೊಂದು ದುರದೃಷ್ಟ ವೇ ಸರಿ ಇಂತ ಮ್ಯೂಸಿಕ್ ಇಂತ ಲಿರಿಕ್ಸ್ ಇಂತ ಬ್ಯಾಗ್ರೌಂಡ್ ಎಡಿಟಿಂಗ್ ಎಲ್ಲ ವಿಭಿನ್ನ ಸುಂದರ ವಾಗಿದ್ದರು 6 ದಿನ ಕಳೆದರು ಕೇವಲ 2.2m ಅಂದ್ರೆ ಬೇಸರದ ಸಂಗತಿ nಯಾವುದೋ ಪರಭಾಷಗಳಿಗೆ ತೋರಿಸೋ ಪ್ರೀತಿ ನಮ್ಮ ಕನ್ನಡ ಚಿತ್ರಗಳ ಮೇಲಿಲ್ಲ.,mixed_script,0,POSITIVE,1
+128,ನಿಜ್ವಗ್ಲೂ ಇದು ಸತ್ಯ ನಾ,native_script,0,POSITIVE,1
+129,p neev nodideera antha kelthiyallappa neenu,romanised,1,NEGATIVE,2
+130,ಹಾಡು ಕೇಳ್ತಾಯಿದ್ರೆ ಒಂಥರ ಲವ್ಲಿ ಕಿಕ್ ಏರುತ್ತೆ ಅನ್ನೋರು ಲೈಕ್ ಮಾಡಿ..nಧನ್ಯವಾದಗಳು.nರಕ್ಷಿತ್ ಸರ್.ವಿಜಯ್ ಸರ್..ಅಜನೀಶ್ ಸರ್. ಸೂಪರ್ಬ್ ಸಾಂಗ್.ಹ್ಯಾಂಡ್ಸ್ ಅಪ್,mixed_script,0,POSITIVE,0
+131,huchha venkatsene west indies. al the best asn.,romanised,0,POSITIVE,3
+132,bro super aagi ode kottidiya manga nann makkalige.,romanised,1,NEGATIVE,1
+133,ಎಲ್ಲಿ ಮಂಗಳ ಗ್ರಹದವರು ಅನ್ಕೊಂಡಿದ್ದೆ..,native_script,2,MIXED,2
+134,creative rakshit shetty,romanised,0,POSITIVE,0
+135,china apps ಯಾಕೆ ಬ್ಯಾನ್ ಮಾಡಬೇಕು ಅಂತ ಹೇಳುವವರಿಗೆ ಚಪ್ಪಲಿಯಲ್ಲಿ ಹೋಡೆದು ಬುದ್ಧಿ ಕಲಿಸಬೇಕು .,mixed_script,1,NEGATIVE,1
+136,ಗುರುವೇ ಇವತ್ತಿನಿಂದ ನಿನ್ನ ಫ್ಯಾನ್ ಆಗಬಿಟ್ಟೆ. ನನ್ನ ದೇಶಾ ನನ್ನ ಹೆಮ್ಮೆ.. ಯಲ್ಲರು ಭಾರತೀಯ ವಸ್ತುಗಳನ್ನೇ ಬಳಸಿ ಭಾರತವನ್ನು ಉಳಿಸಿ.. ಜೈ ಹಿಂದ್.. ತೆನೆ ತೆನೆ ಕುಡಿದ್ರೆ ರಾಶಿ ಹನಿ ಹನಿ ಕುಡಿದ್ರೆ ಹಳ್ಳಾ.. ಪ್ಲೀಸ್ ಯಲ್ಲರು ಇನ್ನ ಆದ್ರೂ ಒಗ್ಗಟ್ಟಾಗಿ ದೇಶದ ಪರವಾಗಿ ನಿಲ್ಲಿ.. ಜೈ ಹಿಂದ್,native_script,0,POSITIVE,1
+137,ನನ್ ಮಕ್ಳಾ ಎಲ್ಲರೂ ಕನ್ನಡದವರೇ ಇಲ್ಲಿರೋದು ಶಾಟದ ಇಂಗ್ಲಿಷ್ ಕಾಮೆಂಟ್ ಹಾಕ್ತೀರಾ. ಒಬ್ಬೊಬ್ಬನಿಗೆ ಒಬ್ಬೊಬ್ಬ ಹೀರೋ ಇಷ್ಟ. ಸುಮ್ನೆ ಕನ್ನಡದ ಹಾಡುಗಳನ್ನ ಕೇಳಿ ಇಷ್ಟ ಆದರೆ ಕಾಮೆಂಟ್ ಅಲ್ಲಿ ತೋರಿಸಿಕೊಳ್ಳಿ ಕಷ್ಟ ಆದರೆ ಮುಚ್ಕೊಂಡು ಮನಸಲ್ಲಿಟ್ಕೊಳ್ಳಿ ಹೀಗೆ ನಾವೆಲ್ಲ ಕನ್ನಡದವರು ಕಚ್ಚಾಡ್ತಾ ಇರೋದ್ರಿಂದಾನೆ ಕನ್ನಡಾನ ಉಳಿಸಿ ಅಂತ ಬೋರ್ಡ್ ಗಳು ಹೆಚ್ಚಾಗ್ತಾ ಇರೋದು. nಒಬ್ಬ ಅಪ್ಪನಿಗೆ ಹುಟ್ಟಿದ ಯಾವೋನು ಸ್ಟಾರ್ ವಾರ್ ಗೆ ಬೆಂಕಿ ಹಚ್ಚೊ ಕೆಲಸ ಮಾಡಲ್ಲ. nಹಾಗೆಲ್ಲ ಮಾಡೋರು ಸೂಳೆ ಮಕ್ಕಳು ಅಂದ್ರೆ ತಪ್ಪೇನು ಇಲ್ಲ . nಇದನ್ನೆಲ್ಲ ಇಲ್ಲಿಗೆ ನಿಲ್ಲಿಸಿ ಕನ್ನಡ ಉಳಿಸಿ ಬೆಳೆಸೋದರ ಕಡೆ ಗಮನ ಕೊಡಿ. nಕನ್ನಡಿಗರೆಲ್ಲಾ ಯಾವತ್ತೂ ಒಂದೇ ಅನ್ನೋದನ್ನ ಜಗತ್ತಿಗೆ ತೋರಿಸೊ ಅಂತ ಕೆಲಸ ಮಾಡೋಣ ಜೊತೆಯಾಗಿ. nಜೈ ಕರ್ನಾಟಕ ಮಾತೆ..,mixed_script,1,NEGATIVE,1
+138,ati sundarvada hasya chataki,romanised,0,POSITIVE,3
+139,8 mostly avru ee film nalli iddare anusutte,romanised,3,UNKNOWN,1
+140,ನೀವು ಬಾಳ್ವೆ ನಡೆಸುತ್ತಿರುವ ರೀತಿ ತುಂಬಾನೇ ಚೆನ್ನಾಗಿದೆ.ನಿಮ್ಮ ಮಾತಿನಲ್ಲಿ ತುಂಬಾ ತೂಕವಿದೆ.,native_script,0,POSITIVE,0
+141,hagadare kaleyugaku antya edhe antha aytu ero ast dina enjoy madkond erbekappa,romanised,1,NEGATIVE,1
+142,ಮೇಜರ್ ಜನರಲ್ ಅಬಿನಂಧನ್ ವರ್ಧಮಾನ್ ಡಿ ಬಾಸ್ ದರ್ಶನ್ ಅಭಿಮಾನಿಗಳಿಂದ ನಿಮ್ಮ ಚಿತ್ರಕ್ಕೆ ಶುಭವಾಗಲಿ.,native_script,0,POSITIVE,0
+143,ಸರ್ ಈ ತರಹ ಸ್ಪೀಚ್ ಬೇಕು ಪ್ರತಿ ನಿತ್ಯ ಇಂತಹ ವೀಡಿಯೋಸ್ ಬೇಕು ಸರ್ ತುಂಬಾ ಧನ್ಯವಾದಗಳು,native_script,0,POSITIVE,0
+144,avanesrimannarayana du background music bgm release madi sir,romanised,0,POSITIVE,0
+145,d boss fans inda full support idenjaidboss,romanised,0,POSITIVE,3
+146,100 days pakka super,romanised,0,POSITIVE,0
+147,ನಮ್ಮ ಹೀರೋ variety attitude king,mixed_script,1,NEGATIVE,3
+148,oh baby once again also yaar,romanised,3,UNKNOWN,0
+149,ಇದು ಚರಿತ್ರೆ ಸ್ರಷ್ಠಿಸೋ ಅವತಾರ,native_script,3,UNKNOWN,0
+150,ಪವರ್ ಸ್ಟಾರ್ ಪುನೀತ್ ರಾಜಕುಮಾರ್ ಅಭಿಮಾನಿಗಳಿಂದ all tha best,mixed_script,0,POSITIVE,0
+151,devare devare devare devare shivane tandheye appane nivu super super duper mind blowing hero forever forever,romanised,2,MIXED,1
+152,en guru song akkan idu song andre akkan navgothalla,romanised,0,POSITIVE,1
+153,yad ustad ali comedy,romanised,3,UNKNOWN,3
+154,ತಗೋ ಗುರು ನಂದೊಂದು ಲೈಕ್,native_script,2,MIXED,1
+155,tik tok premigalu satthru,romanised,1,NEGATIVE,0
+156,ಮೂವಿಗಾಗಿ ಕಾಯುತ್ತಿರುವವರು ಲೈಕ್ ಮಾಡಿ,native_script,0,POSITIVE,0
+157,ಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೋ ಅವತಾರ.n ಕಲಿಯುಗದಲ್ಲಿ ಕನ್ನಡಿಗನೇ ಸಾರ್ವಭೌಮ,mixed_script,0,POSITIVE,0
+158,shankranna rakshithnuppi dada rishabh,romanised,3,UNKNOWN,0
+159,ಬಾ ಗುರು ಹೋಗಿ ಬರೋಣ ಫುಲ್ ಕಥೆ ಕೇಳ್ಕೊಂಡು ಬರೋಣ,native_script,0,POSITIVE,1
+160,r lo kanda. baiyoke ninthre nim appa kano naanu,romanised,1,NEGATIVE,1
+161,ಓಂಕಾರ ವಿಶ್ವ ರೂಪಯಾ ನಮಃ,native_script,0,POSITIVE,0
+162,nodarappa yaro heludrala ban yak madbeku antha,romanised,1,NEGATIVE,1
+163,pu lo goobe rama. artha iro hage enadru helodidre helu. sumne tirukalandi thara koribeda.. madu annodu kriyapada anta nanagoo gottu. adre 'madu' annodara jote ondu namapada irbeku. agle vakya sampoornavagodu. kelasa mdu,romanised,1,NEGATIVE,1
+164,vikranth dhanush ನೀವೂ ಮಾಡಿರೋ ಪದ ಆಂಗ್ಲಭಾಷೆಯಲ್ಲಿ ಇದೆ ಅದು ಹಾಗೆ..,mixed_script,1,NEGATIVE,2
+165,becaz kannada movies are not producing good movies.,romanised,1,NEGATIVE,2
+166,sir ನಿಮ್ಮ ಮಾತು 100 ಕ್ಕೆ ೧೦೦ ಸತ್ಯ..,mixed_script,0,POSITIVE,2
+167,ನಂಗ್ ಅನ್ಸುತ್ತೆ. ಶೆಟ್ರುದು ಡಬಲ್ ರೋಲ್ ನಲ್ಲಿ ಇದರೆ ಅಂತ.,native_script,3,UNKNOWN,1
+168,pistol look like flare gun.nnjai pubg..,romanised,2,MIXED,3
+169,proper promotion maadila sir,romanised,1,NEGATIVE,3
+170,finally sonu gowda b day dhinane tiktok ban aythu,romanised,0,POSITIVE,1
+171,super music,romanised,0,POSITIVE,0
+172,godiyaga ata aadtida,romanised,3,UNKNOWN,3
+173,urkobetvre guru,romanised,1,NEGATIVE,3
+174,c.c camera etter yn saytira yalla fak,romanised,1,NEGATIVE,3
+175,ಸೂಪರ್ ಅಜನಿಷ್ ಲೋಕನಾಥ್ ಬೆಲ್ ಬಾಟಮ್ ನಲ್ಲಿ ಏತಕೆ ಬೊಗಸೆ ತುಂಬಾ ಇಂದು ಹೆಂಡಸಾಪ್ yuwar music ಸೂಪರ್,mixed_script,0,POSITIVE,0
+176,mistake is done in promotion. ee movie ge nan hogiddu flook alli coz nan friends yavdo ond movie ge hogonnan ankond yavdu show ilde idyavdo olle review idyalla movie antha hodvi. but ee movie sakkath feel kodthu. later nam friends ge heli kalsdvi,romanised,1,NEGATIVE,1
+177,ade old same story,romanised,1,NEGATIVE,0
+178,basavaraj marennavar bangaradamanususya,romanised,3,UNKNOWN,0
+179,ri tippa supper,romanised,0,POSITIVE,1
+180,dagar sule munde bindu,romanised,1,NEGATIVE,1
+181,ಸಾರ್ ಈ ಮೂವಿ ಪಕ್ಕ ಚರಿತ್ರೆ ಸೃಷ್ಟಿ ಮಾಡುತ್ತೆ . ಕರುನಾಡ ಕಲಾ ಕೇಸರಿ ಚಾಲೆಂಜಿಂಗ್ ಸ್ಟಾರ್ ಡಿ ಬಾಸ್ ಅಭಿಮಾನಿಗಳ ಕಡೆಯಿಂದ ಆಲ್ ದ ಬೆಸ್ಟ್,native_script,0,POSITIVE,0
+182,e cinema na kandita theatre alli ne nodteni,romanised,0,POSITIVE,3
+183,cg avaru hyderabad alli irodu anta heliddu.hyderabad karnataka region anta helilla,romanised,3,UNKNOWN,2
+184,ತಂಡಕ್ಕೆ ಶುಭವಾಗಲಿ.nರಕ್ಷಿತ್ ಎಂಬ ಪಿಸ್ತೂಲ್.nಸಚಿನ್ ಎಂಬ ಟ್ರಿಗರ್.nಅಜಿನೀಶ್ ಬುಲೆಟ್ ಸೌಂಡ್.nಅಬ್ಬರಿಸಿ ಬೊಬ್ಬಿರಿದಿದೆ..nnಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೋ ಅವತಾರ..nಶುಭವಾಗ್ಲಿ,mixed_script,0,POSITIVE,0
+185,shetty nyeno alpa swalpa budhi upiyogiside,romanised,1,NEGATIVE,1
+186,sir nim left kaalu samasye iruvudu rinda neevu automatic gear iro gaadi odusbodu alva sir nimage tumba help agute,romanised,0,POSITIVE,1
+187,parthasarathi ಹಡಿತೀನಿ ಬಂದ್ರೆ ತುಲ್ಲರೆ no ಹಾಕೆ ಬೇವರ್ಸಿ,mixed_script,1,NEGATIVE,1
+188,kadu odiyuva majane bere inserted people get a answer,romanised,0,POSITIVE,3
+189,nagaraj h jagavar a,romanised,3,UNKNOWN,3
+190,avane nodri sriman narayan love from belagavi,romanised,0,POSITIVE,0
+191,iddu benki,romanised,0,POSITIVE,1
+192,oille thana..olleyavrige eegina kaladalli nijwaglu bele illa..enidru anyaya,romanised,2,MIXED,1
+193,ಯಶ್ ಬಾಸ್ ಅಭಿಮಾನಿಗಳಿಂದ all the best,mixed_script,0,POSITIVE,0
+194,stupid fans ninnam thullu oor shenda alla ninnamun minda,romanised,1,NEGATIVE,1
+195,edu charitre srushtisuva avataara,romanised,2,MIXED,0
+196,yes bro .,romanised,3,UNKNOWN,0
+197,ಇದು ರಕ್ಷಿತ್ ಶೆಟ್ಟಿ ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೋ ಅವತಾರ nನಿಮ್ಮಂತಹ ಸೃಜನಶೀಲ ಮತ್ತು ಚಾಣಕ್ಯ movie maker ನಮ್ಮ ಕರ್ನಾಟಕದಲ್ಲಿ ಇರುವುದು ನಮಗೆ ಹೆಮ್ಮೆ,mixed_script,0,POSITIVE,0
+198,idu charitre shristisuva avatara.. 100 ..,romanised,0,POSITIVE,0
+199,100 nija sir. appaji tarah yaaru barolla.. ulidre kelavu snetaru bartaare.. devru saha barolla..,romanised,0,POSITIVE,1
+200,ಇದು ಖಂಡಿತ ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೋ ಅವತಾರ,native_script,0,POSITIVE,0
+201,stupid fans war ge antha bandre nimmakkan minda naanu samskrutha innu start madilla ninge beku andre helu start madona,romanised,1,NEGATIVE,1
+202,ಿಚ್ಚನ ಹಾವಳಿ o reviews chennagiddru movie odlilla yakkapa other lamguagalli,mixed_script,1,NEGATIVE,1
+203,ಸ್ವಲ್ಪ ದಿನದ ಹಿಂದೆ ಈ ಮೂವಿ ನೋಡ್ದೆ ನಿಜವಾಗಲೂ ಅದ್ಬುತವಾದ ಮೂವಿ. ಥೀಯೇಟರ್ನಲ್ಲಿ ನೋಡ್ಲಿಲ್ವಾಲ ಅಂತ ತುಂಬಾ ಫೀಲ್ ಆಯ್ತು..,native_script,0,POSITIVE,1
+204,best episode sir,romanised,0,POSITIVE,0
+205,ha nam manegu bandiida .,romanised,1,NEGATIVE,1
+206,beard and walking style,romanised,3,UNKNOWN,3
+207,ಕತೆ ಕತೆಯಾಗಿ ಇರುತ್ತೆ ಇದನ್ನು ನಂಬಲು ಅಸಾದ್ಯ,native_script,1,NEGATIVE,1
+208,who is pavan kalyan?,romanised,3,UNKNOWN,3
+209,super movie dai,romanised,0,POSITIVE,0
+210,yes agreed first time keldaga ansituu but 4-5 keldaga agoitu,romanised,2,MIXED,2
+211,ಕನ್ನಡ ಭಾಷೆ ಸಿನಿಮಾ ಯಾವುದಕ್ಕೂ ಕಡಿಮೆ ಇಲ್ಲ ಎಂದು ನಿಮ್ಮ ಸಿನಿಮಾದ ಮೂಲಕ ಗೊತ್ತಾಗುತ್ತಿದೆ..,native_script,0,POSITIVE,0
+212,nammuralli bandidda nane one-up coffee bread kottu kalsde..,romanised,3,UNKNOWN,1
+213,le hudugira tik tok bidi banni lagori aduma horagde social distance nalli lagori ata tik tok ge tata only for tik tok girls,romanised,3,UNKNOWN,1
+214,wow boss sariyagi helidhira but use madorige sariyagi heli next video,romanised,2,MIXED,1
+215,sir nem no kodie plz plz,romanised,0,POSITIVE,2
+216,prasad yes bro,romanised,3,UNKNOWN,3
+217,guru mast agi helidira,romanised,0,POSITIVE,1
+218,kannada da history avane srimannarayana,romanised,0,POSITIVE,0
+219,k k neen tunne chipake kayak illa,romanised,1,NEGATIVE,3
+220,who are rakshit shetty fan give me like . rakshit shetty song is full of fire .,romanised,0,POSITIVE,0
+221,ಒಂದ ಮೂವಿ ಮಾಡೋಕೆ 7 ವರ್ಷ? ಅದಕ್ಕೆ ಸರಿಯಾಗಿ ಆಗಿದೆ. ಮುಂದೆ ಬೇಗ ಮಾಡಿ ಬಿಡಿ. ಇನ್ನೂ ಇದನ್ನೇ analyse ಮಾಡ್ಕೊಂಡು 7 ವರ್ಷ ಕುತ್ಕೊಬೇಡಿ. ನೋಡಿದ ಜನ anacin ಅಂತ ಇದಾರೆ ಆಬ್ಬ. ಆಡಿಷನ್ ದಿಯಾ ಅಂತ ಒಂದು ಕಥೆ ಮಾಡಿ.,mixed_script,1,NEGATIVE,1
+222,yentha shoot madbeka,romanised,2,MIXED,3
+223,ಸೂಪರ್ .. ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ ..,native_script,0,POSITIVE,0
+224,super kannda super,romanised,0,POSITIVE,0
+225,sharu nin ammun tullge nan tunne sigaka berke sule magne,romanised,1,NEGATIVE,1
+226,nija heludre heege,romanised,1,NEGATIVE,1
+227,rite.. bt avara personal adu.. problems en aitu anta namge gotilla .yake hudgi mele hig coments mododu brother? nam sis ge idu agidre?? nav en madtidvi?? aur problems avaru solve modkonda aitu naaav sumne ivele overthinking madta idivi .,romanised,1,NEGATIVE,1
+228,bro..ii movie online nalli elli sigutte..or tv yalli yavaga haktare..plzz helu,romanised,3,UNKNOWN,1
+229,sir nimage devru nimjote erta,romanised,0,POSITIVE,1
+230,eli eddeli boss nim time bandide,romanised,0,POSITIVE,1
+231,bro starting baruttalla adu game name yaavdu plz heli bro plz,romanised,2,MIXED,2
+232,ಇದು ಚರಿತ್ರೆ ಸೃಷ್ಠಿಸೋ ಅವತಾರ,native_script,0,POSITIVE,0
+233,parthasarathi jai gojjekesari gayashini sule magne cheeti kalla badige tulla,romanised,1,NEGATIVE,1
+234,parthasarathi ಯಾಕೆ ಹುಡುಕೊಂಡು ಬಂದ್ರೆ ತುಲ್ಲು ಕೊಡ್ತೀಯಾ ಬೇವರ್ಸಿ,mixed_script,1,NEGATIVE,1
+235,kulkarni ನೀವು ಬ್ರಾಹ್ಮಣರಾಗಿ intercast marriage agoke dairya idena ? never.,mixed_script,1,NEGATIVE,1
+236,rasmika ge uribeku nimma cenema successful kanabeku hagu nimma jodi shanvi madam rakshit shetty jote maduve agabeku idu nimma abhimani asheya,romanised,1,NEGATIVE,1
+237,eatra film nana life nale nodella sir super different director,romanised,0,POSITIVE,0
+238,innu aagilva tiktok ban,romanised,1,NEGATIVE,1
+239,nam karnatakdallu bandidru yavno huchha andkond nodoke hogilla,romanised,1,NEGATIVE,1
+240,swabhimaani neevu. keep it up,romanised,0,POSITIVE,0
+241,e bevrcgal maneli yavandru sathidre sari erodu,romanised,1,NEGATIVE,1
+242,no.. 1 sec saku summe mnt ella waste madtara,romanised,1,NEGATIVE,3
+243,namma karaavali enta enta actors galanna kannada cinemage needide gotta!?upendra,romanised,0,POSITIVE,1
+244,ಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೂ ಅವತಾರ,native_script,0,POSITIVE,0
+245,ಸಕ್ಕತ್ತಾಗಿ ಉಗಿತಿರ ಅಣ್ಣ ದೊಡ್ಡ ಸ್ಟಾರ್ ಥರ ಅಡಿತವೇ.. ಥು..,native_script,1,NEGATIVE,1
+246,ಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೊ ಅವತಾರ..nನಾರಾಯಣ ನ ಅವತಾರ,mixed_script,0,POSITIVE,0
+247,ಶುದ್ದ ಕನ್ನಡದ ಸಂಗೀತಕ್ಕೆ ಸಾಮಾನ್ಯ ಕನ್ನಡಿಗ ನಿಂದ ಧನ್ಯವಾದಗಳು,native_script,0,POSITIVE,0
+248,chindi.. madira rost,romanised,0,POSITIVE,0
+249,my name is re nu ka hai jo mujhe pasand nahi aayi,romanised,3,UNKNOWN,2
+250,ishta aytu shetre,romanised,0,POSITIVE,3
+251,super ri boss lovely jai kiccha fan's jai rakshith shetty boss,romanised,0,POSITIVE,0
+252,n 0,romanised,3,UNKNOWN,3
+253,namma janagalige taste illa avrige fighting,romanised,1,NEGATIVE,3
+254,yudha mada beku katukara munde oda baradu bhagavatgethe who likes this line,romanised,0,POSITIVE,1
+255,vitthal ಕಚ್ಚಾ ಸುದೆಪಿ,mixed_script,2,MIXED,0
+256,ಸಾಂಗ್ ಪ್ರಮೋಷನ್ ಇಲ್ದೆನೆ 1 ಟ್ರೆಂಡಿಂಗ್ ನಲ್ಲಿದೆ ಇದು ಹೇಗ್ ಸಾಧ್ಯ. ?,native_script,0,POSITIVE,1
+257,nani kannd movie .,romanised,2,MIXED,2
+258,ಸಾರ್ ನೀವು ಎಷ್ಟೋ ಜನರಿಗೆ ಮಾದರಿ,native_script,0,POSITIVE,0
+259,hats off bro ಕರೆಕ್ಟಾಗಿ ಹೇಳಿದ್ದೀರ ಬ್ರೋ,mixed_script,0,POSITIVE,1
+260,ಸೂಪ್ಪರ್ ಅಣ್ಣ,native_script,0,POSITIVE,1
+261,bro game yavdu adu,romanised,2,MIXED,1
+262,nice bro . nanu ella china apps delete madidini,romanised,0,POSITIVE,2
+263,ಕೇಳಿ ನೆರೆದಿರುವ ಬಾಂಧವರೆnಭುವಿಯಲ್ಲಿ ಇವನ ಅರಿತವರೆ ಯಾರಿಲ್ಲ ಬಿಡಿnಮುನ್ನುಡಿ ಇದ್ದರದೊಂದು ದಂತಕಥೆ..nಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೋ ಅವತಾರ.nnಮೈನವಿರೇಳಿಸೋ ಸಾಲುಗಳು,mixed_script,0,POSITIVE,1
+264,wt abt devarkonda,romanised,3,UNKNOWN,3
+265,jai kiccha,romanised,0,POSITIVE,3
+266,bucket hidiyor,romanised,0,POSITIVE,3
+267,nayak ಪೈಲ್ವಾನ್ ರನ್ನಿಂಗ್ ಸಕ್ಸಸ್ ಫುಲ್ ಇನ್ mars,mixed_script,1,NEGATIVE,0
+268,ಕನ್ನಡದಲ್ಲಿ ಪ್ರತಿಭೆಗಳಿಗೆ ಕೊರತೆಯಿಲ್ಲ,native_script,0,POSITIVE,1
+269,song is lit,romanised,0,POSITIVE,2
+270,goneppanavar kartik goneppanavar fttc,romanised,3,UNKNOWN,3
+271,boss osm,romanised,0,POSITIVE,3
+272,dia nan recent aagi nodiro moviegalalli adbutha,romanised,0,POSITIVE,1
+273,ನೋವು ನಲಿವಿಗೆ ಕಾರಣ.nಅವನೇ ಶ್ರೀಮನ್ನಾರಾಯಣ,mixed_script,0,POSITIVE,0
+274,ನಿಜಾ ಬ್ರೋ ಜೈ ಹಿಂದ್,native_script,0,POSITIVE,1
+275,ಮುಂದೆ ರೆಕಾರ್ಡ್ ಮಾಡುತ್ತೆ ಈ ಮೂವಿ,native_script,0,POSITIVE,1
+276,ಇಂತಹ ಒಳ್ಳೆಯ ಕನ್ನಡ ಸಿನಿಮಾಗಳನ್ನ ಬೆಳೆಸೋಣ,native_script,0,POSITIVE,0
+277,song ista adaro illi like madi,romanised,0,POSITIVE,3
+278,unique aagide trailer.. namma kannada film antha proud feel li bere languages frnds gella thorista idini trailer na,romanised,0,POSITIVE,1
+279,ತಿಪ್ಪನ ಸ್ಟೋರಿ ಚಂದವಾಗಿದೆ,native_script,0,POSITIVE,0
+280,kannadiga tysm anna..nivu comment madidakke.bt sry anna.bcaz nan insta use madalla,romanised,0,POSITIVE,0
+281,ayoo super annaa,romanised,2,MIXED,0
+282,nanage ಅನ್ಸುತ್ತೆ ಈ ವೀಡಿಯೋ ವನ್ನು ರಶ್ಮಿಯ ಮಂದಣ್ಣ ಫ್ಯಾನ್ಸ್ deslike ಮಾಡಿರಬಹುದು,mixed_script,1,NEGATIVE,0
+283,ond ond film ge koti koti togotira.. ellide sir nim manaviyate.. help maadi sir evrige.. samanyadavru alla evru ashwath avr maga. kannada industry ge hemmeya actor kanri.. punith sir neeve barbeku.. shivanna.. neevadru help maadi. esht movie li nim appa ji avrge appa'n role madiddu evra appa'avr. marebedi sir,romanised,2,MIXED,1
+284,yes true guru,romanised,3,UNKNOWN,0
+285,gauri keshav thookada mathu,romanised,2,MIXED,0
+286,supar anna love you pajuanna..,romanised,0,POSITIVE,0
+287,idu charitre baryuva..narayana..,romanised,0,POSITIVE,0
+288,namma hagu kelavara aase nija aytu. tik tok,romanised,0,POSITIVE,1
+289,ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ ಟ್ರಯ್ಲರ್ ಲುಕ್ ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ ಸೂಪರ್ ಒಳ್ಳೆಯದಾಗಲಿ,native_script,0,POSITIVE,0
+290,currect agi helidri sir,romanised,3,UNKNOWN,3
+291,bro nim videos delete agalla bedi bro don't worry do videos bro,romanised,0,POSITIVE,1
+292,en sir lyrics. superb,romanised,0,POSITIVE,0
+293,ರಶ್ಮಿಕ ಗಿಂತ ದಿಯಾ ಅವರ ನಟನೆ ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ..film antuu super,mixed_script,0,POSITIVE,0
+294,re release madi,romanised,0,POSITIVE,3
+295,right bhai avarige barabari shock aagide,romanised,1,NEGATIVE,1
+296,idu charitre srushtiso avatara e line kelidmele tak anta nenpagodu vijay prakash sir annovru like madi,romanised,3,UNKNOWN,1
+297,vitthal ಶಾಟ ಕಿತ್ಕೊಳ್ಳೋಕೂ ಆಗಲ್ಲಾ ಲುಚ್ಚಾ ನ್ ಫ್ಯಾನ್ ನೀವ್ 10 ಜನ ಬಂದ್ರೆ ನಾವು 100 ಜನ ಗೊತ್ತಲಾ d boss power.. nim lucha n kelu helatane mindrike,mixed_script,1,NEGATIVE,1
+298,ತೊಗರಿತಿಪ್ಪನ ದ್ರಟ್ಸಾಂತ ಕೆಳಿದರೆ ಸಂತೊಷವೆ ಸಂತೊಷ,native_script,0,POSITIVE,0
+299,ರೋಮಾಂಚನ ಅದ್ಬುತ ಹಾಡು,native_script,0,POSITIVE,0
+300,ಡಿ ದೇವರ ಅಭಿಮಾನಿಗಳ ಕಡೆಯಿ೦ದ ಆಲ್ ದಿ ಬೆಸ್ಟ್,native_script,0,POSITIVE,0
+301,hands up ಇದು ವನವರತ,mixed_script,0,POSITIVE,1
+302,sir nimmannu naanu 1st nodiddu manethana annuva 2.30 serial nalli sir.20 years before sir.but adra nanthara evagle nodtha erudu sir.,romanised,3,UNKNOWN,2
+303,tik talkgintha nivu mado roast best guru,romanised,0,POSITIVE,1
+304,ಈ ಕನ್ನಡ ಚಿತ್ರದ ಬಗ್ಗೆ ನನಗೆ ತುಂಬಾ ಹೆಮ್ಮೆ ಇದೆ. ಅವರು ಸಾಕಷ್ಟು ಪ್ರಚಾರವನ್ನು ಮಾಡಲಿಲ್ಲ. ಅವರು ಸ್ಪರ್ಧಾತ್ಮಕ ಜಗತ್ತಿನಲ್ಲಿದ್ದಾರೆ ಎಂಬುದನ್ನು ಅವರು ಮರೆತಿದ್ದಾರೆಯೇ? ನನ್ನ ಹೃದಯ ಕಳೆದುಹೋಗಿದೆ,native_script,0,POSITIVE,2
+305,super bro nim song,romanised,0,POSITIVE,0
+306,hatrale akige bindu gowda ge,romanised,1,NEGATIVE,1
+307,ದಯವಿಟ್ಟು ಕನ್ನಡ ಅಭಿಮಾನಿಗಳು ಒಂದಾಗಿ ಕೆಲ್ಸ ಮಾಡೋ ಸಮಯ,native_script,0,POSITIVE,0
+308,nayanappa's book ??,romanised,3,UNKNOWN,2
+309,ಯಾರೆಲ್ಲ ಡಿಸ್ಲೈಕ್ ಮಾಡಿದ್ದಾರೆ ಅವರೆಲ್ಲ ರಶ್ಮಿಕ ಮಂದಣ್ಣ ಅವರ ಫ್ಯಾನ್ಸ್ ಇರ್ಬೊದು nಪಾಪ ಉರಿತಾ ಇದೆ ..ನಮ್ಮ ತುಳುನಾಡಿನ ಪ್ರತಿಭೆನ ನೋಡಿ.,mixed_script,1,NEGATIVE,1
+310,super hands up..,romanised,2,MIXED,0
+311,chindi,romanised,1,NEGATIVE,3
+312,yen clarity guru nivu madiro video,romanised,0,POSITIVE,0
+313,havali neenu urkondirodakke replay madiyalla,romanised,1,NEGATIVE,1
+314,ಯಾರ್ಯಾರಿಗೆ ಇಷ್ಟ ಆಗಿದೆ hands up,mixed_script,0,POSITIVE,3
+315,ಬ್ರೋ ಟಿಕ್ ಟೊಕ್ ಬ್ಯಾನ್ ಮಾಡ್ಬೇಕು,native_script,0,POSITIVE,1
+316,super movie 200days paka super guru see once dis movie,romanised,0,POSITIVE,0
+317,ನಾನು ಕೇಳಿರುವಹಾಗೆ ಪುಟ್ಟಣ್ಣ ಕಣಗಾಲ್ ರವರ ರಂಗನಾಯಕಿ ಚಿತ್ರ ಕೂಡ ಮೊದಲನೇ ಬಾರಿ ತೆರೆಕಂಡಾಗ ಜನರು ಮಿಶ್ರ ಪ್ರತಿಕ್ರೆಯೆ ನೀಡಿದ್ದರು ಏಕೆ ಎಂಬುವುದು ಯಕ್ಷ ಪ್ರಶ್ನೆ ಆದರೆ ದೇವರ ಮೇಲೆ ಭಾರಹಾಕಿ ಎರಡನೇಸಲ ಬಿಡುಗಡೆ ಮಾಡಿದಾಗ ಅದಕ್ಕೆ ಸಿಕ್ಕ ಪ್ರತಿಕ್ರಿಯೆ ಅಬೂತಪೂರ್ವಕ ನಿರ್ಮಾಪಕರಿಗೆ ತುಕ್ಕಿಡಿದ ಕಬ್ಬಿಣ ವಾಗಿದ್ದ ಸಿನಿಮಾ ಈಗ ಚಿನ್ನದ ಗಟ್ಟಿಯಾಗಿ ಹೊರಹೊಮ್ಮಿತು n ಹೀಗಾಗಿ ನಾನು ಚಿತ್ರತಂಡದಲ್ಲಿ ಮಾಡುವ ಕಳಕಳಿ ವಿನಂತಿ ಧಯಮಾಡಿ ಸಿನಿಮಾವನ್ನು corona effect ಬಳಿಕ re-release ಮಾಡಿ nನನ್ನ ಈ ಕೋರಿಕೆಯನ್ನು ಚಿತ್ರತಂಡಕ್ಕೆ ತಿಳಿಸಿ,mixed_script,2,MIXED,1
+318,ಆವಾಗಾವಾಗ ಈ ಹಾಡು ಕೇಳಲಿಲ್ಲ ಅಂದ್ರೆ ಏನೋ ಮಿಸ್ ಮಾಡಿದಾಹಾಗೆ ಆಗುತ್ತೆnslow poison,mixed_script,0,POSITIVE,1
+319,yav kaldan mare nin,romanised,1,NEGATIVE,3
+320,super duper hit,romanised,0,POSITIVE,0
+321,olleya sandesh yelidri sir your great tq sir and happy jurny,romanised,0,POSITIVE,0
+322,mangala grahake hogovrige a ashwathama eddhidhre antha gotthidhre avnanne kurskondu mahabharatha kathene poorthi aagi barskotha edhru aste yake mahabharatha nadedhitthanthe anno badhalu mahabaratha naddhidhu sathyane antha proof kuda madtha edhralwa,romanised,1,NEGATIVE,1
+323,ತೊಗರಿ ತಿಪ್ಪ ಸುಪರ್ ಕಾಮಿಡಿ so super thogari thippa comdey,mixed_script,0,POSITIVE,1
+324,ಹಾಡು ಯಾಕೋ ವಿಚಿತ್ರವಾಗಿ ಹುಚ್ಚೆಬಿಸಿದೆ ಎನ್ನುವವರು ಲೈಕ್ ಮಾಡಿ,native_script,0,POSITIVE,1
+325,luv from karnataka,romanised,0,POSITIVE,0
+326,last ತನಕ ನಕ್ಕಿ ನಕ್ಕಿ ಹೊಟ್ಟೆ ನೋವು ಬಂತು,mixed_script,0,POSITIVE,1
+327,so good song,romanised,0,POSITIVE,0
+328,anna shankar nag is back..,romanised,2,MIXED,0
+329,monster kannada ndagar fan modalu tilakonda matado gubal..nyaramunde aadre ee tara heludre metteli hoditara pa..,romanised,1,NEGATIVE,1
+330,super d boss fans,romanised,0,POSITIVE,0
+331,houdu ashvatama 5000 varsha dinda idre krista shaka 2000 anta yak aktaidare hindu galu munche inda idane navu idannu pratipadisabeku i,romanised,0,POSITIVE,1
+332,nabilal s ಕಗಬಜ,mixed_script,3,UNKNOWN,3
+333,vishwanath guruve nav dboss fans kannada songs nodoku modle like madovru sumne thika yella matadbedi.,romanised,1,NEGATIVE,1
+334,en kathe kattutiya guru .. . proof kodu sullu kathe katbeda,romanised,1,NEGATIVE,1
+335,ಸೂಪರ್ ಗುರು ಲೋವ್ ಯು,native_script,0,POSITIVE,0
+336,buety.. guru..,romanised,3,UNKNOWN,0
+337,godiyaga isfet adatida,romanised,3,UNKNOWN,1
+338,rakshit shetty fans ondhu like madi,romanised,0,POSITIVE,3
+339,sir naanu visakhapatnam li iradhu,romanised,3,UNKNOWN,2
+340,superb bgm n nice dance moves,romanised,2,MIXED,0
+341,ondu sakagalla inna beku,romanised,0,POSITIVE,3
+342,ಹೌದು ಕನ್ನಡತಿ ಭುವನ ಅವ್ರೆ.ಜೈ ಕರ್ನಾಟಕ ಮಾತೆ.ಜೈ ಭುವನೇಶ್ವರಿ ತಾಯಿ.ಜೈ ಕನ್ನಡಿಗ.ಜೈ ಕನ್ನಡತಿ ಕಣ ಕಣದಲ್ಲೂ ಕನ್ನಡ.ಕನ್ನಡವೇ ಸತ್ಯ.ಕನ್ನಡವೇ ನಿತ್ಯ. ಸಿರಿಗನ್ನಡಂ ಗೆಲ್ಗೆ. ಸಿರಿಗನ್ನಡಂ ಬಾಳ್ಗೆ.ಕನ್ನಡದ ಭಕ್ತ ಶಿವರಾಮ್ ಗೌಡ ಮಂಡ್ಯ.6363014117.8296261615.,native_script,3,UNKNOWN,0
+343,nama village ge bandidru,romanised,0,POSITIVE,3
+344,ಸೂಪರ್ ಗುರು.. ಗುರು ನಿಮ್ಮೂರು,native_script,0,POSITIVE,0
+345,super duper movie and song,romanised,0,POSITIVE,0
+346,dop and dance styles are lit,romanised,0,POSITIVE,0
+347,awesome movie sir,romanised,0,POSITIVE,0
+348,sannavridvi idanna caset haaki keltidvi. vatta maryakaagangilla.. uttara karnatakad maat kati sobugandra hinga nodri namd..,romanised,0,POSITIVE,1
+349,elli vabba mhana kalavidan maga annodu menation agutte yakendre cinirangakke avarakoduge tunbaede yavadadaru poshaka pataragalanna kodabahudu aste,romanised,0,POSITIVE,1
+350,ಬೆಳೆದು ನಿಂತಿರೋ ಒಬ್ಬ ಮಗ ಇದ್ದಾರೆ ಅಲ್ವಾ ಸರ್ ನಿಮಗೆ? ಆದ್ರೂ ಇಷ್ಟು ಕಷ್ಟ ಪಡ್ತಾ ಇದ್ದೀರ ಸ್ವಾವಲಂಬಿ ಆಗಿರ್ತೀನಿ ಅಂತ ನೀವು ಗ್ರೇಟ್ ಸರ್,native_script,0,POSITIVE,1
+351,actually point point nu bidsi supper aagi helidiya suppeerrbbb,romanised,0,POSITIVE,1
+352,china apps yallu remove madbeku sir nev innu strongag warning kodbeku sir,romanised,0,POSITIVE,1
+353,ಲೊ ಹಾದರಗಿತ್ತಿ ಮಗನೇ.,native_script,1,NEGATIVE,1
+354,anna nin padha xerox kodanna,romanised,0,POSITIVE,3
+355,100 alla 200 million agutte,romanised,2,MIXED,3
+356,nannaga thubba bajaru sir,romanised,1,NEGATIVE,0
+357,bro ನಿನ ಹತ್ರ ಏನಾದರೂ idea idre ಹೇಳಬಹುದು alva ?,mixed_script,2,MIXED,1
+358,34 m v,romanised,3,UNKNOWN,3
+359,ರಾಜವಂಶದ ಅಭಿಮಾನಿಗಳು ಕಡೆ ಇಂದ all the best .,mixed_script,0,POSITIVE,0
+360,drona pandavara para iddre ivneke kouravara para iddana.??,romanised,2,MIXED,3
+361,anna super anna nivu nivu ondu samajakke seve hagu deshavannu ulisalu ondu sangavannu katti navu nimmannu bembalisuteve,romanised,0,POSITIVE,1
+362,teligramli hd bittidane sir so yaru baralla..,romanised,1,NEGATIVE,1
+363,100 nija edu,romanised,0,POSITIVE,3
+364,kannada songs na dislike madbede,romanised,1,NEGATIVE,3
+365,all the best team of asnnfrom andhra pradesh,romanised,0,POSITIVE,0
+366,rashmika idanna nodi thi a urkimbeku,romanised,1,NEGATIVE,3
+367,navu kuda speed edivi ..makklu uttisodrale ..love madodrale .,romanised,2,MIXED,1
+368,ಅಣ್ಣಾ ಬಾಂಡ್ ಚೆನ್ನಾಗಿ ಬೆಂಡ ಎತ್ತಿದ,native_script,0,POSITIVE,0
+369,nimge nijavagalu netiyagiddra,romanised,0,POSITIVE,1
+370,ಹೌದು. ನಾವು ಸಣ್ಣವರಿದ್ದಾಗ.ಕೆಳಿದ್ದಿವಿ.ಸುಪರ್,native_script,0,POSITIVE,0
+371,ಆ ಬಂದುಕಿಗೆ ಇದೆ ಘನ ಹೆಸರು..,native_script,2,MIXED,1
+372,kumar sasthana madbeku intha kachada galana.,romanised,1,NEGATIVE,2
+373,nice dialogue nan ondhu sari sathidini enondu sala sayalla,romanised,0,POSITIVE,1
+374,tirividi,romanised,1,NEGATIVE,3
+375,shetre song sooper,romanised,0,POSITIVE,2
+376,super gurunjai hind jai indian army,romanised,0,POSITIVE,1
+377,telugu version upload madurri,romanised,3,UNKNOWN,3
+378,parthasarathi ನಿನ್ ತುಲ್ಲು ಉರಿತ.. ಲೋಕಲ್ ಚಾಯ್ಸ್ ಕುಡುದೇ ಏನ್ ಕಿತ್ಕೊ ತಿಯ. ಬ ನನ್ ತುಣ್ಣಿ ಉಣ್ಣು ಹ rmd ನೇ ತಿಂದೆ.. ನಿಂಗೇನು ತುಲ್ಲು ಉರಿ,mixed_script,1,NEGATIVE,1
+379,thank you sar,romanised,0,POSITIVE,0
+380,super super song you happy,romanised,0,POSITIVE,0
+381,ಕನ್ನಡ ಚಿತ್ರರಂಗ ತುಂಬಾ ಮೋಸ..nಅಶ್ವತ್ ಸರ್ ಅವರು ತಂದೆ ಪಾತ್ರ ಎಷ್ಟು ನಟರಿಗೆ ಹೆಸರು ಆಸ್ತಿ ತಂದು ಕೊಟ್ಟಿದ್ದಾರೆ..nಅವರ ಮಕ್ಕಳು ಕುಡಾ ಕೊಟಿ ಕೊಟಿ ದುಡಿಯುತ್ತಾ ಇದ್ದರೆ..ಆದರೆ ಶಂಕರ್ ಸರ್nನಿಮ್ಮ ತಂದೆ ನಿಮ್ಮ ಗೇ ಏನು ಮಾಡಿಲ್ಲ.. ನಿಮ್ಮ ಒಳ್ಳೆಯ ತನ ದೇವರು ಕೈ ಬಿಡುವುದಿಲ್ಲ,mixed_script,0,POSITIVE,1
+382,osam ರಕ್ಷಿತ್ ಶೆಟ್ಟಿ,mixed_script,0,POSITIVE,0
+383,ಟಿಕ್ ಟಾಕ್ ಮಾಡ್ತಾ idri ಅನ್ಸುತ್ತೆn.,mixed_script,1,NEGATIVE,1
+384,ಟ್ರೈಲರ್ ತುಂಬ ಚೆನ್ನಾಗಿದೆ ನಿಮ್ಮ ಚಿತ್ರ ಒಳ್ಳೆ ಯಶಸ್ವಿ ಆಗ್ಲಿ,native_script,0,POSITIVE,0
+385,superb guru.hogiri makke tiktok ishta padorige,romanised,0,POSITIVE,1
+386,ನಮ್ಮ ಚಂದನವನದ ಚಲನಚಿತ್ರಗಳು ತುಂಬಾ ವಿಭಿನ್ನವಾಗಿ ವಿಶಿಷ್ಟವಾಗಿ ಸುಂದರವಾಗಿ ಮೂಡಿ ಬರುತ್ತವೆ ಇದು ನಮ್ಮ ಹೆಮ್ಮೆಯ ಕನ್ನಡದ ಸಿನಿಮಾಗಳು ಯಾವ ಪರ ಬಾಷೆ ಚಲನಚಿತ್ರಗಳಿಗೂ ನಮ್ಮ ಕನ್ನಡ ಸಿನಿಮಮಾಗಳು ಕಮ್ಮಿ ಇಲ್ಲ ಕನ್ನಡವೇ ಸತ್ಯ ಕನ್ನಡವೇ ನಿತ್ಯ,native_script,0,POSITIVE,0
+387,ಇದು ಚರಿತ್ರೆ ಸೃಸ್ಟಿಸೋ ಅವತಾರ,native_script,0,POSITIVE,0
+388,kachada no 1 film.thu nim mukakke.taste ye illla.badkobeku.,romanised,1,NEGATIVE,1
+389,1,other,3,UNKNOWN,3
+390,god bless u r setty lv,romanised,0,POSITIVE,3
+391,ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೋ ಹಾಡು,native_script,0,POSITIVE,0
+392,smile madalu nodi joking vdo,romanised,0,POSITIVE,1
+393,dia mathu adhi e chitrada aathmagalu yakandre,romanised,0,POSITIVE,1
+394,medegar ಅಲ್ಲಿ ಕೂಡ ಕೆಲಸ ನಡೆಯುತ್ತಿದೆ,mixed_script,2,MIXED,1
+395,in udupi sir,romanised,3,UNKNOWN,3
+396,jai asn music,romanised,0,POSITIVE,3
+397,ಒಂದು ಮಿಲಿಯನ್ ಆದಮೇಲೆ ಯಾರ್ಯಾರು ನೋಡ್ತಾ ಇದೀರ ಅವರು ಲೈಕ್ ಕೊಡಿ,native_script,0,POSITIVE,1
+398,yar yar jasti nidde madthira nn,romanised,1,NEGATIVE,3
+399,nnkeli kadiruva bandhavarenbhuviyalli avana aritavarenyarilla bidi,romanised,0,POSITIVE,1
+400,nijvagalu nim anthavaru iddrene anna yalarigu bhuddi barodhu anna,romanised,0,POSITIVE,1
+401,ಸೂಪರ್ ಬ್ರದರ್ ಚನ್ನಾಗಿ ಯುಗ್ಲಿದಿರ ಬೇವರ್ಸಿ ನನ್ ಮಕ್ಳನ್ನ,native_script,1,NEGATIVE,1
+402,supar guru chindi,romanised,0,POSITIVE,0
+403,la video ako su..।,romanised,1,NEGATIVE,0
+404,ganesh bhat -ನಿನು ಒ೦ದು ಬ್ರಾಹ್ಮಣ ಸರಿಯಾಗಿ ಜಾತಿ ಮಯಾ೯ದೆ ಇಟ್ಟು ಮಾತಾಡುವದನ್ನು ಕಲಿ,mixed_script,1,NEGATIVE,1
+405,hata best d boss fans,romanised,3,UNKNOWN,3
+406,ನೀವು ಹೇಳಿದ ಕಥೆ ಚನ್ನಾಗಿಯೇ ಇದೆ ಆದ್ರೆ ಅಶ್ವತ್ತಾಮ ಬದುಕಿರೋದು ಸುಳ್ಳು,native_script,1,NEGATIVE,1
+407,mallad nin amman thullu sulemagne gaandu nayi sulemakla mucchkondiro,romanised,1,NEGATIVE,1
+408,ಆಶ್ವತಾಮ ಇನೂ ಬದಕಿದಾನಾ,native_script,2,MIXED,1
+409,entha movie multi language barbeku,romanised,0,POSITIVE,2
+410,copycat raja rakshith shetty,romanised,1,NEGATIVE,0
+411,ಈ ತರಹ ಒಳ್ಳೆಯ ಕಾಂಸೆಪ್ಟ್ ಇಟ್ಕೊಂಡ್ ಮೂವಿ ಮಾಡ್ರಪ್ಪ. ಕಿಸ್ ಮಾಡೋದು,native_script,1,NEGATIVE,1
+412,slow poison song annoru like madi,romanised,3,UNKNOWN,3
+413,sakat swabhimani sir nivu,romanised,0,POSITIVE,0
+414,sakkataag baididiya guru,romanised,0,POSITIVE,1
+415,tumbane chennagide haadu.,romanised,0,POSITIVE,1
+416,ಲಾಸ್ಟ ಟಿಕ್ ಟಾಕ್ ಬಾಯಿ ಇಲ್ದಿರೋ ಎಮೋಜಿ ಒಡೆದು ಹೋಗಿರೋ ಹಾರ್ಟ್ ಮಿಸ್ ಯು ಆಲ್ ಎಂಗೆ ಗುರು ಇದು,native_script,1,NEGATIVE,1
+417,singer ಗೆ jai,mixed_script,0,POSITIVE,3
+418,p hwdu,romanised,3,UNKNOWN,3
+419,sir mate tik tok bandideee stop madsi http,romanised,0,POSITIVE,3
+420,make it 100,romanised,3,UNKNOWN,3
+421,sir nivu tumba olle olle programs madtira sir,romanised,0,POSITIVE,0
+422,ನಿಜವಾದ ಹೀರೋ ನೀವು sir ಸ್ವಾಭಿಮಾನದ ಗುರು ನೀವು,mixed_script,0,POSITIVE,0
+423,osm bro tiktok shok madutidru avayalla,romanised,0,POSITIVE,3
+424,trailer super ide sir edu hindi nalli kuda release madi please,romanised,0,POSITIVE,0
+425,rashmika missed him!,romanised,3,UNKNOWN,3
+426,sir navu kannadadavru asn moviena nale release madidru nodthivi.. kgf rangege bere bhashelu promote madi modlu.kannadadallanthu hit,romanised,0,POSITIVE,1
+427,ಹ್ಯಾಪಿ ನ್ಯೂ year ಇನ್ ಅಡ್ವಾನ್ಸ್ ಅಂಡ್ ಇಮ್ ವೈಟಿಂಗ್ ಅವನೇ ಶ್ರೀಮನ್ನಾರಾಯಣ ರಕ್ಷಿತ್ ಶೆಟ್ಟಿ ಸರ್,mixed_script,3,UNKNOWN,0
+428,en helde bro,romanised,2,MIXED,3
+429,ಅಪ್ಪು ಅಭಿಮಾನಿಗಳು ಲೈಕ್.. ಮಾಡ್ರೋ,native_script,3,UNKNOWN,0
+430,nooru kaala kannada hege hosaa shasanagallanu shrustisabeku,romanised,0,POSITIVE,1
+431,k k le randi magne neenu ba nimmamman karakondu ba ibbarana hattu ibbarigu ondondu dozen papu dagar nan maklan hutsi kalastini amele barabekadre dj sounds system idre togond ba naan madbekadre nimmamma mia khalifa tara kirchodu nin kannalli nodokagutto ilvonmatte neenu sunny leone tara archod nan kailli tadkollokagallappa,romanised,1,NEGATIVE,1
+432,yak sir interview ge yav studios irlilva or e movie gella yake antha a jagadalli kursidira,romanised,1,NEGATIVE,1
+433,ನಕಾರಾತ್ಮದ ಸಣ್ಣ ಗೆರೆಯನ್ನು ಕಾಣಲಿಲ್ಲ ವ್ಯಕ್ತಿತ್ವದಲ್ಲಿ ನಮಗೆ ಆದರ್ಶ ನೀವು..,native_script,0,POSITIVE,0
+434,titan zoom ultra modem,romanised,3,UNKNOWN,3
+435,ಸಾಹಸಸಿಂಹ ಅಭಿಮಾನಿಗಳ ಇಂದ ಆಲ್ ದ ಬೆಸ್ಟ್,native_script,0,POSITIVE,0
+436,what a song. avanesrimannarayana,romanised,0,POSITIVE,0
+437,anna aa game yavdu,romanised,2,MIXED,3
+438,ಕನ್ನಡ ಮೂವಿ ಗೆ ಸಪೋರ್ಟ್ ಮಾಡಿ ದಯವಿಟ್ಟು,native_script,0,POSITIVE,1
+439,k k being a darshan fanneetara darshan sir helkotidara bere hero galna bayri antha.nnsumne yake bro,romanised,2,MIXED,1
+440,ಹೌದು ಸರ್ ಅಶ್ವತ್ಥಾಮ ಇನ್ನೂ ಬದುಕಿದ್ದಾನೆ,native_script,0,POSITIVE,0
+441,lockdown mugili relise madi bartivi sir,romanised,0,POSITIVE,1
+442,ಕೊಳೊತೊಗಿರೊ. ಕೊಬ್ಬ್ರಿ ಮಿಟಾಯಿ..,native_script,1,NEGATIVE,1
+443,ನಾನು ಲೈಕ್ ಮಾಡಿದೆ,native_script,0,POSITIVE,3
+444,ನಿಮ್ಮ ಅಮ್ಮನ್ ತುಲ್ಲು,native_script,1,NEGATIVE,3
+445,telugu r we joke of u,romanised,3,UNKNOWN,2
+446,super jai d.boss,romanised,0,POSITIVE,1
+447,ayyoo. teligram nalli 10 ralli 9 jana nodidaare..n matte naanu 12 saari nodidini ..what a movie ya. mother sentiment,romanised,0,POSITIVE,1
+448,swag ka baap rakshit shetty..,romanised,0,POSITIVE,0
+449,ನಾಲ್ಕು ಯುಗಗಳು ಮುಗಿದ ಮೇಲೆ ಪುನ,native_script,3,UNKNOWN,0
+450,ಕನ್ನಡದಲ್ಲಿ ಮಾತಾಡು ಪೃಥ್ವಿ.ಇಂಗ್ಲಿಷ್ ಬೇಡ ಇದು ಕರ್ನಾಟಕ,native_script,2,MIXED,1
+451,ಹಲೋ ಸಿನಿಮಾ ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ.. ಯಾರು ಗೊತ್ತಿಲ್ಲ,native_script,0,POSITIVE,1
+452,parthasarathi ನಿಮ್ಮ ಅಮ್ಮನ್ ಕಳುಸ್ತೀಯ,mixed_script,1,NEGATIVE,1
+453,ರಕ್ಷಿತ್ ನಿಮ್ಮ ಕೈಯಲ್ಲಿ ಕನ್ನಡ nಸುರಕ್ಷಿತ,mixed_script,0,POSITIVE,1
+454,kumar ms nin mane address kodu,romanised,2,MIXED,3
+455,promotion madilla guru adke jana bandilla.,romanised,1,NEGATIVE,1
+456,ಎಲ್ಲರೂ the best ಆಗಿ ಕೆಲಸ ಮಾಡಿದಿರ,mixed_script,0,POSITIVE,0
+457,harisa . sooper annthamma.,romanised,0,POSITIVE,0
+458,jain bro fans fans tara irona please personal agi family mele beda. ibbarigu sari kanalla nanna mele ba illa nanna hero mele ba adu bittu family mele beda. it seems like worst. you have also god mother . amma ammane yallara amma yallarigu ammane bro nimma amma namma amma bere anta enu iralla bro. nanu ninna cmnt ge reply ade tara kodbavudu but nange amma nenpagutte so please understand.,romanised,2,MIXED,1
+459,d8055 chakravarty. rakshit innu raaja,romanised,2,MIXED,3
+460,ragad song ..,romanised,3,UNKNOWN,0
+461,i like song very much,romanised,0,POSITIVE,0
+462,i love rakshit anna. super movie sule rasmika mandan ge chappali le hodibeku,romanised,0,POSITIVE,1
+463,ಅರೆ ಜನ ಕುಣಿದು ಕುಪ್ಪಳಿಸುತಿದ್ದಾರೆ ಅಂತ tik tok ban ಮಾಡಿಲ್ಲ. ಇದನ್ನು ಬಳಸುವ ಬಹಳಷ್ಟು ಜನಾ ಕೇಂದ್ರ ಸರಕಾರದ ವೈಫಲ್ಯ ಎತ್ತಿ ತೋರಿಸಿ,mixed_script,1,NEGATIVE,1
+464,kateya kone channagilla,romanised,1,NEGATIVE,3
+465,ಅತ್ಯುತ್ತಮ ಸಹೋದರ ಹೀಗೆ ಇಂತಹ ದಂಡ ಪಿಂಡಗಳಿಗೆ ಇದೆ ರೀತಿ ಬುದ್ಧಿ ಕಳಿಸು ಯೋಧರ ಜೀವಕ್ಕೆ ಇಂತಹವರಿಂದ ಬೆಲೆ ಇಲ್ಲ ಟಿಕ್ ಟಾಕ್ ಬೇಕಂತ,native_script,1,NEGATIVE,1
+466,because only corona.n npiracy.,romanised,2,MIXED,3
+467,nim mane ge banadhu ellva ..,romanised,3,UNKNOWN,1
+468,houdu niv helidu 100 nija sir.,romanised,0,POSITIVE,0
+469,ಚಿಂದಿ movie ಗುರು,mixed_script,0,POSITIVE,0
+470,ದೃಷ್ಟಿ ಇವನೊಬ್ಬನ ಮೇಲಿಡಿ nತಪ್ಪದು ನಿಜ ಮನರಂಜನೆ,mixed_script,0,POSITIVE,1
+471,first song kelide,romanised,2,MIXED,3
+472,ಸರ್ ನೀವು ದುಡಿದು ಬದುಕ್ತಿದಿರ,native_script,0,POSITIVE,1
+473,chindi step chindi bgm superr,romanised,0,POSITIVE,0
+474,waaa super super rakshit sir and ajaneesh lokanaath anna music super,romanised,0,POSITIVE,0
+475,nangooo kooda. nnan utube nalli nodide.,romanised,0,POSITIVE,3
+476,manna summan namana huchhar olage tagyatara,romanised,1,NEGATIVE,0
+477,kannadiga ಹೂ ಅಣ್ಣ ನಿಮ್ಮ ವೀಡಿಯೋ ದಿನಾ ನೋಡ್ತೀನಿ ನಾನು ತುಂಬಾ ಚೆನ್ನಾಗಿ ಮಾತಾಡ್ತೀರ ನಾನು ಲಾಸ್ಟ್ ಅಲ್ಲಿ ತಮಾಷೆ ಮಾಡ್ದೆ ಅಷ್ಟೇ ಅಣ್ಣ ಹೀಗೆ ನಗಿಸುತ್ತಾ ಇರೀ ಅಣ್ಣ ಆ ದೇವರು ನಿಮಗೆ ಒಳ್ಳೇದ್ ಮಾಡ್ಲೀ..ತುಂಬಾ ಥ್ಯಾಂಕ್ಸ್ ರಿಪ್ಲೈ ಮಾಡಿದಕ್ಕೆ ಇದರಲ್ಲೇ ಗೊತ್ತಾಗುತ್ತೆ ನೀವು ಅಭಿಮಾನಿಗಳನ್ನ ಎಷ್ಟು ಪ್ರೀತಿಸುತ್ತೀರಾ ಅಂತ,mixed_script,0,POSITIVE,0
+478,en song madidiri boss ninne inda 20 sari kelidini innu kelbeku kelbeku antha anstide,romanised,0,POSITIVE,1
+479,yapaa devre spr agi rost madidira sprrr,romanised,1,NEGATIVE,0
+480,ಜೈ ಆಂಜನೇಯ,native_script,0,POSITIVE,0
+481,fan from jupiter !!,romanised,2,MIXED,3
+482,togari tippa all time favorite evergreen,romanised,0,POSITIVE,0
+483,anna aswathama ge kannada barutta,romanised,3,UNKNOWN,0
+484,havlli guru nimanthavru bekku,romanised,0,POSITIVE,1
+485,m.y ha.sister,romanised,3,UNKNOWN,3
+486,ಯುದ್ದ ಮಾಡಬೇಕು ಓದಬಾರದು ಕಟುಕರ ಮುಂದೆ ಭಗವದ್ಗೀತೆ..nnnಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೊ ಅವತಾರ..,mixed_script,0,POSITIVE,1
+487,how u told ?nivu heg heltiya bro,romanised,0,POSITIVE,3
+488,hi nane ashwathama,romanised,1,NEGATIVE,3
+489,ಒಳ್ಳೆತನಕ್ಕೆ ಈ ಪ್ರಪಚದಲ್ಲಿ ಬೆಲೆ ಇಲ್ಲ ಸರ್ . ಆದ್ರೆ ಒಳ್ಳೆತನ ಯಾವತ್ತೂ ಸೋಲೋದ್ಧಿಲ್ಲ ಗೆದ್ಧ್ಚೆ ಗೆಲ್ಲುವೆ ಒಂದು ದಿನ,native_script,0,POSITIVE,1
+490,nin super guru,romanised,0,POSITIVE,0
+491,asome bro nd boss,romanised,0,POSITIVE,3
+492,next level movie guru,romanised,0,POSITIVE,0
+493,super hero prajval devraj i like i love hero but avara time sari ila adke avara movie hit agtila but ivarige vale director sigbeku benki hero prajval i love boss e cinema adru nimge success tandu kodali..devru idane munde nugta eri boss god bless you,romanised,1,NEGATIVE,1
+494,sakat agide song music,romanised,0,POSITIVE,3
+495,ಜಂಟಲ್ ಮ್ಯಾನ್ ಟ್ರೈಲರ್ ತುಂಬಾ ಅದ್ಭುತವಾಗಿ ಮೂಡಿ ಬಂದಿದೆ ಎಲ್ಲರೂ ನೋಡಿ ತಪ್ಪದೇ ಶೇರ್ ಮಾಡಿ ಜೆಂಟಲ್ ಮ್ಯಾನ್ ಚಿತ್ರ ತಂಡದವರಿಗೆ ಸಪೋರ್ಟ್ ಮಾಡಿn,mixed_script,0,POSITIVE,0
+496,32 m,romanised,2,MIXED,3
+497,ಸರಿಯಾಗಿ ಹೇಳಿದಿರಿ ಬ್ರದರ್,native_script,0,POSITIVE,1
+498,sir movie nodidini idhu. ithara film en chennagide sir..compare to love mocktail,romanised,0,POSITIVE,2
+499,yaarigu yaarannu holike madodu beda raj is raj shankar is only shankar vishnuji is only vishnuji.. !! haage rakshith kooda rakshith andkolrii jagala yaake.. !yaaru yaarnu beat madodu beda avarade aada history create maadlii khushipadona ashte elru nammavre hottekicchu beda friends. !!,romanised,0,POSITIVE,1
+500,asn,romanised,3,UNKNOWN,3
+501,ಟೈಮ್ ಅನ್ನೋದೇ ಹೀಗೆ,native_script,3,UNKNOWN,3
+502,parthasarathi joi d boos,romanised,1,NEGATIVE,1
+503,superntelugu lo kuda,romanised,0,POSITIVE,1
+504,ganesh bhat -ಬೆಡುವ ಅವಶ್ಯಕತೆ ನನ್ನಗೆ ಇಲ್ಲಪ್ಪಾ ಬೆಕಾದರೆ ನಿನೆ ಬಾ ಪ್ರಿ ಅಗಿ ಉಟ ಹಾಕತಿನಿ.,mixed_script,1,NEGATIVE,1
+505,views struck,romanised,2,MIXED,3
+506,devaru olledu madtane sir..nimge chenag iri,romanised,0,POSITIVE,1
+507,lo remake alla antha hekde tane,romanised,1,NEGATIVE,1
+508,super duper old audio drama,romanised,0,POSITIVE,0
+509,super song..with dance sakathagide,romanised,0,POSITIVE,0
+510,hi chandra kanth.. uk andre kelvu shettys ge ulidavaru kandante film antha sudden aagi gottagalla.. uk,romanised,2,MIXED,1
+511,great sir nivu,romanised,0,POSITIVE,0
+512,pu nin baayige .,romanised,2,MIXED,2
+513,prasad yen yogyathey. chappar. 3000 gintha hechchu cinema nodidheeni naanu. nann abipraya kotrey yeno boli magane muddhey thinna louda. nthooo!!,romanised,1,NEGATIVE,1
+514,superr i like it,romanised,0,POSITIVE,3
+515,ಬೇರೆ ಭಾಷೆಯ ಅವರಿಗೆಲ್ಲ hands up ಹೇಳಲು ಬರುತ್ತಿದ್ದಾರೆ ರಕ್ಷಿತ್ ಶೆಟ್ಟಿ.ಯಶ್ ಅಭಿಮಾನಿಯಾಗಿ ಹೇಳುತ್ತಿದ್ದಿನಿ . ಕೆಜಿಎಫ್ ಆದಮೇಲೆ ಎರಡನೇ ಸಿನಿಮಾ ಬ್ಲಾಕ್ಬಸ್ಟರ್ ಆಗುವುದು ಇದ್ದೇನೆ,mixed_script,0,POSITIVE,1
+516,damm godd.an song guru.ajnish u made a magic broo,romanised,0,POSITIVE,0
+517,guru pub g game..,romanised,3,UNKNOWN,2
+518,highest liked video in sandalwood,romanised,0,POSITIVE,3
+519,pakka prufff kodi,romanised,3,UNKNOWN,3
+520,remake ಮಾಡಿ hit ಕೊಡೊಕೆ ಇದು 2010 ಅಲ್ಲ.n2020 swamake ಮಾಡಿ ಖಂಡಿತ hit ಕೊಡುತ್ತೆ.nಗೆಳೆಯ ಅಂತ ಸಿನಿಮಾಗಳು ಮಾಡಿ,mixed_script,0,POSITIVE,1
+521,ಅಪ್ಪು ಫ್ಯಾನ್ಸ್ ಲೈಕ್ ಹಿಮ್,native_script,0,POSITIVE,0
+522,ಈ ಸಾಂಗ್ ಕೇಳಿ ರಶ್ಮಿಕಾ ಮಾದಣ್ಣ ಎಷ್ಟು ಹುರ್ಕೊಂಡಿದಾಳೊ ಅವ್ಳಿಗೆ ಒಂದು ಐಸ್,native_script,1,NEGATIVE,1
+523,ನಮ್ಮ ದೇಶದಲ್ಲಿ ರಾಜಕೀಯ ದಲ್ಲಿ ಗೆಲ್ಲಲು ಈಗ ದುಡ್ಡು ಬೇಕಾಗಿಲ್ಲ ಪಾಕಿಸ್ತಾನ ಅಥವಾ ಇಸ್ಲಾಂ ಮೇಲೆ ಅವಾಜ್ ಹಾಕಿದರೆ ಅವನಿಗೆ ಪ್ರಧಾನಿ ಪಟ್ಟ ಕೊಡುತ್ತಾರೆn ನಮ್ಮ ಮೋರಿಗೆ ಮುಸಲ್ಮಾನರನ್ನು ಸಾಯಿ ಸೋದೆ ಅವರ ಅಭಿವೃದ್ಧಿ,mixed_script,1,NEGATIVE,1
+524,huchha venkat sene innu jeevantha ide.bhaya padbeda sir,romanised,1,NEGATIVE,0
+525,ಹಾಡಿನ ಬರವಣಿಗೆ ತುಂಬಾನೇ ಚೆನ್ನಾಗಿದೆ nಚರಿತ್ರೆ ಸೃಷ್ಠಿಸೋ ಅವತಾರ,mixed_script,0,POSITIVE,0
+526,ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಬಾರಿ ಕೇಳಿದವರು ಲೈಕ್ ಮಾಡಿ,native_script,0,POSITIVE,0
+527,full movie upload madri.. ofter release pls,romanised,0,POSITIVE,0
+528,12pm start madi 5pm complete madde,romanised,2,MIXED,0
+529,anna super,romanised,0,POSITIVE,0
+530,yavdadru habba raja dina dalli release madbekitttu odtittu ..,romanised,1,NEGATIVE,1
+531,ಸಾರ್ ಕಾಯಕವೇ ಕೈಲಾಸ ಹ್ಯಾಟ್ಸ್ ಆಫ್ ನಿಮ್ಗೆ ನಿಮ್ಮಿಂದ ಒಂದು ಪಾಠ ಕಲಿತೆ ಅದು ಕೆಲ್ಸ ಯಾವುದೇ ಆಗಲಿ ಅದನ್ನು ಶ್ರದ್ಧೆಯಿಂದ ಮಾಡ್ಬೇಕು ಅನ್ನೋದು ಧನ್ಯವಾದ ಸಾರ್ ನಿಮ್ಗೆ,native_script,0,POSITIVE,0
+532,wow hand's up ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೊ ಅವತಾರ super,mixed_script,0,POSITIVE,0
+533,ಸರ್ ನಿಮ್ಮ ಪಾದಗಳಿಗೆ ನಮಸ್ಕಾರಗಳು,native_script,0,POSITIVE,0
+534,super togari tipa,romanised,0,POSITIVE,0
+535,vitthal ದಬಾಂಗ್ ಆಲ್ಸೋ ಏನು ಆಲ್ರೆಡಿ ಫ್ಲಾಪ್,mixed_script,1,NEGATIVE,1
+536,ಮುಚ್ಚಲೇ.. ಆ ತುಲುಗು ನವರಿಗೆ ಹುಟ್ಟಿರೋರ್ ಥರ ಯಾವಾಗಲೂ ಸೌಂದರ್ಯ ಸೊಬಗುಲಿ ಅವರದ್ದೆ ಹಾಕಿರುತ್ತಾರೆ.. ರಾಜ್ ಕಮಲ್ ಒಂದ್ರಲ್ಲೆ ಕನ್ನಡ ಹಾಕೋದು..,native_script,1,NEGATIVE,1
+537,e film adru chenag odli,romanised,3,UNKNOWN,1
+538,e movie name enu paka hitt e a,romanised,0,POSITIVE,2
+539,kushi avare nimma mele thumba love aagide . great acting,romanised,0,POSITIVE,0
+540,gentleman sir nevu,romanised,0,POSITIVE,3
+541,k ..ಎಲ್ಲಾ ರಾಜಕಾರಣಿಗಳು ಕಳ್ಳರೆ.. ಇದ್ದುದರಲ್ಲಿ ಬಿಜೆಪಿ ಯವರು ಕಡಿಮೆ ಕಳ್ಳರು..,mixed_script,1,NEGATIVE,1
+542,sir ennond sala re release madi dabba nan maklu movie na teligram nalli online nalli bitre yar theater ge barthare sir first film industry navru yalru seri ban madsi film release agi 6 months yalli oragade sigbardhu avagaga nim kasta pattu madiro kelsakke prathipala sigutte movie release agi next day ne mobile nalli bandre jana theater ge hogodilla soo sad,romanised,1,NEGATIVE,1
+543,step super bossu,romanised,0,POSITIVE,0
+544,ಶ್ರೀ ಮನ್ ನಾರಾಯಣ ಡಬ್ಬ ಸಿನಿಮಾ,native_script,1,NEGATIVE,0
+545,ಯುದ್ಧ ಮಾಡಬೇಕು ಓದಬಾರದು ಕಟುಕರ ಮುಂದೆ ಭಗವದ್ಗೀತೆ ಎಂತಹ ಸಾಲುಗಳು,native_script,2,MIXED,1
+546,kichha fan's kade enda chithra sathadina nadiyali yendu haraisuttene,romanised,2,MIXED,1
+547,tennis krishna fans hit like,romanised,3,UNKNOWN,3
+548,ಸೂಪರ್ ಸಾಂಗ್,native_script,0,POSITIVE,0
+549,ಸೂಪರ್ ಹಾಡು ಎಲ್ಲ ಕನ್ನಡದ ಅಭಿಮಾನಿಗಳಿಂದ ಸಿನಿಮಾ ತಂಡಕ್ಕೆ ಆಲ್ ದಿ ಬೆಸ್ಟ್,native_script,0,POSITIVE,0
+550,hindi me lao,romanised,3,UNKNOWN,3
+551,idu charithre srustiso avathaara..,romanised,0,POSITIVE,3
+552,visual are super totoly movie,romanised,3,UNKNOWN,0
+553,super film kavanadalli kathe,romanised,0,POSITIVE,0
+554,different ಮ್ಯೂಸಿಕ್ ಸರ್.nಅಜನಿಶ್ ಸರ್ ಗೆ ಧನ್ಯವಾದಗಳು..,mixed_script,0,POSITIVE,0
+555,my favorite song,romanised,0,POSITIVE,0
+556,supr bro aadhh yen kannadaa aaadhh yen punch waa supr bro,romanised,0,POSITIVE,0
+557,ಗುರು ಇದೆಲ್ಲ ನಂಬೊ ಮಾತ,native_script,1,NEGATIVE,1
+558,vijay prakash voice is super,romanised,0,POSITIVE,0
+559,hindiyelli film release madbekittu bro,romanised,0,POSITIVE,1
+560,ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ ಕನ್ನಡ ಬೆಳಸಿ ಕನ್ನಡ ಊಳಿಸಿ,native_script,0,POSITIVE,0
+561,ಜಡ್ ಜಡ್ ನಕ್ಕ.,native_script,2,MIXED,1
+562,ಸಾಹಿತ್ಯ ತುಂಬಾ ಚನ್ನಾಗಿದೆ. dance ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ. bgm ಕೂಡ ಚನ್ನಾಗಿದೆ..,mixed_script,0,POSITIVE,0
+563,ನಿನಕ್ಕೂ ತುಂಬಾ ಪ್ರಾಮಿಸಿಂಗ್ ಆಗಿದೆ ಟ್ರೈಲರ್.. ಟ್ರೈಲರ್ ನೋಡ್ತಾ ಇದ್ರೆ ಸಿನೆಮಾ ನೋಡಬೇಕು ಅಂತ ಅನ್ಸುತ್ತೆ. ಪ್ರಜ್ವಲ್ ಸಿನಿ ಲೈಫ್ ಗೆ ಟರ್ನಿಂಗ್ ಕೊಡೋ ತರ ಇದೆ.. ಒಳ್ಳೆಯದಾಗಲಿ ಜಂಟಲ್ ಮನ್ ಸಿನಿಮಾ ಟೀಮ್ ಗೆ ಹಾಗೂ ಪ್ರಜ್ವಲ್ ದೇವರಾಜ್ ಗೆ..,native_script,0,POSITIVE,1
+564,tusmika manganna na tikha uriyang ede. rakshith shetty ni hinge belibeku..avl mukli uriyeng,romanised,1,NEGATIVE,1
+565,anna e game yavadu,romanised,2,MIXED,3
+566,guruve en creative sharanu love u kannadiga,romanised,0,POSITIVE,0
+567,nanu eduvaregu tik tok app install kuda madilla nan phone alli. bro ede tara videos madi tik tok alli saitirorna ennomme tik tok hesar keladre bhaya padbeku aaa tara rost madi bro,romanised,1,NEGATIVE,1
+568,fan aagode bayya ninge..,romanised,0,POSITIVE,0
+569,vishnu dada fans like madi,romanised,3,UNKNOWN,0
+570,super channel super msg,romanised,0,POSITIVE,0
+571,nanu 2 weaks ninda huccha agbitidini boss song ge fiddha agbitidini,romanised,0,POSITIVE,1
+572,appu fan,romanised,3,UNKNOWN,3
+573,nimm mathu saryagi heliddira super,romanised,0,POSITIVE,0
+574,handsup shoot madbeka dishkaew,romanised,3,UNKNOWN,3
+575,super bro ಜೈ ಜವಾನ್ ಜೈ ಕಿಸಾನ್,mixed_script,0,POSITIVE,0
+576,ಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸು ಆವಾತರ,native_script,0,POSITIVE,0
+577,ಅಣ್ಣ ಏನೋ ಪಾ ನಿನ್ನ ಮಾತುಗಳಿಗೆ ಫಿದಾ ಆಗಿನಿ ಸೂಪರ್ ವಿಡಿಯೋ for tiktok haters not tiktok lovers,mixed_script,0,POSITIVE,3
+578,28 m,romanised,2,MIXED,3
+579,ಸಾಹಿತ್ಯಗಾರರ ಕನ್ನಡನಾಡಿನಲ್ಲಿ ಸಾಹಿತ್ಯವನ್ನ ಅಚ್ಚ ಕನ್ನಡದಲ್ಲಿ ಬರೆದಿರುವ ಅ ಸಾಹಿತ್ಯಗಾರ ಯಾರು ಅಂತ ನನಗೆ ಗೊತ್ತಿಲ್ಲ ಆದರೆ ತುಂಬಾ ಸೊಗಸಾಗಿದೆ ಸಾಂಗ್,native_script,0,POSITIVE,0
+580,ಓಳ್ಳೆ ಕಥೆ ಬಹಳ ವರ್ಷ ಆಗಿತ್ತು ಕೇಳಿ,native_script,0,POSITIVE,2
+581,raksihth settru super..dooper..,romanised,0,POSITIVE,0
+582,dislike madidoru rashmika mandanna fans irbodu,romanised,1,NEGATIVE,3
+583,ಕನ್ನಡದಲ್ಲಿ ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸಲಿ ಈ ಸಿನಿಮಾ,native_script,0,POSITIVE,0
+584,ರಕ್ಷಿತ್ ಶೆಟ್ಟಿ ನಮ್ಮ ಕನ್ನಡ ಇಂಡಸ್ಟ್ರಿ ನ ಬೆಳವಣಿಗೆ ಮಾಡಲಿಕ್ಕೆ ಬಂದ ಇನ್ನೊಬ್ಬ ರಜಕುಮರ್ ಅಣ್ಣಾವ್ರು ಒಂದು ಲೈಕ್ ಮತ್ತೆ ಎಷ್ಟೊಂದು ಜನರು ಕನ್ನಡದಲ್ಲಿ ಕಾಮೆಂಟ್ ಮಾಡಿದವರಿಗೂ ಹ್ಯಾಂಡ್ಸಪ್ ಜೈ ಕರ್ನಾಟಕ ಮಾತೆ,native_script,0,POSITIVE,0
+585,ಕ್ರಿಮಿನಲ್ ಬುದ್ದವಂತಿಕೆ ..ಸೂಪರ್ ಹೀಗೆ ಇರಬೇಕು .. ನಮ್ಮ ದೇಶ ನೋ. ಚಾನ್ಸ್..,native_script,1,NEGATIVE,1
+586,r hogi ballegaarnn tunne unn. aa balegaaran bhikshe majestic cinema nim dbabes ge .. nim amma majestic sule ansuthe adkke isht harkottiddiya bewarsi sulemundemagane. nin ammana kellu nene hege malgisi keydiddini anta .,romanised,1,NEGATIVE,1
+587,super duper movie,romanised,0,POSITIVE,0
+588,super anna bindass agi mathadiddira inshatu makake ugudru kelavar adaralli erthivi navu anthare antha mental people na mental hospital ge akbeku,romanised,0,POSITIVE,1
+589,ಚರಿತ್ರೆ ಇದೆ. ಇದು ಒಂದು ದಂತಕಥೆ.,native_script,0,POSITIVE,2
+590,paramvah music uujnxgjmifjkijhn ya jinhen,romanised,3,UNKNOWN,3
+591,raj arya nija kananna,romanised,2,MIXED,0
+592,ನಮ್ d boss ಶಾಟ ಕ್ಕೂ ಸಮ ಇಲ್ಲಾ.ಮಗನೇ. ಅವುನ್ ಮಾಡಿದ ಫಿಲಂ ಅಷ್ಟು ಎಕ್ಸ್ಪೀರಿಯೆನ್ಸ್ ಆಗಿಲ್ಲ ತುಲ್ಲರೆ ಮಾತಾಡ್ತೀಯಾ ಹಾದರಗಿತ್ತಿ ಮಗನೇ.. lo mari evrella one film madi buildup tagotare. ಅವ್ರು ಫಸ್ಟ್ ಫಿಲಂ ಅಲ್ಲೇ ಕ್ರೇಜ್ ಹುಟ್ಟಿ ಹಾಕಿದವರು.. ಅವ್ರು ಫಸ್ಟ್ ಫಿಲಂ ಮೆಜೆಸ್ಟಿಕ್ ಫಿಲಂ ರಿಲೀಸ್ ಆದಾಗ.. ನಿನ್ ತುಣ್ಣಿ ಇನ್ನು ಬಲ್ತು ಇರ್ಲಿಲ್ಲ ಗೂಬೆ ತುಲ್ಲಿಗೆ ಹುಟ್ಟಿದ್ ಬೋಳಿಮಗನೇ ನಿಮ್ಮ ಅವ್ವ ಸೂಳೆ,mixed_script,0,POSITIVE,1
+593,m.r maga urkanbeda bido,romanised,1,NEGATIVE,1
+594,benki music..yarappa dislike madirodu.. mostly rasmika mandana fans irbeku.n songe he inge in movie nodudre.aste,romanised,1,NEGATIVE,1
+595,nan math nge fida agode,romanised,2,MIXED,1
+596,havali nin astu urkondilla pa,romanised,1,NEGATIVE,3
+597,7 ಜನ್ಮ ಇದಿಯಾ ಆತ್ವಾ ಇಲ್ವೋ n,mixed_script,0,POSITIVE,1
+598,anna super song.,romanised,0,POSITIVE,0
+599,correct agi helde guru.. adashtu ellakade share madi,romanised,0,POSITIVE,0
+600,ಇದು ಚರಿತ್ರೆ ಸೃಷ್ಟಿಸೊ ಅವತಾರ. ನಮ್ಮ ನಾರಾಯಣ..,native_script,0,POSITIVE,0
+601,rashika mandhana nodu namma kannadada tiger naa,romanised,0,POSITIVE,1
+602,ನಮ್ಮ ದೇಶ ಹಾಗೆ ಹೀಗೆ,native_script,2,MIXED,0
+603,24 ಮಿಲಿಯನ್ಸ್ ಆದ್ಮೇಲೆ ನೋಡ್ತಾ ಇರೋರು ಲೈಕ್ ಮಾಡಿ,native_script,0,POSITIVE,0
+604,nimge henge gotthu neevu en alle idra,romanised,2,MIXED,1
+605,trailer ee rangeide ina filmnawesome man,romanised,0,POSITIVE,3
+606,handsup ಇದು ಚರಿತ್ರೆ ಸೃಷಿಸೂ ಅವತಾರ,mixed_script,0,POSITIVE,0
+607,super lyrics guru,romanised,0,POSITIVE,0
+608,ತೊಗರಿ ತಿಪ್ಪ ಸೂಪರ್ ಸ್ಟಾರ್,native_script,0,POSITIVE,0
+609,sir nivu news helida hage heltiri sir,romanised,1,NEGATIVE,3
+610,sam,romanised,3,UNKNOWN,3
+611,en song guru fidha agode..idhu charithre srustiso avatharaaa. signature step shuruhachkoli inna..,romanised,0,POSITIVE,1
+612,mediasuper sir. nimagu haagu namma sir gu dussehra habbada shubhashayagalu,romanised,0,POSITIVE,0
+613,manju manju ಅದು ಒಂದ್ ಪದ ಬಿಟ್ಟು ನೋಡು,mixed_script,2,MIXED,2
+614,tumba olle kathe,romanised,0,POSITIVE,1
+615,ಟಿಕ್ ಟಾಕ್ ಸೆಡೆಗಳು,native_script,2,MIXED,1
+616,ನೀನು ಗೆದ್ದೆ ಬಿಡು ಗುರು..,native_script,0,POSITIVE,3
+617,magaluru kade kalsi avanannu .navu avanige maddu kodthive.,romanised,2,MIXED,1
+618,ಸೂಪರ್ ಬಾಸ್ ನೀನು ಹೇಳ್ಳೇದ್ ಕ್ರೀಟ್ ಮಾಡಿದು ಸೂಪರ್,native_script,0,POSITIVE,0
+619,hing dance madidre .. mugitu kathe..,romanised,1,NEGATIVE,0
+620,sar bedi duty madali taraget miss agote..?,romanised,2,MIXED,1
+621,nayak ನೇ ಮಿಂಡ್ರಿ ಮಗ,mixed_script,1,NEGATIVE,3
+622,super performance prju,romanised,0,POSITIVE,0
+623,ಏನು ಗುರು ನೀನು .. ಹಾಲಿವುಡ್ ಫಿಲ್ಮ್ ಥರ ಮಾಡಿರ .. ನಿಮ್ಗೆ ಒಂದ್ ಸಲಾಂ,native_script,0,POSITIVE,1
+624,nayak lo ಶಿಷ್ಯ ವಿಷ್ಯ ಗೊತಾಯ್ತಾ. ನಾನು ಇವತ್ತು ಥಿಯೇಟರ್ ಗೇ ಹೋಗಿದ್ದೆ ದಬಾಂಗ್ 3 ಅಡ್ವಾನ್ಸ್ ಟಿಕೆಟ್ ತಗೋಳೋಕೆ.. ಅವ್ರು ಹೇಳಿದ್ರು ಏಲಿಯನ್ಸ್ ಬಂದು ಟಿಕೆಟ್ ತಗೊಂಡು ಹೋದ್ವು 1000ಡೇಸ್ sold out anta. ನಂಗೆ ಸುರ್ಪ್ರೈಸ್ ಆಯ್ತು ಲುಚ್ಚಾ ಸುದೀಪ್ ಗೇ ಬೇರೆ ಗ್ರಹ ದಲ್ಲೂ ಫ್ಯಾನ್ಸ್ ಇದಾರೆ ಅಂತಾ omg.. !,mixed_script,2,MIXED,1
+625,sariyaaagi bydidira. actually olle olle kelsa madidare app ban maadi.. i hate tik tok,romanised,2,MIXED,1
+626,ಸರ್ ನಿಮ್ಮಂತಹ ವ್ಯಕ್ತಿತ್ವದ ಜೀವನಕ್ಕೆ ನನ್ನ ಶರಣು-ಶರಣಾರ್ಥಿಗಳು! ಆ ಸೃಷ್ಟಿಕರ್ತನ ಅನುಗ್ರಹ ಸದಾ ನಿಮಗಿರಲಿ ಎಂದು ಹಾರೈಸುವೆ,native_script,0,POSITIVE,0
+627,all kannada fans hands up to avaneshrimath narayana keep rocking movie,romanised,0,POSITIVE,0
+628,sorry filmna naanu theater hogi nodlilla kshamisi.super movie mobile alli nodide ..tappige account no heli duddu haktini,romanised,2,MIXED,1
+629,ಸುದೀಪ್ ಅಣ್ಣನ ಅಭಿಮಾನಿಗಳಿಂದ ಕಡೆಯಿಂದ ಅವನೆ ಶ್ರೀಮನ್ ನಾರಾಯಣ ಚಿತ್ರ ಶತದಿನೋತ್ಸವ ಆಚರಿಸಲೆಂದು ಶುಭಕೊರುತ್ತೆವೆ,native_script,0,POSITIVE,0
+630,chethu ಜೈ ಡಿ ಬಾಸ್,mixed_script,3,UNKNOWN,1
+631,enu kannada antha matadtaro ee goobegalu. thoo!. tumba chennagi maadideera. avru nim jote tumba chennagi maadidare. enu maadiddu,romanised,1,NEGATIVE,1

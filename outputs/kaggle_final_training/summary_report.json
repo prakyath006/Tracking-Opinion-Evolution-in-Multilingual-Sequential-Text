@@ -1,0 +1,544 @@
+{
+ "generated": "2026-11-14 17:12:44",
+ "dry_run": false,
+ "gpu": {
+  "torch": "2.11.0+cu130",
+  "cuda_available": true,
+  "device": "Tesla T4",
+  "memory_gb": 15.6,
+  "cuda": "13.0"
+ },
+ "stages": {
+  "environment": {
+   "status": "SUCCESS",
+   "detail": "GPU Tesla T4; internet ok"
+  },
+  "checks": {
+   "status": "SUCCESS",
+   "detail": "all required files exist, all code compiles, every CLI flag is accepted"
+  },
+  "aspect_readiness": {
+   "status": "SUCCESS",
+   "detail": "data, extraction safety and leakage checks pass; 459 sentiment examples, 30 products"
+  },
+  "aspect_sentiment": {
+   "status": "SUCCESS",
+   "detail": "best epoch 6; validation {'accuracy': 0.7837837837837838, 'macro_f1': 0.33242258652094714, 'macro_f1_present_classes': 0.33242258652094714, 'loss': 1.521604892369863}; test {'accuracy': 0.8507462686567164, 'macro_f1': 0.387624466571835, 'macro_f1_present_classes': 0.387624466571835, 'loss': 1.3666558585949797}; too small for meaningful evaluation: True"
+  },
+  "aspect_sentiment_slim_checkpoint": {
+   "status": "SUCCESS",
+   "detail": "58 MB vs 1111 MB full; kept 39 tensors, dropped 165 identical pretrained tensors; rebuild verified"
+  },
+  "aspect_extraction": {
+   "status": "SKIPPED",
+   "detail": "no extraction evaluation is claimed. safe checks done: 35 messages BIO-encoded with the XLM-R tokenizer (83 B tags, alignment ok: True). Mentions per split {'train': 69, 'val': 6, 'test': 8} against floors (eval 100, train 500); products 18 (floor 30). Floors met: False."
+  },
+  "aspect_sequence": {
+   "status": "SKIPPED",
+   "detail": "50/20/20 usable-series floors are NOT met on any tested product split; no thresholds were lowered and --allow_small_data is not used. OOF generation blockers: none (OOF is not run because its only consumer, the sequence model, is blocked)"
+  },
+  "dravidian_seed_0": {
+   "status": "SUCCESS",
+   "detail": "4 setups trained, checkpoints and results saved"
+  },
+  "dravidian_seed_1": {
+   "status": "SUCCESS",
+   "detail": "4 setups trained, checkpoints and results saved"
+  },
+  "dravidian_seed_2": {
+   "status": "SUCCESS",
+   "detail": "4 setups trained, checkpoints and results saved"
+  },
+  "dravidian_seed_3": {
+   "status": "SUCCESS",
+   "detail": "4 setups trained, checkpoints and results saved"
+  },
+  "dravidian_seed_4": {
+   "status": "SUCCESS",
+   "detail": "4 setups trained, checkpoints and results saved"
+  }
+ },
+ "groups": {
+  "successful": [
+   "environment",
+   "checks",
+   "aspect_readiness",
+   "aspect_sentiment",
+   "aspect_sentiment_slim_checkpoint",
+   "dravidian_seed_0",
+   "dravidian_seed_1",
+   "dravidian_seed_2",
+   "dravidian_seed_3",
+   "dravidian_seed_4"
+  ],
+  "failed": [],
+  "skipped": [
+   "aspect_extraction",
+   "aspect_sequence"
+  ],
+  "incomplete": [],
+  "dry_run": []
+ },
+ "aspect_sentiment": {
+  "best_epoch": 6,
+  "validation": {
+   "accuracy": 0.7837837837837838,
+   "macro_f1": 0.33242258652094714,
+   "macro_f1_present_classes": 0.33242258652094714,
+   "loss": 1.521604892369863
+  },
+  "test": {
+   "accuracy": 0.8507462686567164,
+   "macro_f1": 0.387624466571835,
+   "macro_f1_present_classes": 0.387624466571835,
+   "loss": 1.3666558585949797
+  },
+  "warnings": [
+   "the val split has only 74 aspect examples (floor 100): metrics are too noisy to compare models",
+   "the val split has fewer than 20 examples of ['NEGATIVE (11)', 'NEUTRAL (5)', 'MIXED (3)']: per-class F1 is unreliable",
+   "the test split has only 4 product(s) (floor 5): its metrics are anecdotal",
+   "the test split has only 67 aspect examples (floor 100): metrics are too noisy to compare models",
+   "the test split has fewer than 20 examples of ['NEGATIVE (10)', 'NEUTRAL (1)', 'MIXED (3)']: per-class F1 is unreliable",
+   "only 318 training aspect examples (floor 500) for an encoder with 100+ million parameters: expect unstable training and overfitting",
+   "treat every number from this run as a pipeline check, not as evidence about model quality"
+  ]
+ },
+ "dravidian_aggregate": {
+  "tamil_to_tamil": {
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "n_seeds": 5,
+   "test_rows": 4112,
+   "accuracy_4class_mean": 0.46726653696498055,
+   "accuracy_4class_std": 0.011172592944735462,
+   "macro_f1_4class_mean": 0.39179641720610164,
+   "macro_f1_4class_std": 0.007375309584654574,
+   "macro_f1_3class_mean": 0.42938642025999574,
+   "macro_f1_3class_std": 0.008429054216531793,
+   "per_class_f1_mean": {
+    "POSITIVE": 0.6232175984456549,
+    "NEGATIVE": 0.3464288201650063,
+    "MIXED": 0.24266958919831622,
+    "UNKNOWN": 0.3548696610154292
+   },
+   "majority_macro_f1_4class": 0.18672863019960384,
+   "confusion_matrix_4class_summed_over_seeds": [
+    [
+     6096,
+     2970,
+     1174,
+     2015
+    ],
+    [
+     331,
+     1578,
+     377,
+     434
+    ],
+    [
+     495,
+     900,
+     639,
+     461
+    ],
+    [
+     374,
+     964,
+     458,
+     1294
+    ]
+   ]
+  },
+  "malayalam_to_malayalam": {
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "n_seeds": 5,
+   "test_rows": 1654,
+   "accuracy_4class_mean": 0.4984280532043531,
+   "accuracy_4class_std": 0.018292768455880112,
+   "macro_f1_4class_mean": 0.43272295488342694,
+   "macro_f1_4class_std": 0.007898700392525852,
+   "macro_f1_3class_mean": 0.43524013276631257,
+   "macro_f1_3class_std": 0.024105478137839916,
+   "per_class_f1_mean": {
+    "POSITIVE": 0.5812412382883769,
+    "NEGATIVE": 0.3471874466187413,
+    "MIXED": 0.22132706534732294,
+    "UNKNOWN": 0.5811360692792668
+   },
+   "majority_macro_f1_4class": 0.14987298899237933,
+   "confusion_matrix_4class_summed_over_seeds": [
+    [
+     1779,
+     454,
+     680,
+     627
+    ],
+    [
+     198,
+     487,
+     295,
+     315
+    ],
+    [
+     90,
+     113,
+     235,
+     117
+    ],
+    [
+     469,
+     430,
+     360,
+     1621
+    ]
+   ]
+  },
+  "kannada_to_kannada": {
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "n_seeds": 5,
+   "test_rows": 632,
+   "accuracy_4class_mean": 0.494620253164557,
+   "accuracy_4class_std": 0.014997462798826298,
+   "macro_f1_4class_mean": 0.43705700821935894,
+   "macro_f1_4class_std": 0.01600991142639558,
+   "macro_f1_3class_mean": 0.448990618825447,
+   "macro_f1_3class_std": 0.018275984470549008,
+   "per_class_f1_mean": {
+    "POSITIVE": 0.5916371986171127,
+    "NEGATIVE": 0.5300044216162592,
+    "MIXED": 0.17921796705448972,
+    "UNKNOWN": 0.44736844558957445
+   },
+   "majority_macro_f1_4class": 0.17321613236814892,
+   "confusion_matrix_4class_summed_over_seeds": [
+    [
+     756,
+     448,
+     260,
+     211
+    ],
+    [
+     36,
+     494,
+     98,
+     82
+    ],
+    [
+     39,
+     138,
+     80,
+     103
+    ],
+    [
+     48,
+     77,
+     57,
+     233
+    ]
+   ]
+  },
+  "joint_to_tamil": {
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "n_seeds": 5,
+   "test_rows": 4112,
+   "accuracy_4class_mean": 0.47106031128404674,
+   "accuracy_4class_std": 0.017754583899264573,
+   "macro_f1_4class_mean": 0.39684287288821973,
+   "macro_f1_4class_std": 0.007837860936950923,
+   "macro_f1_3class_mean": 0.44684611554929277,
+   "macro_f1_3class_std": 0.01295214166381801,
+   "per_class_f1_mean": {
+    "POSITIVE": 0.63569453312871,
+    "NEGATIVE": 0.32676852383127797,
+    "MIXED": 0.2924122841714344,
+    "UNKNOWN": 0.33249615042145664
+   },
+   "majority_macro_f1_4class": 0.18672863019960384,
+   "confusion_matrix_4class_summed_over_seeds": [
+    [
+     6330,
+     1694,
+     2446,
+     1785
+    ],
+    [
+     378,
+     1078,
+     879,
+     385
+    ],
+    [
+     497,
+     507,
+     1159,
+     332
+    ],
+    [
+     430,
+     588,
+     954,
+     1118
+    ]
+   ]
+  },
+  "joint_to_malayalam": {
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "n_seeds": 5,
+   "test_rows": 1654,
+   "accuracy_4class_mean": 0.46420798065296254,
+   "accuracy_4class_std": 0.016011609566684504,
+   "macro_f1_4class_mean": 0.37960902413820585,
+   "macro_f1_4class_std": 0.013546488657236852,
+   "macro_f1_3class_mean": 0.3399175696761093,
+   "macro_f1_3class_std": 0.017183444649035484,
+   "per_class_f1_mean": {
+    "POSITIVE": 0.440183971994045,
+    "NEGATIVE": 0.36658647687578966,
+    "MIXED": 0.11421627368188203,
+    "UNKNOWN": 0.5974493740011066
+   },
+   "majority_macro_f1_4class": 0.14987298899237933,
+   "confusion_matrix_4class_summed_over_seeds": [
+    [
+     1090,
+     1048,
+     270,
+     1132
+    ],
+    [
+     76,
+     736,
+     84,
+     399
+    ],
+    [
+     49,
+     276,
+     63,
+     167
+    ],
+    [
+     184,
+     652,
+     94,
+     1950
+    ]
+   ]
+  },
+  "joint_to_kannada": {
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "n_seeds": 5,
+   "test_rows": 632,
+   "accuracy_4class_mean": 0.4977848101265822,
+   "accuracy_4class_std": 0.016185711205752448,
+   "macro_f1_4class_mean": 0.398944327388682,
+   "macro_f1_4class_std": 0.01754702755343333,
+   "macro_f1_3class_mean": 0.42043158022495286,
+   "macro_f1_3class_std": 0.021756195636954044,
+   "per_class_f1_mean": {
+    "POSITIVE": 0.616392157126952,
+    "NEGATIVE": 0.5094960835717097,
+    "MIXED": 0.08880636604774536,
+    "UNKNOWN": 0.3810827028083211
+   },
+   "majority_macro_f1_4class": 0.17321613236814892,
+   "confusion_matrix_4class_summed_over_seeds": [
+    [
+     846,
+     491,
+     82,
+     256
+    ],
+    [
+     64,
+     483,
+     24,
+     139
+    ],
+    [
+     66,
+     153,
+     26,
+     115
+    ],
+    [
+     91,
+     64,
+     42,
+     218
+    ]
+   ]
+  }
+ },
+ "checkpoint_files": [
+  {
+   "file": "aspect_sentiment/sentiment_xlmr_top2_agreed_only/best_checkpoint_slim.pt",
+   "what": "aspect sentiment best-validation checkpoint",
+   "exists": true,
+   "bytes": 57513591
+  },
+  {
+   "file": "dravidian/seed_0/checkpoints/tamil_seed0.pt",
+   "what": "Dravidian head, seed 0",
+   "exists": true,
+   "bytes": 797573
+  },
+  {
+   "file": "dravidian/seed_0/checkpoints/malayalam_seed0.pt",
+   "what": "Dravidian head, seed 0",
+   "exists": true,
+   "bytes": 797621
+  },
+  {
+   "file": "dravidian/seed_0/checkpoints/kannada_seed0.pt",
+   "what": "Dravidian head, seed 0",
+   "exists": true,
+   "bytes": 797597
+  },
+  {
+   "file": "dravidian/seed_0/checkpoints/joint_seed0.pt",
+   "what": "Dravidian head, seed 0",
+   "exists": true,
+   "bytes": 798149
+  },
+  {
+   "file": "dravidian/seed_1/checkpoints/tamil_seed1.pt",
+   "what": "Dravidian head, seed 1",
+   "exists": true,
+   "bytes": 797573
+  },
+  {
+   "file": "dravidian/seed_1/checkpoints/malayalam_seed1.pt",
+   "what": "Dravidian head, seed 1",
+   "exists": true,
+   "bytes": 797621
+  },
+  {
+   "file": "dravidian/seed_1/checkpoints/kannada_seed1.pt",
+   "what": "Dravidian head, seed 1",
+   "exists": true,
+   "bytes": 797597
+  },
+  {
+   "file": "dravidian/seed_1/checkpoints/joint_seed1.pt",
+   "what": "Dravidian head, seed 1",
+   "exists": true,
+   "bytes": 798149
+  },
+  {
+   "file": "dravidian/seed_2/checkpoints/tamil_seed2.pt",
+   "what": "Dravidian head, seed 2",
+   "exists": true,
+   "bytes": 797573
+  },
+  {
+   "file": "dravidian/seed_2/checkpoints/malayalam_seed2.pt",
+   "what": "Dravidian head, seed 2",
+   "exists": true,
+   "bytes": 797621
+  },
+  {
+   "file": "dravidian/seed_2/checkpoints/kannada_seed2.pt",
+   "what": "Dravidian head, seed 2",
+   "exists": true,
+   "bytes": 797597
+  },
+  {
+   "file": "dravidian/seed_2/checkpoints/joint_seed2.pt",
+   "what": "Dravidian head, seed 2",
+   "exists": true,
+   "bytes": 798149
+  },
+  {
+   "file": "dravidian/seed_3/checkpoints/tamil_seed3.pt",
+   "what": "Dravidian head, seed 3",
+   "exists": true,
+   "bytes": 797573
+  },
+  {
+   "file": "dravidian/seed_3/checkpoints/malayalam_seed3.pt",
+   "what": "Dravidian head, seed 3",
+   "exists": true,
+   "bytes": 797621
+  },
+  {
+   "file": "dravidian/seed_3/checkpoints/kannada_seed3.pt",
+   "what": "Dravidian head, seed 3",
+   "exists": true,
+   "bytes": 797597
+  },
+  {
+   "file": "dravidian/seed_3/checkpoints/joint_seed3.pt",
+   "what": "Dravidian head, seed 3",
+   "exists": true,
+   "bytes": 798149
+  },
+  {
+   "file": "dravidian/seed_4/checkpoints/tamil_seed4.pt",
+   "what": "Dravidian head, seed 4",
+   "exists": true,
+   "bytes": 797573
+  },
+  {
+   "file": "dravidian/seed_4/checkpoints/malayalam_seed4.pt",
+   "what": "Dravidian head, seed 4",
+   "exists": true,
+   "bytes": 797621
+  },
+  {
+   "file": "dravidian/seed_4/checkpoints/kannada_seed4.pt",
+   "what": "Dravidian head, seed 4",
+   "exists": true,
+   "bytes": 797597
+  },
+  {
+   "file": "dravidian/seed_4/checkpoints/joint_seed4.pt",
+   "what": "Dravidian head, seed 4",
+   "exists": true,
+   "bytes": 798149
+  }
+ ],
+ "all_expected_checkpoints_present_and_non_empty": true,
+ "not_run": [
+  "OET E4 retraining",
+  "OET E5",
+  "aspect sequence / trajectory (floors not met)",
+  "OOF generation",
+  "Amazon + Dravidian joint multi-task training (design only)"
+ ]
+}

@@ -1,0 +1,168 @@
+{
+ "distribution": {
+  "tamil": {
+   "train": {
+    "rows": 33531,
+    "labels": {
+     "POSITIVE": 19921,
+     "NEGATIVE": 4160,
+     "MIXED": 3907,
+     "UNKNOWN": 5543
+    },
+    "script_groups": {
+     "romanised": 26881,
+     "native_script": 5136,
+     "mixed_script": 1512,
+     "other": 2
+    }
+   },
+   "dev": {
+    "rows": 4145,
+    "labels": {
+     "POSITIVE": 2408,
+     "NEGATIVE": 517,
+     "MIXED": 506,
+     "UNKNOWN": 714
+    },
+    "script_groups": {
+     "romanised": 3300,
+     "native_script": 627,
+     "mixed_script": 218
+    }
+   },
+   "test": {
+    "rows": 4112,
+    "labels": {
+     "POSITIVE": 2451,
+     "NEGATIVE": 544,
+     "MIXED": 499,
+     "UNKNOWN": 618
+    },
+    "script_groups": {
+     "romanised": 3282,
+     "native_script": 613,
+     "mixed_script": 217
+    }
+   }
+  },
+  "malayalam": {
+   "train": {
+    "rows": 14514,
+    "labels": {
+     "POSITIVE": 6373,
+     "NEGATIVE": 2049,
+     "MIXED": 913,
+     "UNKNOWN": 5179
+    },
+    "script_groups": {
+     "romanised": 8190,
+     "native_script": 3712,
+     "mixed_script": 2611,
+     "other": 1
+    }
+   },
+   "dev": {
+    "rows": 1671,
+    "labels": {
+     "POSITIVE": 730,
+     "NEGATIVE": 240,
+     "MIXED": 103,
+     "UNKNOWN": 598
+    },
+    "script_groups": {
+     "romanised": 886,
+     "native_script": 467,
+     "mixed_script": 317,
+     "other": 1
+    }
+   },
+   "test": {
+    "rows": 1654,
+    "labels": {
+     "POSITIVE": 708,
+     "NEGATIVE": 259,
+     "MIXED": 111,
+     "UNKNOWN": 576
+    },
+    "script_groups": {
+     "romanised": 892,
+     "native_script": 443,
+     "mixed_script": 319
+    }
+   }
+  },
+  "kannada": {
+   "train": {
+    "rows": 5218,
+    "labels": {
+     "POSITIVE": 2813,
+     "NEGATIVE": 1182,
+     "MIXED": 547,
+     "UNKNOWN": 676
+    },
+    "script_groups": {
+     "romanised": 3577,
+     "native_script": 916,
+     "mixed_script": 725
+    }
+   },
+   "dev": {
+    "rows": 615,
+    "labels": {
+     "POSITIVE": 314,
+     "NEGATIVE": 157,
+     "MIXED": 67,
+     "UNKNOWN": 77
+    },
+    "script_groups": {
+     "romanised": 420,
+     "native_script": 109,
+     "mixed_script": 86
+    }
+   },
+   "test": {
+    "rows": 632,
+    "labels": {
+     "POSITIVE": 335,
+     "NEGATIVE": 142,
+     "MIXED": 72,
+     "UNKNOWN": 83
+    },
+    "script_groups": {
+     "romanised": 410,
+     "native_script": 128,
+     "mixed_script": 93,
+     "other": 1
+    }
+   }
+  }
+ },
+ "leakage_checks_exact_normalised_text_overlap": {
+  "within_language": {
+   "tamil": {
+    "train_dev": 0,
+    "train_test": 0,
+    "dev_test": 0
+   },
+   "malayalam": {
+    "train_dev": 0,
+    "train_test": 0,
+    "dev_test": 0
+   },
+   "kannada": {
+    "train_dev": 0,
+    "train_test": 0,
+    "dev_test": 0
+   }
+  },
+  "across_languages_train_vs_other_test": {
+   "tamil_train->malayalam_test": 0,
+   "tamil_train->kannada_test": 0,
+   "malayalam_train->tamil_test": 0,
+   "malayalam_train->kannada_test": 0,
+   "kannada_train->tamil_test": 0,
+   "kannada_train->malayalam_test": 0
+  }
+ },
+ "split_policy": "official DravidianCodeMix train/dev/test; rows labelled not-<language> dropped by the project preprocessing; dev/test texts that also occur in an earlier split removed (outputs/comment_level/data_report.json)"
+}

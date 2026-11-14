@@ -1,0 +1,30 @@
+[data] sentiment files: 221 messages, 30 products, 553 rows; Batch 01 rows 63 (expected 63), Wave 1 (message, category) examples 398 (expected 398); unfinished messages 0; label counts {'NEUTRAL': 16, 'POSITIVE': 365, 'NEGATIVE': 70, 'MIXED': 8}
+[extraction safety] 35 messages, 0 unsafe (must be 0): []; mentions 83; products 18
+[leakage, sentiment splits, seed 0] {'shared_products': 0, 'shared_messages': 0, 'shared_review_texts': 0}; products per split {'train': 21, 'val': 5, 'test': 4}
+[leakage, extraction splits, seed 0] {'shared_products': 0, 'shared_messages': 0, 'shared_review_texts': 0}; products per split {'train': 12, 'val': 3, 'test': 3}
+
+STAGE READINESS (existing rules, thresholds unchanged)
+  aspect extraction : PASS WITH WARNINGS  mentions per split {'train': 69, 'val': 6, 'test': 8}; warnings: 7
+      - only 18 products in total (heuristic floor 30): results will depend heavily on which products fall in which split
+      - the val split has only 3 product(s) (floor 5): its metrics are anecdotal
+      - the val split has only 6 aspect mentions (floor 100): metrics are too noisy to compare models
+      - the test split has only 3 product(s) (floor 5): its metrics are anecdotal
+      - the test split has only 8 aspect mentions (floor 100): metrics are too noisy to compare models
+      - only 69 training aspect mentions (floor 500) for an encoder with 100+ million parameters: expect unstable training and overfitting
+      - treat every number from this run as a pipeline check, not as evidence about model quality
+  aspect sentiment  : PASS WITH WARNINGS  examples {train 318, val 74, test 67}; warnings: 7
+      - the val split has only 74 aspect examples (floor 100): metrics are too noisy to compare models
+      - the val split has fewer than 20 examples of ['NEGATIVE (11)', 'NEUTRAL (5)', 'MIXED (3)']: per-class F1 is unreliable
+      - the test split has only 4 product(s) (floor 5): its metrics are anecdotal
+      - the test split has only 67 aspect examples (floor 100): metrics are too noisy to compare models
+      - the test split has fewer than 20 examples of ['NEGATIVE (10)', 'NEUTRAL (1)', 'MIXED (3)']: per-class F1 is unreliable
+      - only 318 training aspect examples (floor 500) for an encoder with 100+ million parameters: expect unstable training and overfitting
+      - treat every number from this run as a pipeline check, not as evidence about model quality
+  OOF generation    : PASS  (30 products, 459 examples, 5 folds)
+  aspect sequence   : BLOCKED on every tested split_seed
+      split_seed 0: usable series {'train': 67, 'val': 21, 'test': 17}  ['17 usable test series (floor 20)']
+      split_seed 1: usable series {'train': 74, 'val': 12, 'test': 19}  ['12 usable val series (floor 20)', '19 usable test series (floor 20)']
+      split_seed 2: usable series {'train': 79, 'val': 15, 'test': 11}  ['15 usable val series (floor 20)', '11 usable test series (floor 20)']
+      split_seed 3: usable series {'train': 75, 'val': 11, 'test': 19}  ['11 usable val series (floor 20)', '19 usable test series (floor 20)']
+      split_seed 4: usable series {'train': 67, 'val': 21, 'test': 17}  ['17 usable test series (floor 20)']
+      split_seed 5: usable series {'train': 76, 'val': 15, 'test': 14}  ['15 usable val series (floor 20)', '14 usable test series (floor 20)']

@@ -1,0 +1,106 @@
+{
+ "annotations": [
+  "data/annotations/training/aspect_training_sentiment_batch01.csv",
+  "data/annotations/training/aspect_training_sentiment_wave1.csv"
+ ],
+ "sequence_types": null,
+ "skip_invalid": false,
+ "encoder": "xlmr",
+ "finetune": "partial",
+ "finetune_layers": 2,
+ "max_token_length": 128,
+ "class_weights": "sqrt",
+ "seed": 0,
+ "split_seed": 0,
+ "split_ratios": [
+  0.7,
+  0.15,
+  0.15
+ ],
+ "epochs": 10,
+ "batch_size": 16,
+ "grad_accumulation": 1,
+ "lr_head": 0.001,
+ "lr_encoder": 2e-05,
+ "weight_decay": 0.01,
+ "schedule": "linear",
+ "warmup_ratio": 0.1,
+ "grad_clip": 1.0,
+ "patience": 4,
+ "no_test": false,
+ "device": "cuda",
+ "output_root": "/kaggle/working/raw_outputs/aspect_experiments",
+ "name": "sentiment_xlmr_top2_agreed_only",
+ "level": "message_category",
+ "conditioning": "category_and_span",
+ "pooling": "cls",
+ "hidden_dim": 256,
+ "dropout": 0.1,
+ "selection_metric": "macro_f1",
+ "lr_encoder_explicit": false,
+ "task": "sentiment",
+ "labels": [
+  "POSITIVE",
+  "NEGATIVE",
+  "NEUTRAL",
+  "MIXED"
+ ],
+ "domains": [
+  "product"
+ ],
+ "parameters": {
+  "total": 277651460,
+  "trainable": 14374148,
+  "encoder_total": 277453056,
+  "encoder_trainable": 14175744,
+  "new_layers_total": 198404,
+  "new_layers_trainable": 198404
+ },
+ "selection_uses_test": false,
+ "environment": {
+  "python": "3.13.16",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpu": "Tesla T4",
+  "transformers": "5.20.2",
+  "git_commit": null
+ },
+ "annotation_files": [
+  "data/annotations/training/aspect_training_sentiment_batch01.csv",
+  "data/annotations/training/aspect_training_sentiment_wave1.csv"
+ ],
+ "unfinished_messages_excluded": 0,
+ "annotators": [
+  "annotator_1|annotator_2",
+  "annotator_A|annotator_B"
+ ],
+ "class_counts": {
+  "train": {
+   "POSITIVE": 257,
+   "NEGATIVE": 49,
+   "NEUTRAL": 10,
+   "MIXED": 2
+  },
+  "val": {
+   "POSITIVE": 55,
+   "NEGATIVE": 11,
+   "NEUTRAL": 5,
+   "MIXED": 3
+  },
+  "test": {
+   "POSITIVE": 53,
+   "NEGATIVE": 10,
+   "NEUTRAL": 1,
+   "MIXED": 3
+  }
+ },
+ "warnings": [
+  "the val split has only 74 aspect examples (floor 100): metrics are too noisy to compare models",
+  "the val split has fewer than 20 examples of ['NEGATIVE (11)', 'NEUTRAL (5)', 'MIXED (3)']: per-class F1 is unreliable",
+  "the test split has only 4 product(s) (floor 5): its metrics are anecdotal",
+  "the test split has only 67 aspect examples (floor 100): metrics are too noisy to compare models",
+  "the test split has fewer than 20 examples of ['NEGATIVE (10)', 'NEUTRAL (1)', 'MIXED (3)']: per-class F1 is unreliable",
+  "only 318 training aspect examples (floor 500) for an encoder with 100+ million parameters: expect unstable training and overfitting",
+  "treat every number from this run as a pipeline check, not as evidence about model quality"
+ ]
+}
