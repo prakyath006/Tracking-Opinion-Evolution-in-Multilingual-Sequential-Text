@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "purpose": "Aspect taxonomy for English product reviews (Amazon All Beauty), used for manual aspect annotation and for keyword pre-screening of which reviews are worth annotating.",
+    "status": "Proposed vocabulary. Aliases are matching hints for pre-screening and for annotators; they are NOT annotations and no accuracy has been measured. The frequency of each category over the project's reviews is measured by scripts/sequence_readiness.py.",
+    "alias_syntax": "Lowercase. A trailing * matches any word continuation (irritat* matches irritation, irritated). Anything else is matched as a whole word or phrase.",
+    "companion_files": "Film/YouTube-comment aspects are not repeated here: they live in ontology/aspect_taxonomy.json and ontology/wsd_lexicon_full.json (existing WSD component)."
+  },
+  "families": {
+    "PERFORMANCE": "How well the product does its job or what it does to the user.",
+    "SENSORY": "What the user perceives directly: smell, feel, look.",
+    "PHYSICAL": "The product as an object: packaging, size, durability.",
+    "ECONOMIC": "Price and value.",
+    "SERVICE": "Everything around the product: delivery, seller, authenticity.",
+    "GENERAL": "The product as a whole, with no specific facet."
+  },
+  "categories": [
+    {"id": "EFFECTIVENESS", "family": "PERFORMANCE", "definition": "Whether the product achieves its purpose: results, moisturising, cleaning, volume, hold, shine.",
+     "aliases": ["effective*", "results", "result", "works", "worked", "work well", "difference", "improv*", "helped", "helps", "moisturiz*", "moisturis*", "hydrat*", "cleans", "cleaned", "volume", "shine", "shiny", "frizz*", "smooth*", "softer", "soft"]},
+    {"id": "SKIN_HAIR_REACTION", "family": "PERFORMANCE", "definition": "Effect on the body that is a reaction or safety issue: irritation, allergy, rash, breakout, burning, ingredients and chemicals.",
+     "aliases": ["irritat*", "rash", "allerg*", "break out", "breakout*", "broke out", "burn*", "itch*", "sting*", "sensitive skin", "ingredient*", "chemical*", "toxic", "paraben*", "sulfate*", "dry skin", "oily skin", "acne", "pimple*"]},
+    {"id": "FRAGRANCE", "family": "SENSORY", "definition": "Smell of the product.",
+     "aliases": ["scent*", "smell*", "fragrance*", "odor", "odour", "perfume*", "aroma*", "stink*", "stinks", "cologne"]},
+    {"id": "TEXTURE", "family": "SENSORY", "definition": "How the product feels or behaves in the hand and on the body: consistency, greasiness, lather.",
+     "aliases": ["texture", "consistency", "thick", "thin", "greasy", "sticky", "creamy", "runny", "watery", "oily", "lather*", "foam*", "gritty", "heavy", "lightweight", "silky"]},
+    {"id": "APPEARANCE_COLOR", "family": "SENSORY", "definition": "Colour, shade, finish or visual look of the product or of the result.",
+     "aliases": ["color", "colour", "shade", "shades", "tone", "pigment*", "coverage", "finish", "looks", "looked", "appearance", "glitter", "sparkl*"]},
+    {"id": "PACKAGING", "family": "PHYSICAL", "definition": "Container, packaging and closures: bottle, pump, cap, jar, tube, leaks, seals.",
+     "aliases": ["packaging", "package", "packaged", "bottle*", "container*", "pump", "cap", "lid", "jar", "tube", "leak*", "sealed", "seal", "dispenser", "spray nozzle", "box"]},
+    {"id": "SIZE_QUANTITY", "family": "PHYSICAL", "definition": "How much product there is or how big the item is.",
+     "aliases": ["size", "sized", "amount", "quantity", "ounce*", "oz", "ml", "small", "tiny", "bigger", "larger", "large", "little bit", "half empty"]},
+    {"id": "DURABILITY", "family": "PHYSICAL", "definition": "How long the product or its effect lasts, and whether it breaks or deteriorates.",
+     "aliases": ["last", "lasts", "lasted", "long lasting", "long-lasting", "longevity", "durable", "durability", "broke", "broken", "fell apart", "wear", "shelf life", "expire*", "dried out", "stopped working"]},
+    {"id": "EASE_OF_USE", "family": "PERFORMANCE", "definition": "How easy the product is to apply, handle or use, including applicators and tools.",
+     "aliases": ["easy to use", "easy to apply", "easily", "application", "applicator", "applies", "apply", "applied", "spread*", "blend*", "convenient", "hard to use", "difficult", "instructions"]},
+    {"id": "PRICE_VALUE", "family": "ECONOMIC", "definition": "Price, cost and whether the product is worth it.",
+     "aliases": ["price*", "cost*", "expensive", "cheap*", "value", "worth", "money", "overpriced", "affordable", "bargain", "deal", "pricey"]},
+    {"id": "AUTHENTICITY", "family": "SERVICE", "definition": "Whether the item is genuine, new and as described.",
+     "aliases": ["fake", "counterfeit", "authentic*", "genuine", "knock off", "knockoff", "imitation", "used", "tampered", "not as described", "as described", "as pictured"]},
+    {"id": "DELIVERY_SERVICE", "family": "SERVICE", "definition": "Shipping, delivery, seller behaviour, returns and refunds.",
+     "aliases": ["shipping", "shipped", "arrived", "arrive", "delivery", "delivered", "seller", "customer service", "refund*", "return", "returned", "replacement", "late", "packaging damaged", "damaged in"]},
+    {"id": "GENERAL", "family": "GENERAL", "definition": "Opinion about the product as a whole with no specific facet (love it, waste of money, would buy again). Not a missing aspect: the target is the product itself.",
+     "aliases": ["overall", "love it", "loved it", "hate it", "waste of money", "buy again", "recommend", "highly recommend", "great product", "best product", "worst product"]}
+  ],
+  "other": {
+    "id": "OTHER_ASPECT",
+    "definition": "A clear facet that no category above covers. Annotators write the facet in the notes column; frequent cases are promoted to new categories."
+  }
+}

@@ -1,0 +1,153 @@
+{
+ "amazon_full_local_file": {
+  "file": "data/raw/All_Beauty.jsonl",
+  "reviews": 701528,
+  "reviewers": 631986,
+  "products_parent_asin": 112565,
+  "first_review_utc": "2000-11-01T04:24:18+00:00",
+  "last_review_utc": "2023-09-09T00:39:36.666000+00:00",
+  "reviewers_with_ge3_reviews": 9159,
+  "build_script_parse_cap_records": 250000
+ },
+ "A_user_timelines_project_subset": {
+  "reviewers": 5324,
+  "reviews": 23736,
+  "length_counts": {
+   "3": 3202,
+   "4": 1045,
+   "5": 368,
+   "6": 213,
+   "7": 120,
+   "8": 92,
+   "9": 52,
+   "10": 25
+  },
+  "length_ge5": 1077,
+  "length_ge10": 232,
+  "length_ge20": 77,
+  "order_equals_timestamp_order_share": 1.0,
+  "consecutive_pairs": 18412,
+  "pairs_with_identical_timestamp": 215,
+  "pairs_within_one_day_share": 0.14267868781229634,
+  "median_gap_days": 65.06846280092593,
+  "reviewers_whose_reviews_are_all_different_products_share": 0.9819684447783621,
+  "reviewers_with_a_repeated_product": 96,
+  "prescreen": {
+   "share_of_reviews_with_alias_match_by_category": {
+    "EFFECTIVENESS": 0.34967981125716213,
+    "SKIN_HAIR_REACTION": 0.10882204246713853,
+    "FRAGRANCE": 0.16283282777216043,
+    "TEXTURE": 0.19451466127401415,
+    "APPEARANCE_COLOR": 0.1944304010785305,
+    "PACKAGING": 0.16173744523087294,
+    "SIZE_QUANTITY": 0.1638860802157061,
+    "DURABILITY": 0.1319514661274014,
+    "EASE_OF_USE": 0.18343444556791372,
+    "PRICE_VALUE": 0.1961577350859454,
+    "AUTHENTICITY": 0.13039265251095383,
+    "DELIVERY_SERVICE": 0.05653859116953151,
+    "GENERAL": 0.1626643073811931
+   },
+   "share_of_reviews_with_any_specific_alias": 0.7756150994270307,
+   "reviewers_with_a_category_matched_in_ge2_reviews": 3267,
+   "reviewers_with_a_category_matched_in_ge3_reviews": 1451,
+   "note": "keyword pre-screen over text_original; an upper-bound hint, not annotation"
+  }
+ },
+ "B_same_reviewer_same_product": {
+  "raw_pairs_with_ge2_reviews_before_filters": 6437,
+  "filters": "review has >= 10 words; identical text per pair dropped; identical timestamp per pair dropped",
+  "pairs_ge2": 195,
+  "pairs_ge3": 9,
+  "pairs_ge4": 1,
+  "reviews_in_pairs_ge2": 400,
+  "median_span_days": 18.22879556712963,
+  "pairs_ge2_spanning_at_least_1_day": 124,
+  "pairs_ge2_spanning_at_least_30_days": 90,
+  "pairs_ge3_spanning_at_least_1_day": 5,
+  "pairs_ge3_spanning_at_least_30_days": 4,
+  "pairs_ge3_posted_within_one_day": 4,
+  "share_of_pairs_with_a_rating_change": 0.26666666666666666,
+  "pairs_with_a_category_matched_in_ge2_reviews": 105
+ },
+ "C_product_timelines": {
+  "rule": "reviews with >= 10 words, one review per reviewer per product, ordered by timestamp",
+  "unique_timestamp_share_all_reviews_per_product_mean": 0.9936300292718634,
+  "products_ge10": 9271,
+  "products_ge20": 4073,
+  "products_ge50": 1208,
+  "products_ge100": 450,
+  "reviews_in_products_ge10": 300034,
+  "reviews_in_products_ge20": 230235,
+  "reviews_in_products_ge50": 145476,
+  "reviews_in_products_ge100": 93749,
+  "median_span_years_products_ge10": 2.157825198177301,
+  "median_span_years_products_ge20": 2.801194172465587,
+  "median_span_years_products_ge50": 3.9359925142437957,
+  "median_span_years_products_ge100": 5.0141290616681875,
+  "in_project_subset_products_ge10_reviews": 137,
+  "prescreen": {
+   "products_with_a_category_matched_in_ge10_reviews": 3744,
+   "products_with_a_category_matched_in_ge20_reviews": 1383,
+   "product_category_pairs_ge10": 10756,
+   "note": "keyword pre-screen; an upper-bound hint, not annotation"
+  }
+ },
+ "D_dravidiancodemix": {
+  "comments_after_cleaning": {
+   "tamil": {
+    "train": 33531,
+    "dev": 4145,
+    "test": 4112
+   },
+   "malayalam": {
+    "train": 14514,
+    "dev": 1671,
+    "test": 1654
+   },
+   "kannada": {
+    "train": 5218,
+    "dev": 615,
+    "test": 632
+   }
+  },
+  "fields_in_raw_files": "text and label only (sentiment: text;label; offensive: text<TAB>label<TAB>)",
+  "timestamp_field": false,
+  "author_field": false,
+  "comment_or_video_id_field": false,
+  "parent_comment_field": false,
+  "raw_sentiment_train_lines": 57050,
+  "raw_lines_containing_an_at_mention": 733,
+  "valid_chronological_threads": 0
+ },
+ "template": {
+  "file": "data/annotations/aspect_annotation_template.csv",
+  "sequences": 5,
+  "messages": 16,
+  "annotated_rows": 0,
+  "columns": [
+   "sequence_id",
+   "sequence_type",
+   "source",
+   "entity_id",
+   "message_id",
+   "position",
+   "timestamp_ms",
+   "timestamp_utc",
+   "language",
+   "title",
+   "text",
+   "parent_message_id",
+   "aspect_status",
+   "aspect_span_text",
+   "span_start",
+   "span_end",
+   "span_type",
+   "aspect_category",
+   "sentiment",
+   "annotation_status",
+   "annotator_id",
+   "notes"
+  ]
+ }
+}
