@@ -1,0 +1,4 @@
+﻿message_id,iou,A_span,A_category,A_sentiment,B_span,B_category,B_sentiment,A_notes,B_notes
+AMZ-AB-L236867,1.0,breakouts,SKIN_HAIR_REACTION,NEUTRAL,breakouts,SKIN_HAIR_REACTION,NEGATIVE,hypothetical warning to other readers,
+AMZ-AB-L372698,1.0,not as thick,TEXTURE,POSITIVE,not as thick,TEXTURE,NEUTRAL,COMPARISON,COMPARISON
+AMZ-AB-L473638,1.0,freeze for many hours or overnight,EASE_OF_USE,NEUTRAL,freeze for many hours or overnight,EASE_OF_USE,NEGATIVE,"UNSURE: requirement, could be read as mildly negative",Preparation burden.

@@ -1,0 +1,24 @@
+﻿message_id,iou,A_span,A_category,A_sentiment,B_span,B_category,B_sentiment,A_notes,B_notes
+AMZ-AB-L161788,1.0,Trimming,EASE_OF_USE,POSITIVE,Trimming,EFFECTIVENESS,POSITIVE,,
+AMZ-AB-L161788,1.0,vacuum feature,EASE_OF_USE,POSITIVE,vacuum feature,EFFECTIVENESS,POSITIVE,,
+AMZ-AB-L161788,1.0,multiple trim settings,OTHER_ASPECT,POSITIVE,multiple trim settings,EASE_OF_USE,POSITIVE,trim settings / features,
+AMZ-AB-L701438,1.0,able to adjust,OTHER_ASPECT,POSITIVE,able to adjust,EASE_OF_USE,POSITIVE,adjustability,Adjustability/usability.
+AMZ-AB-L701438,1.0,safety pin,OTHER_ASPECT,NEUTRAL,safety pin,PACKAGING,NEUTRAL,"attachment; described, not evaluated",Attachment component; no evaluation.
+AMZ-AB-L377837,1.0,bendable,OTHER_ASPECT,POSITIVE,bendable,EASE_OF_USE,POSITIVE,flexibility,
+AMZ-AB-L377837,1.0,stays shaped,OTHER_ASPECT,POSITIVE,stays shaped,DURABILITY,POSITIVE,shape retention,
+AMZ-AB-L377837,1.0,come open,OTHER_ASPECT,NEGATIVE,come open,PACKAGING,NEGATIVE,attachment security when driving; UNSURE: warning / hypothetical,Pin may open while driving.
+AMZ-AB-L377837,1.0,ribbon tie,OTHER_ASPECT,NEUTRAL,ribbon tie,PACKAGING,NEUTRAL,,
+AMZ-AB-L377837,1.0,held well,OTHER_ASPECT,POSITIVE,held well,EFFECTIVENESS,POSITIVE,attachment on jeans without the ribbon,
+AMZ-AB-L102847,1.0,well made,OTHER_ASPECT,POSITIVE,well made,DURABILITY,POSITIVE,build quality,
+AMZ-AB-L102847,1.0,flexible,OTHER_ASPECT,POSITIVE,flexible,EASE_OF_USE,POSITIVE,flexibility,
+AMZ-AB-L102847,1.0,pin,OTHER_ASPECT,NEUTRAL,pin,PACKAGING,NEUTRAL,attachment; described,
+AMZ-AB-L102847,1.0,heavy,OTHER_ASPECT,NEGATIVE,heavy,TEXTURE,NEGATIVE,weight; UNSURE: mild caution rather than complaint,Weight/feel of product.
+AMZ-AB-L102847,1.0,ribbon ties,OTHER_ASPECT,NEUTRAL,ribbon ties,PACKAGING,NEUTRAL,,
+AMZ-AB-L600678,1.0,waste of money,GENERAL,NEGATIVE,waste of money,PRICE_VALUE,NEGATIVE,,
+AMZ-AB-L158906,1.0,part where you change the batteries,OTHER_ASPECT,NEGATIVE,part where you change the batteries,PACKAGING,NEGATIVE,battery compartment does not close / stay on,Battery compartment/closure.
+AMZ-AB-L427632,1.0,flakes,TEXTURE,NEGATIVE,flakes,EFFECTIVENESS,NEGATIVE,flaking on hair,Flaking is undesirable product performance/result.
+AMZ-AB-L296439,1.0,well made,OTHER_ASPECT,POSITIVE,well made,DURABILITY,POSITIVE,build quality,
+AMZ-AB-L296439,0.55,compact way to keep them together,PACKAGING,POSITIVE,keep them together,EFFECTIVENESS,POSITIVE,UNSURE: seems to refer to the case holding the scrapers,
+AMZ-AB-L096457,1.0,quality,GENERAL,POSITIVE,quality,OTHER_ASPECT,POSITIVE,"overall quality, no specific facet",General build/product quality; not specifically durability.
+AMZ-AB-L495166,1.0,sunblock,OTHER_ASPECT,POSITIVE,sunblock,EFFECTIVENESS,POSITIVE,SPF / sun protection,
+AMZ-AB-L011861,0.54,so nice to ice your face,GENERAL,POSITIVE,ice your face,EFFECTIVENESS,POSITIVE,UNSURE: could be EASE_OF_USE,

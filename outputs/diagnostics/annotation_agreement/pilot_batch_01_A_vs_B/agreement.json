@@ -1,0 +1,37 @@
+{
+ "messages_compared": 48,
+ "excluded_needs_review": [
+  "AMZ-AB-L151965",
+  "AMZ-AB-L378073"
+ ],
+ "compare": {
+  "messages": 48,
+  "aspect_status_per_message": {
+   "n": 48,
+   "raw_agreement": 1.0,
+   "cohens_kappa": null,
+   "kappa_note": "undefined (no items, or both annotators used one label throughout)"
+  },
+  "spans": {
+   "in_a": 174,
+   "in_b": 204,
+   "matched_iou_ge_0.5": 123,
+   "span_f1": 0.6507936507936508,
+   "only_in_a": 51,
+   "only_in_b": 81
+  },
+  "category_on_matched_spans": {
+   "n": 123,
+   "raw_agreement": 0.8130081300813008,
+   "cohens_kappa": 0.7836825202630371,
+   "kappa_note": null
+  },
+  "sentiment_on_matched_spans": {
+   "n": 123,
+   "raw_agreement": 0.975609756097561,
+   "cohens_kappa": 0.9472857142857143,
+   "kappa_note": null,
+   "matched_spans_without_sentiment_in_a_or_b": 0
+  }
+ }
+}

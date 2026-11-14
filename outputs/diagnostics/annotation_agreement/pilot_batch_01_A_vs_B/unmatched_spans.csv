@@ -1,0 +1,133 @@
+﻿message_id,annotator,span,start,end,category,sentiment,span_type,kind,nearest_other_span,nearest_other_category,nearest_other_sentiment,nearest_other_iou,notes
+AMZ-AB-L586811,A,"""turbo"" mode",123,135,EFFECTIVENESS,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,vacuum power of turbo mode
+AMZ-AB-L586811,A,noise,280,285,OTHER_ASPECT,NEUTRAL,EXPLICIT,no overlapping span from the other annotator,,,,,noise level; hypothetical
+AMZ-AB-L563753,A,takes me much less time to trim my beard,30,70,EASE_OF_USE,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.35, below 0.5)",much less time,EASE_OF_USE,POSITIVE,0.35,UNSURE: speed could also be EFFECTIVENESS
+AMZ-AB-L563753,A,cuts much better,75,91,EFFECTIVENESS,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.25, below 0.5)",cuts,EFFECTIVENESS,POSITIVE,0.25,COMPARISON
+AMZ-AB-L563753,A,it,310,312,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,pronoun; refers to the trimmer
+AMZ-AB-L161788,A,product,41,48,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L029600,A,swing door on the collector,110,137,EASE_OF_USE,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.37, below 0.5)",swing door,PACKAGING,NEUTRAL,0.37,cleaning the collector
+AMZ-AB-L362529,A,This trimmer,0,12,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L403870,A,softer and has less wrinkles,144,172,EFFECTIVENESS,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.46, below 0.5)",less wrinkles,EFFECTIVENESS,POSITIVE,0.46,result on skin
+AMZ-AB-L432787,A,would certainly order again,81,108,GENERAL,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.41, below 0.5)",order again,GENERAL,POSITIVE,0.41,
+AMZ-AB-L432787,A,bent over backwards to apologize,168,200,DELIVERY_SERVICE,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,seller service
+AMZ-AB-L099263,A,face is glowing,54,69,EFFECTIVENESS,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.47, below 0.5)",glowing,EFFECTIVENESS,POSITIVE,0.47,
+AMZ-AB-L099263,A,continue to purchase,135,155,GENERAL,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L306537,A,lasts,71,76,DURABILITY,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.26, below 0.5)",lasts about a month,DURABILITY,NEUTRAL,0.26,UNSURE: 'about a month' for a bar of soap read as favourable (shares 'nice job' scope)
+AMZ-AB-L679989,A,it,5,7,GENERAL,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.29, below 0.5)",Love it,GENERAL,POSITIVE,0.29,pronoun; refers to the soap. UNSURE: contrasts with next GENERAL row (will not buy again)
+AMZ-AB-L679989,A,will not buy again,13,31,GENERAL,NEGATIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L645328,A,Very groovy,80,91,GENERAL,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,about the company's products
+AMZ-AB-L645328,A,patchouli and nag champa products,193,226,GENERAL,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.30, below 0.5)",nag champa,FRAGRANCE,POSITIVE,0.3,"VARIANT: patchouli, nag champa; UNSURE: could be FRAGRANCE"
+AMZ-AB-L334634,A,It,0,2,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,pronoun; refers to the soap
+AMZ-AB-L699573,A,this fragrance,256,270,FRAGRANCE,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,VARIANT: Hippie Peace
+AMZ-AB-L701438,A,super cute,0,10,APPEARANCE_COLOR,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.40, below 0.5)",cute,APPEARANCE_COLOR,POSITIVE,0.4,
+AMZ-AB-L701438,A,this tail,38,47,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L414031,A,it,73,75,GENERAL,NEUTRAL,EXPLICIT,no overlapping span from the other annotator,,,,,HEARSAY: son's opinion reported by the author; pronoun refers to the tail. UNSURE
+AMZ-AB-L377837,A,pretty cool,5,16,GENERAL,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L377837,A,the pin,149,156,OTHER_ASPECT,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.43, below 0.5)",pin,PACKAGING,POSITIVE,0.43,attachment; 'it worked well'
+AMZ-AB-L240551,A,it,28,30,GENERAL,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.29, below 0.5)",love it,GENERAL,POSITIVE,0.29,pronoun; refers to the product
+AMZ-AB-L248083,A,the original and the best,135,160,GENERAL,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.32, below 0.5)",original,AUTHENTICITY,POSITIVE,0.32,COMPARISON (drug store imitations)
+AMZ-AB-L600678,A,This one,129,137,GENERAL,NEGATIVE,EXPLICIT,no overlapping span from the other annotator,,,,,pronoun-like; refers to the product
+AMZ-AB-L158906,A,for years with no problems,62,88,DURABILITY,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.42, below 0.5)",no problems,DURABILITY,POSITIVE,0.42,first unit
+AMZ-AB-L158906,A,it,98,100,GENERAL,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.25, below 0.5)",loved it,GENERAL,POSITIVE,0.25,first unit; pronoun
+AMZ-AB-L158906,A,quit working,127,139,DURABILITY,NEGATIVE,IMPLICIT,no overlapping span from the other annotator,,,,,first unit
+AMZ-AB-L236867,A,biotin,319,325,SKIN_HAIR_REACTION,NEGATIVE,EXPLICIT,no overlapping span from the other annotator,,,,,ingredient
+AMZ-AB-L236867,A,wanted more hold,696,712,EFFECTIVENESS,NEGATIVE,IMPLICIT,no overlapping span from the other annotator,,,,,COMPARISON; UNSURE: implies this gel's hold was insufficient
+AMZ-AB-L236867,A,works,818,823,EFFECTIVENESS,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L506321,A,product,6,13,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L296439,A,this,5,9,GENERAL,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.44, below 0.5)",Love this,GENERAL,POSITIVE,0.44,pronoun; refers to the product
+AMZ-AB-L337585,A,so strong and prefumey,251,273,FRAGRANCE,NEGATIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.36, below 0.5)",prefumey,FRAGRANCE,NEGATIVE,0.36,
+AMZ-AB-L337585,A,scent,401,406,FRAGRANCE,NEUTRAL,EXPLICIT,no overlapping span from the other annotator,,,,,hypothetical
+AMZ-AB-L372698,A,solve the bleeding finger tips,208,238,EFFECTIVENESS,NEGATIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.14, below 0.5)",didn't solve,EFFECTIVENESS,NEGATIVE,0.14,'didn't' sits outside the span
+AMZ-AB-L372698,A,best job of keeping the natural moisture in my hands,300,352,EFFECTIVENESS,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.31, below 0.5)",natural moisture,EFFECTIVENESS,POSITIVE,0.31,
+AMZ-AB-L372698,A,Glad Amazon is now carrying,512,539,OTHER_ASPECT,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,availability; UNSURE: could be DELIVERY_SERVICE or no aspect
+AMZ-AB-L372698,A,1.7 oz size,614,625,SIZE_QUANTITY,NEUTRAL,EXPLICIT,no overlapping span from the other annotator,,,,,described only
+AMZ-AB-L372698,A,absorb,729,735,TEXTURE,MIXED,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.21, below 0.5)",Takes a few minutes to absorb,EASE_OF_USE,NEUTRAL,0.21,UNSURE: slow absorption (negative) but 'well worth it'
+AMZ-AB-L372698,A,leave finger prints,893,912,TEXTURE,NEGATIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.36, below 0.5)","finger prints on glass, screen",OTHER_ASPECT,NEGATIVE,0.36,'like most cream'; UNSURE: generic remark
+AMZ-AB-L205091,A,work,41,45,EFFECTIVENESS,NEGATIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.36, below 0.5)",didn't work,EFFECTIVENESS,NEGATIVE,0.36,'didn't' sits outside the span
+AMZ-AB-L476052,A,cleared up within the week,274,300,EFFECTIVENESS,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.38, below 0.5)",cleared up,SKIN_HAIR_REACTION,POSITIVE,0.38,
+AMZ-AB-L476052,A,This stuff,302,312,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L476052,A,Def order,393,402,GENERAL,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L011861,A,this,46,50,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,typo: 'live' = 'love'; pronoun
+AMZ-AB-L473638,A,keep using it,217,230,GENERAL,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L633318,A,it,7,9,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,pronoun; refers to the product
+AMZ-AB-L586811,B,turbo mode,206,216,EFFECTIVENESS,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,The reviewer contrasts this model with two previous models; only this model's praised vacuum performance is annotated.
+AMZ-AB-L563753,B,great,19,24,GENERAL,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Overall product evaluation.
+AMZ-AB-L563753,B,much less time,39,53,EASE_OF_USE,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.35, below 0.5)",takes me much less time to trim my beard,EASE_OF_USE,POSITIVE,0.35,Trimming takes less time.
+AMZ-AB-L563753,B,cuts,75,79,EFFECTIVENESS,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.25, below 0.5)",cuts much better,EFFECTIVENESS,POSITIVE,0.25,
+AMZ-AB-L161788,B,easy,82,86,EASE_OF_USE,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Ease of trimming.
+AMZ-AB-L161788,B,convenient,115,125,EASE_OF_USE,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Convenience of vacuum feature.
+AMZ-AB-L161788,B,bathroom counter and sink hair-free,140,175,EFFECTIVENESS,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L029600,B,clean,59,64,EFFECTIVENESS,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Keeps the area clean / captures hairs.
+AMZ-AB-L029600,B,swing door,110,120,PACKAGING,NEUTRAL,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.37, below 0.5)",swing door on the collector,EASE_OF_USE,POSITIVE,0.37,Collector closure feature; ease of cleaning is positive below.
+AMZ-AB-L029600,B,easy to clean,141,154,EASE_OF_USE,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L362529,B,mess,121,125,EFFECTIVENESS,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Vacuum helps maintain/reduce shaving mess.
+AMZ-AB-L403870,B,softer,144,150,EFFECTIVENESS,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.21, below 0.5)",softer and has less wrinkles,EFFECTIVENESS,POSITIVE,0.21,
+AMZ-AB-L403870,B,less wrinkles,159,172,EFFECTIVENESS,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.46, below 0.5)",softer and has less wrinkles,EFFECTIVENESS,POSITIVE,0.46,
+AMZ-AB-L432787,B,order again,97,108,GENERAL,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.41, below 0.5)",would certainly order again,GENERAL,POSITIVE,0.41,Intention to repurchase.
+AMZ-AB-L432787,B,ZinkColorbeauty,143,158,DELIVERY_SERVICE,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,COMPARISON; Seller/merchant is praised for resolving the delivery issue.
+AMZ-AB-L099263,B,glowing,62,69,EFFECTIVENESS,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.47, below 0.5)",face is glowing,EFFECTIVENESS,POSITIVE,0.47,Face appearance/result.
+AMZ-AB-L099263,B,product,161,168,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,Continue to purchase.
+AMZ-AB-L306537,B,soap,5,9,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L306537,B,lasts about a month,71,90,DURABILITY,NEUTRAL,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.26, below 0.5)",lasts,DURABILITY,POSITIVE,0.26,Duration stated as a fact without an evaluation.
+AMZ-AB-L306537,B,smelling like Nag Champa,173,197,FRAGRANCE,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L679989,B,Love it,0,7,GENERAL,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.29, below 0.5)",it,GENERAL,POSITIVE,0.29,
+AMZ-AB-L679989,B,one piece,78,87,DURABILITY,NEGATIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Request that soap be made in one piece due to falling apart.
+AMZ-AB-L645328,B,tone,133,137,FRAGRANCE,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L645328,B,patchouli,193,202,FRAGRANCE,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.27, below 0.5)",patchouli and nag champa products,GENERAL,POSITIVE,0.27,
+AMZ-AB-L645328,B,nag champa,207,217,FRAGRANCE,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.30, below 0.5)",patchouli and nag champa products,GENERAL,POSITIVE,0.3,
+AMZ-AB-L334634,B,great,7,12,GENERAL,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Overall product evaluation.
+AMZ-AB-L699573,B,boost my mood,140,153,EFFECTIVENESS,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L699573,B,adore,250,255,FRAGRANCE,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Adoration directed at fragrance.
+AMZ-AB-L701438,B,cute,6,10,APPEARANCE_COLOR,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.40, below 0.5)",super cute,APPEARANCE_COLOR,POSITIVE,0.4,
+AMZ-AB-L701438,B,tail,11,15,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L414031,B,this,4,8,GENERAL,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,Pronoun refers to the cat tail; no named mention appears in the review text.
+AMZ-AB-L377837,B,pin,153,156,PACKAGING,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.43, below 0.5)",the pin,OTHER_ASPECT,POSITIVE,0.43,
+AMZ-AB-L377837,B,worked well,178,189,EFFECTIVENESS,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L102847,B,shape,144,149,EASE_OF_USE,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Can shape tail as desired.
+AMZ-AB-L102847,B,worked really well,403,421,EASE_OF_USE,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L102847,B,made my cat costume,566,585,EFFECTIVENESS,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Product fulfilled costume purpose.
+AMZ-AB-L240551,B,love it,23,30,GENERAL,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.29, below 0.5)",it,GENERAL,POSITIVE,0.29,
+AMZ-AB-L248083,B,original,139,147,AUTHENTICITY,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.32, below 0.5)",the original and the best,GENERAL,POSITIVE,0.32,
+AMZ-AB-L248083,B,best,156,160,GENERAL,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.16, below 0.5)",the original and the best,GENERAL,POSITIVE,0.16,
+AMZ-AB-L248083,B,callus free,207,218,EFFECTIVENESS,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L600678,B,disappointment,144,158,GENERAL,NEGATIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L158906,B,had it for years,55,71,DURABILITY,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.27, below 0.5)",for years with no problems,DURABILITY,POSITIVE,0.27,
+AMZ-AB-L158906,B,no problems,77,88,DURABILITY,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.42, below 0.5)",for years with no problems,DURABILITY,POSITIVE,0.42,
+AMZ-AB-L158906,B,loved it,92,100,GENERAL,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.25, below 0.5)",it,GENERAL,POSITIVE,0.25,
+AMZ-AB-L158906,B,won't close correctly,229,250,PACKAGING,NEGATIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L158906,B,won't stay on,258,271,EFFECTIVENESS,NEGATIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L158906,B,same problem,378,390,PACKAGING,NEGATIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Refers to battery compartment closure problem.
+AMZ-AB-L158906,B,replacement rollers,406,425,EFFECTIVENESS,NEGATIVE,EXPLICIT,no overlapping span from the other annotator,,,,,Called useless.
+AMZ-AB-L158906,B,useless,439,446,EFFECTIVENESS,NEGATIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L236867,B,slick down my bun,238,255,EFFECTIVENESS,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L236867,B,adult acne,434,444,SKIN_HAIR_REACTION,NEGATIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L236867,B,cleared,627,634,SKIN_HAIR_REACTION,NEGATIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Face cleared after discontinuing the reviewed gel; this is evidence of an adverse skin reaction to the product.
+AMZ-AB-L236867,B,hair growth,800,811,EFFECTIVENESS,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L689441,B,crust along the edge,79,99,AUTHENTICITY,NEGATIVE,EXPLICIT,no overlapping span from the other annotator,,,,,Evidence product appears used/abused.
+AMZ-AB-L506321,B,clean your tongue,22,39,EFFECTIVENESS,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L296439,B,Love this,0,9,GENERAL,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.44, below 0.5)",this,GENERAL,POSITIVE,0.44,
+AMZ-AB-L296439,B,compact,43,50,SIZE_QUANTITY,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.21, below 0.5)",compact way to keep them together,PACKAGING,POSITIVE,0.21,
+AMZ-AB-L337585,B,strong,254,260,FRAGRANCE,NEGATIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.27, below 0.5)",so strong and prefumey,FRAGRANCE,NEGATIVE,0.27,
+AMZ-AB-L337585,B,prefumey,265,273,FRAGRANCE,NEGATIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.36, below 0.5)",so strong and prefumey,FRAGRANCE,NEGATIVE,0.36,
+AMZ-AB-L337585,B,cant use it,277,288,EFFECTIVENESS,NEGATIVE,IMPLICIT,no overlapping span from the other annotator,,,,,Unable to use due to scent;
+AMZ-AB-L337585,B,couldn’t tolerate it,542,562,FRAGRANCE,NEGATIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L495166,B,coverage,116,124,EFFECTIVENESS,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L688447,B,tube,28,32,PACKAGING,NEUTRAL,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L077526,B,skin is firmer,40,54,EFFECTIVENESS,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.21, below 0.5)","firmer, more youthful",EFFECTIVENESS,POSITIVE,0.21,
+AMZ-AB-L372698,B,didn't solve,201,213,EFFECTIVENESS,NEGATIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.14, below 0.5)",solve the bleeding finger tips,EFFECTIVENESS,NEGATIVE,0.14,
+AMZ-AB-L372698,B,best job,300,308,EFFECTIVENESS,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.15, below 0.5)",best job of keeping the natural moisture in my hands,EFFECTIVENESS,POSITIVE,0.15,Keeps natural moisture.
+AMZ-AB-L372698,B,natural moisture,324,340,EFFECTIVENESS,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.31, below 0.5)",best job of keeping the natural moisture in my hands,EFFECTIVENESS,POSITIVE,0.31,
+AMZ-AB-L372698,B,out of stock,555,567,DELIVERY_SERVICE,NEGATIVE,EXPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L372698,B,repair itself,690,703,EFFECTIVENESS,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L372698,B,Takes a few minutes to absorb,706,735,EASE_OF_USE,NEUTRAL,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.21, below 0.5)",absorb,TEXTURE,MIXED,0.21,
+AMZ-AB-L372698,B,well worth it,747,760,PRICE_VALUE,POSITIVE,IMPLICIT,no overlapping span from the other annotator,,,,,
+AMZ-AB-L372698,B,"finger prints on glass, screen",899,929,OTHER_ASPECT,NEGATIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.36, below 0.5)",leave finger prints,TEXTURE,NEGATIVE,0.36,Residue/transfer is a clear facet not covered by the taxonomy.
+AMZ-AB-L227957,B,irritated skin,28,42,SKIN_HAIR_REACTION,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,The cream is praised for healing irritated skin.
+AMZ-AB-L205091,B,didn't work,34,45,EFFECTIVENESS,NEGATIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.36, below 0.5)",work,EFFECTIVENESS,NEGATIVE,0.36,
+AMZ-AB-L169305,B,severe eczema,42,55,SKIN_HAIR_REACTION,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,Pre-existing eczema is the skin condition the product is praised for clearing.
+AMZ-AB-L476052,B,irritated,191,200,SKIN_HAIR_REACTION,NEUTRAL,EXPLICIT,no overlapping span from the other annotator,,,,,Initial piercing irritation predates product use.
+AMZ-AB-L476052,B,infected,217,225,SKIN_HAIR_REACTION,NEUTRAL,EXPLICIT,no overlapping span from the other annotator,,,,,Initial condition predates product use.
+AMZ-AB-L476052,B,cleared up,274,284,SKIN_HAIR_REACTION,POSITIVE,IMPLICIT,"partial overlap with the other annotator's span (IoU 0.38, below 0.5)",cleared up within the week,EFFECTIVENESS,POSITIVE,0.38,Reaction/irritation resolved after using product.
+AMZ-AB-L476052,B,irritated piercing,418,436,SKIN_HAIR_REACTION,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,Product recommended for this use.
+AMZ-AB-L473638,B,tight,174,179,EFFECTIVENESS,POSITIVE,EXPLICIT,"partial overlap with the other annotator's span (IoU 0.25, below 0.5)",tight and less puffy,EFFECTIVENESS,POSITIVE,0.25,
+AMZ-AB-L633318,B,ice,22,25,EFFECTIVENESS,POSITIVE,EXPLICIT,no overlapping span from the other annotator,,,,,

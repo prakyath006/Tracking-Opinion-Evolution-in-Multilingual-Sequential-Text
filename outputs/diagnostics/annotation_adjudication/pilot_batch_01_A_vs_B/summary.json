@@ -1,0 +1,31 @@
+{
+ "inputs": {
+  "A": "data/annotations/pilot_batch_01_annotator_A.csv",
+  "B": "data/annotations/pilot_batch_01_annotator_B.csv",
+  "reference": "data/annotations/pilot_batch_01_product_timelines.csv"
+ },
+ "items": 162,
+ "by_item_type": {
+  "UNMATCHED_SPAN_A_ONLY": 51,
+  "UNMATCHED_SPAN_B_ONLY": 82,
+  "CATEGORY_DISAGREEMENT": 24,
+  "SENTIMENT_DISAGREEMENT": 3,
+  "NEEDS_REVIEW": 2
+ },
+ "by_guideline_topic": {
+  "implicit_aspect": 83,
+  "aspect_present_in_one_annotation_only": 78,
+  "span_boundary": 57,
+  "GENERAL": 43,
+  "OTHER_ASPECT": 25,
+  "annotator_marked_UNSURE": 22,
+  "referring_expression_or_pronoun": 22,
+  "NEUTRAL_vs_polarity": 3,
+  "NEEDS_REVIEW": 2
+ },
+ "conflict_groups": 104,
+ "messages": 50,
+ "messages_in_agreement_statistics": 48,
+ "items_outside_agreement_statistics": 4,
+ "adjudication_columns_blank": true
+}
