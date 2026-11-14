@@ -1,0 +1,220 @@
+{
+ "inputs": {
+  "a": "data/annotations/batch_02_wave1_annotator_1_DONE.csv",
+  "b": "data/annotations/batch_02_wave1_annotator_2_DONE.csv",
+  "reference": "D:\\Tracking-Opinion-Evolution-in-Multilingual-Sequential-Text\\data\\annotations\\batch_02_wave1_reference.csv"
+ },
+ "validation": {
+  "a": {
+   "errors": 0,
+   "first_errors": []
+  },
+  "b": {
+   "errors": 0,
+   "first_errors": []
+  }
+ },
+ "agreement": {
+  "messages_compared": 195,
+  "warnings": [],
+  "groups": {
+   "PRODUCT_TIMELINE / en": {
+    "messages": 195,
+    "aspect_status_per_message": {
+     "n": 195,
+     "raw_agreement": 0.9948717948717949,
+     "cohens_kappa": 0.0,
+     "kappa_note": null
+    },
+    "spans": {
+     "in_a": 730,
+     "in_b": 672,
+     "matched_iou_ge_0.5": 534,
+     "span_f1": 0.7617689015691869,
+     "only_in_a": 196,
+     "only_in_b": 138
+    },
+    "category_on_matched_spans": {
+     "n": 534,
+     "raw_agreement": 0.9232209737827716,
+     "cohens_kappa": 0.9110582098707758,
+     "kappa_note": null
+    },
+    "sentiment_on_matched_spans": {
+     "n": 534,
+     "raw_agreement": 0.9943820224719101,
+     "cohens_kappa": 0.9837327376116978,
+     "kappa_note": null,
+     "matched_spans_without_sentiment_in_a_or_b": 0
+    }
+   }
+  },
+  "span_type_on_matched_spans": {
+   "n": 534,
+   "raw_agreement": 0.9194756554307116,
+   "cohens_kappa": 0.8237677866977758,
+   "kappa_note": null
+  },
+  "unresolved": {
+   "NEEDS_REVIEW_rows_a": 2,
+   "NEEDS_REVIEW_rows_b": 5,
+   "UNCLEAR_ASPECT_messages_a": 0,
+   "UNCLEAR_ASPECT_messages_b": 1,
+   "message_status_disagreements": 1,
+   "messages_unfinished_or_invalid_in_a": 2,
+   "messages_unfinished_or_invalid_in_b": 5
+  }
+ },
+ "adjudication_items": {
+  "total": 394,
+  "by_type": {
+   "UNMATCHED_SPAN_A_ONLY": 201,
+   "UNMATCHED_SPAN_B_ONLY": 143,
+   "CATEGORY_DISAGREEMENT": 42,
+   "NEEDS_REVIEW": 4,
+   "SENTIMENT_DISAGREEMENT": 3,
+   "MESSAGE_STATUS_DISAGREEMENT": 1
+  }
+ },
+ "yield": {
+  "wave": {
+   "agreed": {
+    "products": 20,
+    "reviews": 182,
+    "examples": 398,
+    "usable_series": 91,
+    "class_counts": {
+     "POSITIVE": 322,
+     "NEGATIVE": 57,
+     "MIXED": 7,
+     "NEUTRAL": 12
+    }
+   },
+   "all_spans_once": {
+    "products": 20,
+    "reviews": 195,
+    "examples": 537,
+    "usable_series": 109,
+    "class_counts": {
+     "POSITIVE": 401,
+     "NEGATIVE": 94,
+     "MIXED": 17,
+     "NEUTRAL": 25
+    }
+   },
+   "agreed_without_SMALL": {
+    "products": 15,
+    "reviews": 135,
+    "examples": 288,
+    "usable_series": 66,
+    "class_counts": {
+     "POSITIVE": 236,
+     "NEGATIVE": 38,
+     "MIXED": 5,
+     "NEUTRAL": 9
+    }
+   }
+  },
+  "pilot": {
+   "conservative": {
+    "products": 10,
+    "reviews": 39,
+    "examples": 61,
+    "usable_series": 14,
+    "class_counts": {
+     "NEGATIVE": 13,
+     "NEUTRAL": 4,
+     "POSITIVE": 43,
+     "MIXED": 1
+    }
+   },
+   "optimistic": {
+    "products": 10,
+    "reviews": 49,
+    "examples": 121,
+    "usable_series": 29,
+    "class_counts": {
+     "POSITIVE": 87,
+     "NEGATIVE": 22,
+     "MIXED": 8,
+     "NEUTRAL": 4
+    }
+   }
+  },
+  "corpus_agreed_only": {
+   "products": 30,
+   "reviews": 221,
+   "examples": 459,
+   "usable_series": 105,
+   "class_counts": {
+    "POSITIVE": 365,
+    "NEGATIVE": 70,
+    "NEUTRAL": 16,
+    "MIXED": 8
+   }
+  },
+  "corpus_optimistic": {
+   "products": 30,
+   "reviews": 244,
+   "examples": 658,
+   "usable_series": 138,
+   "class_counts": {
+    "POSITIVE": 488,
+    "NEGATIVE": 116,
+    "NEUTRAL": 29,
+    "MIXED": 25
+   }
+  },
+  "corpus_agreed_only_plus_second_wave": {
+   "products": 50,
+   "reviews": 403,
+   "examples": 857,
+   "usable_series": 196,
+   "class_counts": {
+    "POSITIVE": 687,
+    "NEGATIVE": 127,
+    "NEUTRAL": 28,
+    "MIXED": 15
+   }
+  },
+  "per_review": {
+   "examples": 2.1868131868131866,
+   "series_per_product": 4.55
+  },
+  "estimate_to_beat": {
+   "examples_per_review": 2.6,
+   "series_per_product_at_10_reviews": 5.4
+  },
+  "floors": {
+   "agreed_only": {
+    "hard_blockers": [
+     "15 usable val series (floor 20)",
+     "15 usable test series (floor 20)"
+    ],
+    "warnings": [
+     "about 4 products per evaluation split (< 5)",
+     "about 321 training examples (< 500)",
+     "about 68 examples per evaluation split (< 100)",
+     "about 10 NEGATIVE examples per evaluation split (< 20)"
+    ]
+   },
+   "optimistic": {
+    "hard_blockers": [],
+    "warnings": [
+     "about 4 products per evaluation split (< 5)",
+     "about 460 training examples (< 500)",
+     "about 98 examples per evaluation split (< 100)",
+     "about 17 NEGATIVE examples per evaluation split (< 20)"
+    ]
+   },
+   "agreed_only_plus_second_wave": {
+    "hard_blockers": [],
+    "warnings": [
+     "about 19 NEGATIVE examples per evaluation split (< 20)"
+    ]
+   }
+  }
+ },
+ "recommendation": "PROCEED with Wave 2 and plan more: even with a second wave of the same size at the measured yield, 0 hard blocker(s) and 1 warning(s) remain (about 19 NEGATIVE examples per evaluation split (< 20)).",
+ "pending_team_approval": "SMALL-stratum products (5 sequences) are included in the main counts; 'agreed_without_SMALL' shows the yield without them."
+}

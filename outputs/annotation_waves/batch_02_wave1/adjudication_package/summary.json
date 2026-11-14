@@ -1,0 +1,32 @@
+{
+ "inputs": {
+  "A": "data/annotations/batch_02_wave1_annotator_1_DONE.csv",
+  "B": "data/annotations/batch_02_wave1_annotator_2_DONE.csv",
+  "reference": "D:\\Tracking-Opinion-Evolution-in-Multilingual-Sequential-Text\\data\\annotations\\batch_02_wave1_reference.csv"
+ },
+ "items": 394,
+ "by_item_type": {
+  "UNMATCHED_SPAN_A_ONLY": 201,
+  "UNMATCHED_SPAN_B_ONLY": 143,
+  "CATEGORY_DISAGREEMENT": 42,
+  "MESSAGE_STATUS_DISAGREEMENT": 1,
+  "NEEDS_REVIEW": 4,
+  "SENTIMENT_DISAGREEMENT": 3
+ },
+ "by_guideline_topic": {
+  "implicit_aspect": 300,
+  "span_boundary": 275,
+  "GENERAL": 101,
+  "aspect_present_in_one_annotation_only": 83,
+  "OTHER_ASPECT": 55,
+  "referring_expression_or_pronoun": 22,
+  "NEEDS_REVIEW": 4,
+  "NEUTRAL_vs_polarity": 3,
+  "message_level_aspect_status": 1
+ },
+ "conflict_groups": 212,
+ "messages": 200,
+ "messages_in_agreement_statistics": 195,
+ "items_outside_agreement_statistics": 15,
+ "adjudication_columns_blank": true
+}
