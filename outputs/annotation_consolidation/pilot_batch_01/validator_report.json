@@ -1,0 +1,636 @@
+{
+ "file": {
+  "path": "outputs/annotation_consolidation/pilot_batch_01/pilot_batch_01_PROVISIONAL_consolidated.csv",
+  "issues": [
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 1,
+    "message_id": "AMZ-AB-L586811",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 8,
+    "message_id": "AMZ-AB-L563753",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 13,
+    "message_id": "AMZ-AB-L161788",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 19,
+    "message_id": "AMZ-AB-L029600",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 23,
+    "message_id": "AMZ-AB-L362529",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 26,
+    "message_id": "AMZ-AB-L403870",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 36,
+    "message_id": "AMZ-AB-L432787",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 40,
+    "message_id": "AMZ-AB-L099263",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 46,
+    "message_id": "AMZ-AB-L306537",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 54,
+    "message_id": "AMZ-AB-L679989",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 58,
+    "message_id": "AMZ-AB-L645328",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 67,
+    "message_id": "AMZ-AB-L378032",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 69,
+    "message_id": "AMZ-AB-L701438",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 76,
+    "message_id": "AMZ-AB-L377837",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 84,
+    "message_id": "AMZ-AB-L102847",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 92,
+    "message_id": "AMZ-AB-L240551",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 94,
+    "message_id": "AMZ-AB-L248083",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 101,
+    "message_id": "AMZ-AB-L600678",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 104,
+    "message_id": "AMZ-AB-L158906",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 113,
+    "message_id": "AMZ-AB-L236867",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 120,
+    "message_id": "AMZ-AB-L244720",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 122,
+    "message_id": "AMZ-AB-L689441",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 124,
+    "message_id": "AMZ-AB-L378073",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 127,
+    "message_id": "AMZ-AB-L506321",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 130,
+    "message_id": "AMZ-AB-L296439",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 134,
+    "message_id": "AMZ-AB-L151965",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 139,
+    "message_id": "AMZ-AB-L096457",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 142,
+    "message_id": "AMZ-AB-L337585",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 146,
+    "message_id": "AMZ-AB-L495166",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 149,
+    "message_id": "AMZ-AB-L688447",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 153,
+    "message_id": "AMZ-AB-L077526",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 156,
+    "message_id": "AMZ-AB-L372698",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 170,
+    "message_id": "AMZ-AB-L169305",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 178,
+    "message_id": "AMZ-AB-L011861",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED', 'NEEDS_REVIEW']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "MIXED_STATUSES",
+    "row": 187,
+    "message_id": "AMZ-AB-L410085",
+    "field": "annotation_status",
+    "detail": "rows of one message have statuses ['ADJUDICATED', 'ANNOTATED']"
+   },
+   {
+    "severity": "WARNING",
+    "code": "UNFINISHED_MESSAGES",
+    "row": null,
+    "message_id": null,
+    "field": "annotation_status",
+    "detail": "17 messages are not finished (NOT_STARTED, IN_PROGRESS, NEEDS_REVIEW or incomplete); first: ['AMZ-AB-L011861', 'AMZ-AB-L102847', 'AMZ-AB-L151965', 'AMZ-AB-L161788', 'AMZ-AB-L169305']"
+   }
+  ],
+  "statistics": {
+   "rows": 190,
+   "messages": 50,
+   "messages_finished_and_valid": 33,
+   "messages_unfinished": 17,
+   "annotation_status_rows": {
+    "ADJUDICATED": 101,
+    "ANNOTATED": 63,
+    "NEEDS_REVIEW": 26
+   },
+   "annotators": {
+    "team_adjudicators_1_to_4 (collective attribution)": 85,
+    "annotator_A|annotator_B": 63,
+    "single annotator (restored under v0.2 against a team rejection; not adjudicated)": 4,
+    "annotator_A|annotator_B (span, category, sentiment agreed; remaining fields not confirmed)": 11,
+    "annotator_A|annotator_B (category, sentiment); offsets: adjudicator_1 (human)": 7,
+    "annotator_A|annotator_B (category, sentiment); offsets: adjudicator_2 (human)": 7,
+    "annotator_A|annotator_B (category, sentiment); offsets: adjudicator_3 (human)": 7,
+    "annotator_A|annotator_B (category, sentiment); offsets: adjudicator_4 (human)": 6
+   },
+   "message_level_aspect_status": {
+    "ASPECT_PRESENT": 33
+   },
+   "aspect_rows": 101,
+   "by_aspect_category": {
+    "EFFECTIVENESS": 26,
+    "EASE_OF_USE": 7,
+    "GENERAL": 28,
+    "FRAGRANCE": 7,
+    "DELIVERY_SERVICE": 3,
+    "PACKAGING": 2,
+    "AUTHENTICITY": 5,
+    "DURABILITY": 6,
+    "OTHER_ASPECT": 6,
+    "TEXTURE": 5,
+    "APPEARANCE_COLOR": 2,
+    "SKIN_HAIR_REACTION": 1,
+    "PRICE_VALUE": 1,
+    "SIZE_QUANTITY": 2
+   },
+   "by_sentiment": {
+    "POSITIVE": 77,
+    "NEGATIVE": 19,
+    "MIXED": 1,
+    "NEUTRAL": 4
+   },
+   "aspect_by_sentiment": {
+    "APPEARANCE_COLOR": {
+     "POSITIVE": 2
+    },
+    "AUTHENTICITY": {
+     "POSITIVE": 4,
+     "NEGATIVE": 1
+    },
+    "DELIVERY_SERVICE": {
+     "MIXED": 1,
+     "POSITIVE": 2
+    },
+    "DURABILITY": {
+     "NEGATIVE": 3,
+     "POSITIVE": 3
+    },
+    "EASE_OF_USE": {
+     "POSITIVE": 4,
+     "NEGATIVE": 2,
+     "NEUTRAL": 1
+    },
+    "EFFECTIVENESS": {
+     "POSITIVE": 22,
+     "NEGATIVE": 4
+    },
+    "FRAGRANCE": {
+     "POSITIVE": 7
+    },
+    "GENERAL": {
+     "POSITIVE": 24,
+     "NEGATIVE": 3,
+     "NEUTRAL": 1
+    },
+    "OTHER_ASPECT": {
+     "NEGATIVE": 2,
+     "POSITIVE": 3,
+     "NEUTRAL": 1
+    },
+    "PACKAGING": {
+     "NEUTRAL": 1,
+     "POSITIVE": 1
+    },
+    "PRICE_VALUE": {
+     "NEGATIVE": 1
+    },
+    "SIZE_QUANTITY": {
+     "NEGATIVE": 1,
+     "POSITIVE": 1
+    },
+    "SKIN_HAIR_REACTION": {
+     "POSITIVE": 1
+    },
+    "TEXTURE": {
+     "POSITIVE": 3,
+     "NEGATIVE": 2
+    }
+   },
+   "by_sequence_type": {
+    "PRODUCT_TIMELINE": {
+     "messages": 33,
+     "aspect_rows": 101,
+     "by_sentiment": {
+      "POSITIVE": 77,
+      "NEGATIVE": 19,
+      "MIXED": 1,
+      "NEUTRAL": 4
+     },
+     "by_aspect_category": {
+      "EFFECTIVENESS": 26,
+      "EASE_OF_USE": 7,
+      "GENERAL": 28,
+      "FRAGRANCE": 7,
+      "DELIVERY_SERVICE": 3,
+      "PACKAGING": 2,
+      "AUTHENTICITY": 5,
+      "DURABILITY": 6,
+      "OTHER_ASPECT": 6,
+      "TEXTURE": 5,
+      "APPEARANCE_COLOR": 2,
+      "SKIN_HAIR_REACTION": 1,
+      "PRICE_VALUE": 1,
+      "SIZE_QUANTITY": 2
+     }
+    }
+   },
+   "by_sequence": {
+    "AMZ-PT-57bf9faec0": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B000FEF1V4",
+     "messages": 5,
+     "messages_finished_and_valid": 2,
+     "messages_with_aspect": 2,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 9,
+     "by_sentiment": {
+      "POSITIVE": 8,
+      "NEGATIVE": 1
+     },
+     "by_aspect_category": {
+      "EFFECTIVENESS": 3,
+      "EASE_OF_USE": 4,
+      "GENERAL": 2
+     }
+    },
+    "AMZ-PT-aa36f30b18": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B00JZKAUV0",
+     "messages": 5,
+     "messages_finished_and_valid": 4,
+     "messages_with_aspect": 4,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 15,
+     "by_sentiment": {
+      "POSITIVE": 12,
+      "NEGATIVE": 1,
+      "MIXED": 1,
+      "NEUTRAL": 1
+     },
+     "by_aspect_category": {
+      "FRAGRANCE": 3,
+      "EFFECTIVENESS": 3,
+      "GENERAL": 5,
+      "DELIVERY_SERVICE": 2,
+      "PACKAGING": 1,
+      "AUTHENTICITY": 1
+     }
+    },
+    "AMZ-PT-b56493ff93": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B00O6ZZCEY",
+     "messages": 5,
+     "messages_finished_and_valid": 4,
+     "messages_with_aspect": 4,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 13,
+     "by_sentiment": {
+      "POSITIVE": 10,
+      "NEGATIVE": 3
+     },
+     "by_aspect_category": {
+      "GENERAL": 5,
+      "DURABILITY": 2,
+      "OTHER_ASPECT": 1,
+      "AUTHENTICITY": 2,
+      "FRAGRANCE": 3
+     }
+    },
+    "AMZ-PT-315b388c09": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B011MTR5QO",
+     "messages": 5,
+     "messages_finished_and_valid": 2,
+     "messages_with_aspect": 2,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 8,
+     "by_sentiment": {
+      "POSITIVE": 7,
+      "NEUTRAL": 1
+     },
+     "by_aspect_category": {
+      "TEXTURE": 2,
+      "DELIVERY_SERVICE": 1,
+      "APPEARANCE_COLOR": 2,
+      "GENERAL": 1,
+      "OTHER_ASPECT": 2
+     }
+    },
+    "AMZ-PT-bef9ec9ce8": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B01IPXUIDC",
+     "messages": 5,
+     "messages_finished_and_valid": 5,
+     "messages_with_aspect": 5,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 18,
+     "by_sentiment": {
+      "POSITIVE": 12,
+      "NEGATIVE": 6
+     },
+     "by_aspect_category": {
+      "GENERAL": 5,
+      "DURABILITY": 4,
+      "AUTHENTICITY": 1,
+      "SKIN_HAIR_REACTION": 1,
+      "EFFECTIVENESS": 3,
+      "EASE_OF_USE": 1,
+      "OTHER_ASPECT": 2,
+      "PRICE_VALUE": 1
+     }
+    },
+    "AMZ-PT-9d83815fa3": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B0753JSKQZ",
+     "messages": 5,
+     "messages_finished_and_valid": 4,
+     "messages_with_aspect": 4,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 7,
+     "by_sentiment": {
+      "NEGATIVE": 6,
+      "NEUTRAL": 1
+     },
+     "by_aspect_category": {
+      "EFFECTIVENESS": 1,
+      "GENERAL": 2,
+      "TEXTURE": 2,
+      "SIZE_QUANTITY": 1,
+      "AUTHENTICITY": 1
+     }
+    },
+    "AMZ-PT-d2c103c2a9": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B07V2Y4Z5B",
+     "messages": 5,
+     "messages_finished_and_valid": 2,
+     "messages_with_aspect": 2,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 6,
+     "by_sentiment": {
+      "POSITIVE": 6
+     },
+     "by_aspect_category": {
+      "GENERAL": 3,
+      "EFFECTIVENESS": 2,
+      "PACKAGING": 1
+     }
+    },
+    "AMZ-PT-5a0c70b73d": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B07W81JVBC",
+     "messages": 5,
+     "messages_finished_and_valid": 3,
+     "messages_with_aspect": 3,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 8,
+     "by_sentiment": {
+      "POSITIVE": 8
+     },
+     "by_aspect_category": {
+      "GENERAL": 1,
+      "TEXTURE": 1,
+      "OTHER_ASPECT": 1,
+      "EFFECTIVENESS": 5
+     }
+    },
+    "AMZ-PT-17951c2744": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B08YK8B89C",
+     "messages": 5,
+     "messages_finished_and_valid": 3,
+     "messages_with_aspect": 3,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 7,
+     "by_sentiment": {
+      "POSITIVE": 6,
+      "NEGATIVE": 1
+     },
+     "by_aspect_category": {
+      "EFFECTIVENESS": 4,
+      "GENERAL": 2,
+      "FRAGRANCE": 1
+     }
+    },
+    "AMZ-PT-9603bd0891": {
+     "sequence_type": "PRODUCT_TIMELINE",
+     "entity_id": "B0974GWS7Z",
+     "messages": 5,
+     "messages_finished_and_valid": 4,
+     "messages_with_aspect": 4,
+     "messages_without_aspect": 0,
+     "messages_unclear": 0,
+     "aspect_rows": 10,
+     "by_sentiment": {
+      "POSITIVE": 8,
+      "NEUTRAL": 1,
+      "NEGATIVE": 1
+     },
+     "by_aspect_category": {
+      "SIZE_QUANTITY": 1,
+      "EASE_OF_USE": 2,
+      "EFFECTIVENESS": 5,
+      "GENERAL": 2
+     }
+    }
+   }
+  }
+ }
+}

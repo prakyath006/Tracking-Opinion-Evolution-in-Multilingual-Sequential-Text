@@ -1,0 +1,55 @@
+{
+ "rows": 190,
+ "messages": 50,
+ "agreed_identical_offsets": 74,
+ "agreed_with_offset_decision": 27,
+ "tiers": {
+  "ADJUDICATED_POLICY_PENDING": 74,
+  "CONFIRMED_AGREED": 63,
+  "RESTORED_PROVISIONAL": 4,
+  "AGREED_TYPE_PROVISIONAL": 11,
+  "AGREED_OFFSET_ADJUDICATED": 27,
+  "ADJUDICATED_FLAGGED": 10,
+  "UNRESOLVED": 1
+ },
+ "statuses": {
+  "ADJUDICATED": 101,
+  "ANNOTATED": 63,
+  "NEEDS_REVIEW": 26
+ },
+ "training_eligible": {
+  "pending_policy": 101,
+  "yes": 63,
+  "no": 26
+ },
+ "decision_origin": {
+  "HUMAN_TEAM_COLLECTIVE": 85,
+  "HUMAN_ANNOTATORS_AGREED": 74,
+  "ASSISTANT_V0.2_READING_OF_SINGLE_ANNOTATOR": 4,
+  "HUMAN_ADJUDICATOR_adjudicator_1": 7,
+  "HUMAN_ADJUDICATOR_adjudicator_2": 7,
+  "HUMAN_ADJUDICATOR_adjudicator_3": 7,
+  "HUMAN_ADJUDICATOR_adjudicator_4": 6
+ },
+ "audit_actions": {
+  "NEEDS_HUMAN": 7,
+  "RESTORED_PROVISIONAL": 4,
+  "KEEP_REJECTED": 40,
+  "KEEP_UNRESOLVED": 1
+ },
+ "restored": [
+  "003",
+  "118",
+  "124",
+  "138"
+ ],
+ "needs_human": [
+  "002",
+  "047",
+  "075",
+  "083",
+  "091",
+  "103",
+  "137"
+ ]
+}
