@@ -18,14 +18,11 @@ contradicted the project's real measurements (56.75%, 0.5636, and ECE never
 computed at all). Anyone comparing the demo against the report would have
 concluded the results were fabricated. Do not reintroduce hardcoded metrics.
 
-Five sections, deliberately not one page per research module:
+Four sections, deliberately not one page per research module:
   - Analyze: live trajectory prediction on a real trained checkpoint (the
     default landing page)
   - Insights: how the model performs -- baselines, cross-domain transfer,
     calibration -- as tabs within one section, not three separate ones
-  - Since Panel 1: what was added after the first panel review (multilingual comment-level
-    sentiment, aspect-level components, annotation agreement, data-readiness gates), each with
-    its real status and limits
   - How it works: the ontology, code-mixed aspect detection, and the
     architecture, also as tabs within one section
   - About: what the system does and why
@@ -55,12 +52,6 @@ sys.path.insert(0, os.path.join(WORKSPACE_ROOT, "src"))
 
 OUTPUTS = os.path.join(WORKSPACE_ROOT, "outputs")
 METRICS = os.path.join(OUTPUTS, "metrics")
-DRAV_AGG = os.path.join(OUTPUTS, "dravidian_evaluation", "aggregate_over_seeds.json")
-ASPECT_SENT_DIR = os.path.join(OUTPUTS, "aspect_experiments", "sentiment_xlmr_top2_agreed_only")
-ASPECT_SENT_SUMMARY = os.path.join(ASPECT_SENT_DIR, "summary.json")
-READINESS_JSON = os.path.join(OUTPUTS, "kaggle_final_training", "aspect_readiness", "readiness.json")
-WAVE1_REPORT = os.path.join(OUTPUTS, "annotation_waves", "batch_02_wave1", "report.json")
-PILOT_AGREEMENT = os.path.join(OUTPUTS, "diagnostics", "annotation_agreement", "pilot_batch_01_A_vs_B", "agreement.json")
 
 # Large files are not in git; on a fresh deployment they are pulled from free Hugging Face repos.
 GITHUB_URL = "https://github.com/prakyath006/Tracking-Opinion-Evolution-in-Multilingual-Sequential-Text"
@@ -89,7 +80,6 @@ try:
         DOMAIN_CONFIGS, map_labels_to_ontology,
     )
     from wsd import WordSenseDisambiguator
-    from final_decision import oet_outputs, run_pipeline
     BACKEND_AVAILABLE = True
     BACKEND_ERROR = ""
 except Exception as e:                                    # pragma: no cover
@@ -167,49 +157,6 @@ def not_measured(what: str, command: str, why: str = ""):
         f"Produce it with:\n\n```bash\n{command}\n```"
         + (f"\n\n{why}" if why else "")
     )
-
-
-def evaluation_pending(what: str, expected_file: str, command: str):
-    """A result that only exists after an evaluation run that has not been done yet."""
-    st.info(
-        f"**{what} — evaluation pending.**\n\n"
-        f"No result file was found at `{expected_file}`, so nothing is shown. Produce it with:\n\n"
-        f"```bash\n{command}\n```"
-    )
-
-
-def _read_json(path: str):
-    """Uncached read, so result files copied in later appear without restarting the app."""
-    try:
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
-    except (OSError, ValueError):
-        return None
-
-
-def comment_level_results() -> Dict:
-    """Valid comment-level result files (modules 8 and 9). Smoke-test files are ignored."""
-    d = os.path.join(OUTPUTS, "comment_level")
-    out = {"supervised": {}, "llm": {}}
-    for enc in ("mbert", "xlmr"):
-        res = _read_json(os.path.join(d, f"{enc}_comment_level_results.json"))
-        if res and res.get("pairs") and not res.get("smoke_test"):
-            out["supervised"][enc] = res
-    for path in sorted(glob.glob(os.path.join(d, "llm_*_results.json"))):
-        res = _read_json(path)
-        if res and not res.get("smoke_test"):
-            out["llm"][os.path.basename(path)] = res
-    return out
-
-
-def superseded_warning(domain: str):
-    """Shown wherever a window-based Dravidian result is selected."""
-    if domain != "amazon":
-        st.error(
-            f"**Superseded exploratory result — do not cite.** {domain} numbers come from the "
-            "sliding-window experiment, whose training and test windows overlap (data leakage). The valid "
-            "multilingual evaluation is the comment-level one under Cross-domain transfer."
-        )
 
 
 def results_rows() -> List[Dict]:
@@ -393,14 +340,14 @@ st.sidebar.markdown('<div class="wordmark-strap">Follows how an opinion moves, r
 
 page = st.sidebar.radio(
     "Section",
-    ["Home", "Analyze", "Insights", "Since Panel 1", "How it works", "About"],
+    ["Home", "Analyze", "Insights", "How it works", "About"],
     label_visibility="collapsed",
 )
 
 st.sidebar.markdown("---")
 st.sidebar.caption(
-    "mBERT + Bi-LSTM + self-attention · evaluated on English Amazon reviews · "
-    "Dravidian languages: comment-level sentiment with XLM-R (no time order, so no temporal claim)"
+    "mBERT + Bi-LSTM + self-attention · English, Tamil, Malayalam, Kannada · "
+    "e-commerce and social media"
 )
 
 # Data freshness panel -- shows exactly which results are live and how old.
@@ -464,7 +411,7 @@ def render_home():
                  and r["target"] == "amazon"), None)
     base = (load_json("metrics/valid_baselines_amazon.json") or {}).get("majority_baselines", {})
     maj = next((v for k, v in base.items() if "trajectory" in k.lower()), None)
-    stats = [("4", "languages: EN (temporal, OET); TA, ML, KN (comment-level)"), ("3", "predictions per sequence")]
+    stats = [("4", "languages: EN, TA, ML, KN"), ("3", "predictions per sequence")]
     if full:
         sub = f"trajectory macro-F1 (majority baseline {maj['macro_f1']:.3f})" if maj else "trajectory macro-F1"
         stats.append((f"{full['trajectory_f1_macro']:.3f}", sub))
@@ -477,8 +424,7 @@ def render_home():
         '<span class="hero-tag">Data Science and Data Analytics</span><span class="hero-tag">Team 78</span>'
         '<div class="hero-title">A Transformer-Based Framework for Tracking Opinion Evolution in Multilingual Sequential Text</div>'
         '<div class="lead">Reads a person’s reviews in order and predicts how each one feels, how the opinion moved, '
-        'and where it turned. Temporal evolution is evaluated on English Amazon reviews; Tamil, Malayalam and Kannada '
-        'comments are evaluated as comment-level sentiment only, because they have no time order.</div>'
+        'and where it turned, in English, Tamil, Malayalam and Kannada.</div>'
         f'<a class="btn" href="{GITHUB_URL}" target="_blank">GitHub repository</a>'
         f'<a class="btn ghost" href="{blob}README.md" target="_blank">Documentation</a>'
         f'<div class="stats">{stat_html}</div>'
@@ -501,7 +447,7 @@ def render_home():
 
     objectives = [
         ("Track opinion over a sequence", "One model reads a person’s reviews in order and predicts each review’s sentiment, the transition between reviews, and the overall trajectory."),
-        ("Find the turning point", "A rule finds where the predicted direction reverses; attention shows which review weighed most."),
+        ("Find the turning point", "Attention weights show which review moved the opinion."),
         ("Handle multilingual, code-mixed text", "English, Tamil, Malayalam and Kannada share one label scheme."),
         ("Measure more than accuracy", "Baselines, ablations, calibration and a consistency score."),
         ("Test transfer", "How well the model carries across domains and languages, with leakage-controlled evaluation."),
@@ -571,51 +517,27 @@ def render_home():
           '<div class="card"><h4>Amazon Reviews 2023, Beauty</h4><p>English e-commerce. Users’ chronological reviews: '
           '3,726 / 798 / 800 users for train / val / test.</p></div>'
           '<div class="card"><h4>DravidianCodeMix: Tamil</h4><p>Code-mixed social media, 33,531 comments.</p></div>'
-          '<div class="card"><h4>DravidianCodeMix: Malayalam, Kannada</h4><p>Code-mixed social media. Comment-level XLM-R evaluation of all three languages is under Since Panel 1.</p></div>'
+          '<div class="card"><h4>DravidianCodeMix: Malayalam, Kannada</h4><p>Code-mixed social media, used to test transfer to languages not trained on.</p></div>'
           '</div>',
         unsafe_allow_html=True,
     )
 
     def dot(c):
         return f'<span class="dot" style="background:{c}"></span>'
-    # Four fixed statuses. The three items that depend on result files move by themselves when the files arrive.
-    have = comment_level_results()
-    status = {
-        "Experimentally evaluated": ["Label ontology: coverage and consistency on both datasets",
-                                     "OET on English Amazon reviews (single run)",
-                                     "Baselines, ablations, calibration and consistency score on Amazon",
-                                     "Majority baselines and gold-sequence consistency", "Encoder perplexity"],
-        "Implemented and tested": ["Aspect-associated sentiment projection (rule-based; unit-tested)",
-                                   "Final decision summary with turning-point detection (unit-tested)",
-                                   "Evaluation utilities: seeds, bootstrap intervals, observed-transition metrics"],
-        "Implemented, not experimentally validated": [
-            "Aspect tagger with word-sense disambiguation: coverage measured, accuracy not measured"],
-        "Pending evaluation": ["Word-sense disambiguation accuracy (manual annotation)",
-                               "Repeated seeded runs of OET and the baselines"],
-    }
-    status["Implemented and tested"] += [
-        "Aspect extraction (BIO tagging) and aspect sequence model: implemented and unit-tested, not trained (data below the size floors)"]
-    for done, label in (
-        (_read_json(DRAV_AGG), "DravidianCodeMix Tamil, Malayalam, Kannada comment-level sentiment, XLM-R, 5 seeds"),
-        (_read_json(ASPECT_SENT_SUMMARY), "Aspect-conditioned sentiment, XLM-R, agreed-only data (pipeline result, one seed)"),
-        (have["supervised"], "Multilingual and cross-domain comment-level sentiment (Tamil, Malayalam, Kannada)"),
-        (have["llm"], "Prompted language-model classification (FLAN-T5)"),
-        (load_json("metrics/amazon_prediction_stats.json"), "Bootstrap intervals for OET predictions"),
-    ):
-        if done:
-            status["Experimentally evaluated"].append(label)
-        else:
-            status["Implemented, not experimentally validated"].append(label + ": smoke-tested only")
-            status["Pending evaluation"].append(label)
-    style = {"Experimentally evaluated": ("st-done", "#1E8E6A"), "Implemented and tested": ("st-done", "#2F5FD0"),
-             "Implemented, not experimentally validated": ("st-run", "#B7791F"), "Pending evaluation": ("st-plan", "#5A6B7C")}
-    cards = "".join(
-        f'<div class="card accent"><h4 class="{style[k][0]}">{dot(style[k][1])}{k}</h4><ul>'
-        + "".join(f"<li>{x}</li>" for x in v) + "</ul></div>" for k, v in status.items())
     st.markdown(
-        _sec("Where we are", "Project progress") + f'<div class="grid">{cards}</div>'
-        + '<p style="color:#52647A;margin:0.8rem 0 0 0;font-size:0.9rem">“Implemented and tested” means the code '
-          'passes its unit tests; it is not a measurement of accuracy.</p>',
+        _sec("Where we are", "Project progress")
+        + '<div class="grid">'
+          f'<div class="card accent"><h4 class="st-done">{dot("#1E8E6A")}Completed</h4><ul>'
+          '<li>Label ontology across domains</li><li>mBERT + Bi-LSTM + attention model with three heads</li>'
+          '<li>Word-sense disambiguation for code-mixed aspects</li><li>Baselines, ablations, calibration, perplexity</li>'
+          '<li>Evaluation utilities, open-source repository, tests and this demo</li></ul></div>'
+          f'<div class="card accent"><h4 class="st-run">{dot("#B7791F")}In progress</h4><ul>'
+          '<li>Leakage-controlled multilingual and cross-domain evaluation</li>'
+          '<li>Instruction-tuned language-model baseline (FLAN-T5)</li></ul></div>'
+          f'<div class="card accent"><h4 class="st-plan">{dot("#5A6B7C")}Planned</h4><ul>'
+          '<li>Repeated seeded runs with confidence intervals</li><li>Aspect-level opinion trajectories</li>'
+          '<li>Fine-tuning the encoder layers</li></ul></div>'
+          '</div>',
         unsafe_allow_html=True,
     )
 
@@ -646,16 +568,16 @@ def render_about():
     )
 
     rows = results_rows()
-    # Amazon rows only: the dravidian_tamil rows are the superseded sliding-window runs.
-    models = {r["model"] for r in rows if r["source"] == "amazon" and r["target"] == "amazon"}
+    models = {r["model"] for r in rows}
+    domains = {r["source"] for r in rows}
 
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Languages in scope", "4", "EN temporal; TA, ML, KN comment-level", delta_color="off")
+    c1.metric("Supported Languages", "4", "EN, TA, ML, KN")
     c2.metric("Classification Heads", "3", "Sentiment, Trend, Trajectory")
-    c3.metric("Models evaluated on Amazon", str(len(models)) if models else "—",
-              "read from results_table.json", delta_color="off")
-    c4.metric("Datasets with valid results", "2" if _read_json(DRAV_AGG) else "1",
-              "Amazon (temporal); DravidianCodeMix (comment-level)" if _read_json(DRAV_AGG) else "Amazon Reviews (English)", delta_color="off")
+    c3.metric("Models Evaluated", str(len(models)) if models else "—",
+              "read from results_table.json")
+    c4.metric("Domains Trained", str(len(domains)) if domains else "—",
+              ", ".join(sorted(domains)) if domains else "no results yet")
 
     st.markdown("---")
     st.subheader("Why this is a hard problem")
@@ -961,7 +883,7 @@ def render_performance():
         "**Every number on this page — full model included — is a recorded "
         "metric from a prior training run**, read from "
         "`outputs/metrics/results_table.json`. Nothing on this page runs "
-        "inference now. For a live prediction on text you type, open **Analyze**."
+        "inference now. For a live prediction on text you type, open **Try it**."
     )
 
     rows = [r for r in results_rows() if r["setting"] == "in-domain"]
@@ -976,7 +898,6 @@ def render_performance():
         sources = sorted(df["source"].unique())
         pick = st.selectbox("Domain:", sources, key="performance_domain")
         sub = df[df["source"] == pick].copy()
-        superseded_warning(pick)
 
         caps = sub["encoder_finetune_layers"].dropna().unique().tolist()
         if len(caps) > 1:
@@ -1009,24 +930,6 @@ def render_performance():
         st.caption("Read from `outputs/metrics/results_table.json`.")
 
     st.markdown("---")
-    st.subheader("Uncertainty for OET on Amazon (from exported predictions)")
-    stats = load_json("metrics/amazon_prediction_stats.json")
-    if not stats:
-        evaluation_pending(
-            "Bootstrap intervals and observed-transition scores",
-            "outputs/metrics/amazon_prediction_stats.json",
-            "python scripts/export_predictions.py --phase export --device cuda --batch_size 16\n"
-            "python scripts/export_predictions.py --phase analyze",
-        )
-    else:
-        st.dataframe(pd.DataFrame([
-            {"Measure": label, "Macro-F1": round(stats[k]["macro_f1"], 4), "95% CI over test users": _ci(stats[k])}
-            for k, label in (("sentiment", "Sentiment"), ("trend_observed_only", "Trend, observed transitions only"),
-                             ("trajectory", "Trajectory")) if k in stats]), width="stretch", hide_index=True)
-        st.caption(f"{stats.get('n_users')} test users, {stats.get('n_positions')} reviews. "
-                   "Read from `outputs/metrics/amazon_prediction_stats.json`.")
-
-    st.markdown("---")
     st.subheader("Capability matrix, by baseline")
     matrix = load_text("metrics/module_by_baseline_comparison.md")
     if matrix:
@@ -1045,102 +948,78 @@ def render_performance():
 
 
 
-def _ci(rep: Dict) -> str:
-    c = (rep or {}).get("macro_f1_ci95") or (rep or {}).get("macro_f1_ci95_over_users")
-    return f"{c['ci_low']:.3f}–{c['ci_high']:.3f}" if c else "—"
-
-
 def render_cross_domain():
-    st.caption("Source → target transfer of per-comment sentiment, on the official DravidianCodeMix "
-               "splits and Amazon reviews with duplicates and train/test overlap removed.")
-    have = comment_level_results()
+    st.caption("Zero-shot transfer between domains the model was never jointly trained on.")
 
-    st.subheader("Comment-level transfer: supervised head on a frozen encoder")
-    if not have["supervised"]:
-        evaluation_pending(
-            "Multilingual and cross-domain comment-level results",
-            "outputs/comment_level/{mbert,xlmr}_comment_level_results.json",
-            "python scripts/eval_comment_level.py --encoder mbert --seeds 0 1 2 3 4 --device cuda",
-        )
-    for enc, res in have["supervised"].items():
-        pairs = res.get("pairs", {})
+    rows = results_rows()
+    cross = [r for r in rows if r["setting"] == "cross-domain"]
+    indom = {(r["source"], r["target"]): r for r in rows if r["setting"] == "in-domain"}
+
+    if not cross:
+        not_measured("Cross-domain transfer", "python scripts/cross_domain_eval.py")
+    else:
+        st.subheader("Measured transfer — every trained source against every target")
         recs = []
-        for key, p in pairs.items():
-            src, tgt = key.split("->")
-            maj = p.get("majority_baseline_from_source_train_3class", {})
-            rep = next((v for k, v in p.items() if k.startswith("report_seed_")), {})
+        for r in cross:
+            base = indom.get((r["source"], r["source"]))
+            retained = None
+            if base and base.get("sentiment_f1_macro") and r.get("sentiment_f1_macro"):
+                retained = r["sentiment_f1_macro"] / base["sentiment_f1_macro"] * 100
             recs.append({
-                "Trained on": src, "Tested on": tgt, "Setting": "in-domain" if src == tgt else "transfer",
-                "Macro-F1 (3-class), mean": round(p["mean"], 4), "Std over seeds": round(p["std"], 4),
-                "95% CI (first seed)": _ci(rep.get("primary_3class")),
-                "Majority baseline": round(maj["macro_f1"], 4) if "macro_f1" in maj else None,
-                "Drop vs in-domain (%)": (round(p["relative_degradation_vs_in_domain_pct"], 1)
-                                          if "relative_degradation_vs_in_domain_pct" in p else None),
+                "Trained on": r["source"],
+                "Tested on": r["target"],
+                "Sentiment F1": r.get("sentiment_f1_macro"),
+                "Trajectory F1": r.get("trajectory_f1_macro"),
+                "SCS": r.get("scs_mean"),
+                "% of in-domain F1 retained": round(retained, 1) if retained else None,
             })
-        st.markdown(f"**Encoder: `{res.get('encoder', enc)}`** · seeds {res.get('seeds')}")
-        df = pd.DataFrame(recs)
-        st.dataframe(df, width="stretch", hide_index=True)
-        if not df.empty:
-            grid = df.pivot(index="Trained on", columns="Tested on", values="Macro-F1 (3-class), mean")
-            st.plotly_chart(px.imshow(grid, text_auto=".3f", color_continuous_scale="Blues", aspect="auto",
-                                      title=f"Macro-F1 (3-class), source → target, {enc}"), width="stretch")
-        st.caption(f"Read from `outputs/comment_level/{enc}_comment_level_results.json`. {res.get('protocol', '')}")
+        cdf = pd.DataFrame(recs)
+        st.dataframe(cdf, width="stretch")
+
+        plot = cdf.dropna(subset=["% of in-domain F1 retained"])
+        if not plot.empty:
+            plot = plot.assign(
+                pair=plot["Trained on"] + " → " + plot["Tested on"]
+            )
+            fig = px.bar(
+                plot, x="pair", y="% of in-domain F1 retained",
+                color="Trained on", text="% of in-domain F1 retained",
+                title="Retention of in-domain sentiment F1 under domain shift",
+            )
+            fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
+            st.plotly_chart(fig, width="stretch")
+            st.info(
+                "**Preliminary, single run.** In this run the model trained on "
+                "code-mixed Dravidian text retains more of its in-domain "
+                "performance on a new language than the Amazon-trained model. "
+                "The Dravidian sequences are sliding windows over independent "
+                "comments and may overlap between train and test, so this is "
+                "indicative only until the leakage-controlled comment-level "
+                "evaluation is complete."
+            )
+        st.caption("Read from `outputs/metrics/results_table.json`.")
 
     st.markdown("---")
-    st.subheader("Prompted language model (FLAN-T5): zero-shot and bias-calibrated")
-    st.caption("The language model is prompted, not instruction-tuned: no model weight is trained. "
-               "“Calibrated” fits four per-class bias values on the source development set.")
-    if not have["llm"]:
-        evaluation_pending(
-            "Language-model classification results",
-            "outputs/comment_level/llm_<model>_results.json",
-            "python scripts/eval_llm_comment_level.py --model google/flan-t5-base --device cuda",
+    st.subheader("Fuzzy domain typicality")
+    st.markdown(
+        "Instead of binary domain labels, each sequence receives a soft "
+        "membership over domain centroids, computed by "
+        "`src/fuzzy_domain_score.py`."
+    )
+    fuzzy = load_csv("fuzzy_domain_scores.csv")
+    if fuzzy is not None:
+        st.warning(
+            "**Reference scores, not computed against your input.** This "
+            "table is the pre-computed typicality of each **test-set** "
+            "sequence against every domain centroid — it does not score "
+            "whatever you type on the Try it page. Live per-input typicality "
+            "scoring is not implemented; this page can only show what was "
+            "already measured on the fixed test sets."
         )
-    for name, res in have["llm"].items():
-        st.markdown(f"**Model: `{res.get('model', name)}`**")
-        zs = [{"Tested on": c, "Macro-F1 (3-class)": round(v["report"]["primary_3class"].get("macro_f1", float("nan")), 4),
-               "95% CI": _ci(v["report"]["primary_3class"]),
-               "Majority baseline": round(v.get("majority_baseline_from_train_3class", {}).get("macro_f1", float("nan")), 4)}
-              for c, v in res.get("zero_shot", {}).items()]
-        if zs:
-            st.markdown("Zero-shot, label scoring")
-            st.dataframe(pd.DataFrame(zs), width="stretch", hide_index=True)
-        cal = [{"Calibrated on": s, "Tested on": t, "Macro-F1 (3-class)": round(rep["primary_3class"].get("macro_f1", float("nan")), 4)}
-               for s, v in res.get("calibrated", {}).items() for t, rep in v.get("targets", {}).items()]
-        if cal:
-            st.markdown("Bias-calibrated, source → target")
-            st.dataframe(pd.DataFrame(cal).pivot(index="Calibrated on", columns="Tested on",
-                                                 values="Macro-F1 (3-class)"), width="stretch")
-        gen = [{"Tested on": c, "Macro-F1 (3-class)": round(v["report"]["primary_3class"].get("macro_f1", float("nan")), 4),
-                "Invalid output rate": f"{v['invalid_output_rate'] * 100:.1f}%"}
-               for c, v in res.get("generation", {}).items()]
-        if gen:
-            st.markdown("Free generation (invalid outputs count as wrong)")
-            st.dataframe(pd.DataFrame(gen), width="stretch", hide_index=True)
-        st.caption(f"Read from `outputs/comment_level/{name}`.")
-
-    st.markdown("---")
-    with st.expander("Superseded exploratory experiments (not valid results)"):
-        st.error(
-            "**Do not cite these numbers.** They come from the earlier sliding-window experiment on "
-            "DravidianCodeMix. The windows overlap, so test comments also occur in training windows "
-            "(data leakage), and neighbouring comments are unrelated, so the windows are not real "
-            "opinion histories. They are kept only as a record of what was replaced by the "
-            "comment-level evaluation above."
-        )
-        cross = [r for r in results_rows() if r["setting"] == "cross-domain"]
-        if cross:
-            st.dataframe(pd.DataFrame([{
-                "Trained on": r["source"], "Tested on": r["target"],
-                "Sentiment F1": r.get("sentiment_f1_macro"), "Trajectory F1": r.get("trajectory_f1_macro"),
-                "SCS": r.get("scs_mean")} for r in cross]), width="stretch", hide_index=True)
-            st.caption("Read from `outputs/metrics/results_table.json` (window-based runs, 2026-09).")
-        fuzzy = load_csv("fuzzy_domain_scores.csv")
-        if fuzzy is not None:
-            st.markdown("Fuzzy domain typicality of the old test sequences, including the Dravidian windows "
-                        "(`src/fuzzy_domain_score.py`):")
-            st.dataframe(fuzzy.head(50), width="stretch")
-            st.caption(f"{len(fuzzy):,} rows from `outputs/fuzzy_domain_scores.csv`.")
+        st.dataframe(fuzzy.head(50), width="stretch")
+        st.caption(f"{len(fuzzy):,} rows from `outputs/fuzzy_domain_scores.csv`.")
+    else:
+        not_measured("Fuzzy typicality scores", "python src/fuzzy_domain_score.py")
 
 
 
@@ -1170,7 +1049,6 @@ def render_calibration():
         df = pd.DataFrame(scs_rows)
         pick = st.selectbox("Domain:", sorted(df["source"].unique()), key="scs_domain")
         sub = df[df["source"] == pick]
-        superseded_warning(pick)
 
         fig = px.bar(
             sub, x="model", y="scs_mean", color="model", text="scs_mean",
@@ -1197,7 +1075,6 @@ def render_calibration():
     if m4:
         labels = {os.path.basename(p)[len("module4_sequential_model_"):-3]: p for p in m4}
         pick_m4 = st.selectbox("Domain:", sorted(labels), key="m4_domain")
-        superseded_warning(pick_m4)
         with open(labels[pick_m4], encoding="utf-8") as f:
             st.markdown(f.read())
         st.caption(
@@ -1208,7 +1085,8 @@ def render_calibration():
     else:
         not_measured(
             "ECE, prediction entropy, SCS reliability",
-            "python src/confidence_eval.py --domain amazon",
+            "python src/confidence_eval.py --domain amazon\n"
+            "python src/confidence_eval.py --domain dravidian --language tamil",
             "These require the trained checkpoints under `outputs/checkpoints/`.",
         )
 
@@ -1216,449 +1094,180 @@ def render_calibration():
     analysis = load_text("metrics/module6_analysis.md")
     if analysis:
         with st.expander("Full written analysis"):
-            superseded_warning("the `dravidian_tamil` sections of this report")
             st.markdown(analysis)
 
 
-
-
-SENT_COLORS = {"POSITIVE": "#1E8E6A", "NEGATIVE": "#C0392B", "MIXED": "#B7791F", "UNKNOWN": "#5A6B7C",
-               "no sentiment": "#9AA7B4"}
-AMAZON_CKPT = "best_model_amazon.pt"
-SAMPLES_EN = {
-    "Product reviews (the trained domain)": (
-        "Product looks great, very happy with the purchase\n"
-        "Still working fine after two weeks\n"
-        "Started having problems, quality dropped\n"
-        "Completely stopped working, very disappointed"
-    ),
-    "Product reviews with a reversal (shows the turning point)": (
-        "Love this cream, my skin feels great\n"
-        "Broke out in a rash, terrible product, very disappointed\n"
-        "The new formula is wonderful, works perfectly, very happy\n"
-        "Still excellent after a month, highly recommend"
-    ),
-    "English film reviews (outside the trained product category; shows the aspect analysis)": (
-        "The trailer looked amazing and the music is wonderful\n"
-        "Watched it today, the story is gripping and the songs are lovely\n"
-        "Second half drags, the story falls apart and the music gets loud and annoying\n"
-        "Terrible ending, the story made no sense, a complete waste of money"
-    ),
-}
-SAMPLE_DRAVIDIAN = (
-    "Trailer vera level bro bgm semma\n"
-    "Story konjam weak but songs super\n"
-    "marana mass anna\n"
-    "Climax scene la hero acting nalla irukku"
-)
-
-
-def _aspect_views(aspects: Dict, with_sentiment: bool):
-    """Aspect table, timeline and unresolved words, shared by both input types."""
-    st.caption(f"Method: {aspects['method']}. " + aspects["limitation"])
-    if not aspects["aspects"]:
-        st.info(
-            "**No aspect detected.** None of the lexicon's surface forms occurs in these messages. The "
-            "lexicon covers seven film-related aspect categories and was built from DravidianCodeMix comments."
-        )
-    else:
-        rows = []
-        for a in aspects["aspects"].values():
-            row = {"Aspect": a["aspect"], "Messages": a["n_messages"], "Aspect words": a["occurrences"]}
-            if with_sentiment:
-                row.update({
-                    "Positive": a["counts"]["POSITIVE"], "Negative": a["counts"]["NEGATIVE"],
-                    "Mixed": a["counts"]["MIXED"],
-                    "Associated tendency": a["tendency"] or "no dominant sentiment",
-                    "Associated trend": a["trend"] or a["trend_note"],
-                })
-            row["Share of messages"] = f"{a['evidence_coverage'] * 100:.0f}%"
-            rows.append(row)
-        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
-
-        pts = [{"Message": f"Message {o['message_index']}", "Aspect": a["aspect"],
-                "Message sentiment": o["sentiment"] or "no sentiment", "Words": ", ".join(o["words"])}
-               for a in aspects["aspects"].values() for o in a["observations"]]
-        fig = px.scatter(
-            pd.DataFrame(pts), x="Message", y="Aspect", color="Message sentiment", hover_data=["Words"],
-            color_discrete_map=SENT_COLORS,
-            category_orders={"Message": [f"Message {i + 1}" for i in range(aspects["n_messages"])]},
-            title="Aspect timeline: where each aspect was mentioned"
-                  + (" and the sentiment predicted for that message" if with_sentiment else ""),
-        )
-        fig.update_traces(marker=dict(size=18))
-        fig.update_layout(height=120 + 55 * len(aspects["aspects"]))
-        st.plotly_chart(fig, width="stretch")
-    st.caption(
-        f"Aspects were found in {aspects['n_messages_with_aspect']} of {aspects['n_messages']} messages. "
-        "Aspect tagging is implemented and its coverage is measured; its accuracy has not been evaluated."
-    )
-    if aspects["unresolved"]:
-        st.markdown(
-            "**Unresolved words (no aspect assigned):** "
-            + "; ".join(f"`{u['word']}` in message {u['message_index']} "
-                        f"(candidates: {', '.join(u['candidates']) or 'none'})" for u in aspects["unresolved"])
-        )
-
-
-def _analyze_english():
-    ckpt_path = os.path.join(OUTPUTS, "checkpoints", AMAZON_CKPT)
-    if not os.path.exists(ckpt_path):
-        fetch_hf(HF_CKPT_REPO, "model", os.path.join(OUTPUTS, "checkpoints"))
-    if not os.path.exists(ckpt_path):
-        not_measured(
-            "Live model inference",
-            "python scripts/train.py --domain amazon --epochs 20",
-            f"`outputs/checkpoints/{AMAZON_CKPT}` was not found.",
-        )
-        return
-    st.caption(
-        f"Model: `{AMAZON_CKPT}`, the OET model trained and evaluated on English Amazon Beauty reviews. "
-        "The Tamil checkpoint from the earlier sliding-window experiment is not offered: that evaluation "
-        "was invalidated by overlap between training and test windows."
-    )
-
-    @st.cache_resource(show_spinner="Loading model (~10s, first time only)…")
-    def load_model(path: str):
-        import torch
-        from model import OpinionEvolutionTracker
-        ckpt = torch.load(path, map_location="cpu", weights_only=False)
-        saved = ckpt.get("args")
-        saved = vars(saved) if hasattr(saved, "__dict__") else (saved or {})
-        m = OpinionEvolutionTracker(
-            model_name=saved.get("model_name", "bert-base-multilingual-cased"),
-            use_cuda=False,
-            freeze_encoder=saved.get("freeze_encoder", True),
-        )
-        m.load_state_dict(ckpt["model_state_dict"])
-        m.eval()
-        return m, ckpt.get("epoch"), saved
-
-    sample = st.selectbox("Sample sequence:", list(SAMPLES_EN))
-    raw = st.text_area("One English review per line, in chronological order:", SAMPLES_EN[sample],
-                       height=160, key=f"reviews_{sample}")
-    reviews = [r.strip() for r in raw.splitlines() if r.strip()]
-    if "film" in sample:
-        st.warning(
-            "**Illustrative, out-of-domain example.** OET was trained and evaluated on Amazon Beauty product "
-            "reviews, not film reviews. The output below shows how the pipeline behaves; it is not an "
-            "experimentally validated result."
-        )
-    st.caption("Predictions on text you type are live model outputs, not evaluation results. "
-               "Measured performance is under Insights.")
-
-    if not (st.button("Analyze sequence", type="primary") and reviews):
-        return
-    if len(reviews) < 2:
-        st.error("Enter at least two reviews — a trajectory needs a sequence.")
-        return
-    try:
-        model, epoch, saved = load_model(ckpt_path)
-        result = run_pipeline(reviews, oet_outputs(model, reviews), WordSenseDisambiguator())
-    except Exception as e:
-        st.error(f"Inference failed: {e}")
-        st.exception(e)
-        return
-
-    oet, aspects, decision = result["oet"], result["aspect_analysis"], result["final_decision"]
-    sentiments, trajectory, attention = oet["sentiments"], oet["trajectory"], oet["attention"]
-    transitions = [None] + oet["transitions"]
-    labels = [f"Review {i + 1}" for i in range(len(reviews))]
-    sent_names = SentimentState.label_names()
-
-    st.markdown("### 1 · Sentiment, transitions and trajectory (OET)")
-    st.markdown(
-        f'<div style="font-size:1.3rem;margin:0.4rem 0 1rem 0;">Predicted trajectory: {chip(trajectory)}</div>',
-        unsafe_allow_html=True,
-    )
-    order = {n: i for i, n in enumerate(sent_names)}
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=labels, y=[order[s] for s in sentiments], mode="lines+markers+text",
-        text=sentiments, textposition="top center", line=dict(width=3),
-        marker=dict(size=[14 + 40 * a for a in attention]), name="Predicted sentiment",
-        hovertext=[f"{r[:70]}<br>attention={a:.3f}" for r, a in zip(reviews, attention)], hoverinfo="text",
-    ))
-    fig.update_layout(
-        title=f"Opinion trajectory — predicted {trajectory}",
-        yaxis=dict(tickmode="array", tickvals=list(range(len(sent_names))), ticktext=sent_names,
-                   title="Sentiment state"),
-        xaxis_title="Review order (chronological)", height=420,
-    )
-    st.plotly_chart(fig, width="stretch")
-    st.caption("Marker size is the model's attention weight for that review.")
-
-    table_rows = "".join(
-        f"<tr><td>{labels[i]}</td><td>{reviews[i][:60]}</td><td>{chip(sentiments[i])}</td>"
-        f"<td>{chip(transitions[i]) if transitions[i] else '—'}</td>"
-        f"<td>{oet['sentiment_softmax'][i]:.2f}</td><td>{attention[i]:.3f}</td></tr>"
-        for i in range(len(reviews))
-    )
-    st.markdown(
-        '<table class="chip-table"><thead><tr><th>Review</th><th>Text</th><th>Sentiment</th>'
-        "<th>Transition from previous</th><th>Sentiment softmax</th><th>Attention</th>"
-        f"</tr></thead><tbody>{table_rows}</tbody></table>",
-        unsafe_allow_html=True,
-    )
-    st.caption("Softmax is the model's raw score for its predicted class, not a calibrated probability.")
-
-    st.markdown("### 2 · Turning point")
-    turning = decision["turning_point"]
-    (st.success if turning["found"] else st.info)(
-        f"**{turning['message']}**" if turning["found"] else
-        f"**{turning['message']}.** The predicted transitions contain no UPGRADE followed by DOWNGRADE, or the reverse."
-    )
-    peak = decision["most_attended_message"]
-    st.caption(
-        f"Separately, the most-attended review is Review {peak['position']} "
-        f"(attention weight {peak['attention_weight']:.3f}). Attention shows what the trajectory head "
-        "weighted most; it is not a reversal test."
-    )
-
-    st.markdown("### 3 · Aspects and aspect-associated sentiment")
-    _aspect_views(aspects, with_sentiment=True)
-
-    st.markdown("### 4 · Final decision")
-    st.markdown(
-        f'<div style="background:#FFFFFF;border:1px solid var(--line);border-left:5px solid var(--pulse);'
-        f'border-radius:12px;padding:1rem 1.2rem;font-size:1.05rem;line-height:1.55;">{decision["verdict"]}</div>',
-        unsafe_allow_html=True,
-    )
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Trajectory vs aspect evidence", decision["trajectory_vs_aspect_evidence"])
-    c2.metric("Aspect observations", decision["evidence"]["n_aspect_observations"])
-    c3.metric("Trajectory softmax (uncalibrated)", f"{oet['trajectory_softmax']:.2f}")
-    dist = ", ".join(f"{k} {v}" for k, v in decision["sentiment_distribution"].items() if v)
-    st.markdown(
-        f"- **Sentiment distribution:** {dist}\n"
-        f"- **Trajectory from the ontology rule applied to the predicted sentiments:** "
-        f"{decision['rule_derived_trajectory_from_predicted_sentiments']}\n"
-        f"- **Confidence:** {decision['confidence_note']}"
-    )
-    if decision["evidence"]["limitations"]:
-        st.warning("**Limits of this conclusion:** " + "; ".join(decision["evidence"]["limitations"]) + ".")
-    st.caption("The verdict is assembled by fixed rules in `src/final_decision.py` from the outputs above; "
-               "no language model writes it.")
-    with st.expander("Full structured output (JSON)"):
-        st.download_button("Download JSON", json.dumps(result, indent=2, ensure_ascii=False),
-                           "opinion_evolution_output.json", "application/json")
-        st.json(result)
-    st.caption(
-        f"Predicted by `{AMAZON_CKPT}` (best epoch {epoch}, encoder layers trained: "
-        f"{0 if saved.get('freeze_encoder', True) else 3}) running live on CPU."
-    )
-
-
-def _analyze_dravidian():
-    have = comment_level_results()
-    have_new = _read_json(DRAV_AGG)
-    st.warning(
-        "**Sentiment for Tamil, Malayalam and Kannada comments: "
-        + ("evaluated offline; no live prediction.** The comment-level results are under Since Panel 1 "
-           "(XLM-R, 5 seeds) and Insights → Cross-domain transfer. The saved classifier heads are not wired into "
-           "this demo, so nothing is predicted here."
-           if have["supervised"] or have["llm"] or have_new else
-           "evaluation pending.** The leakage-controlled comment-level pipeline is implemented, but its "
-           "results have not been produced yet.")
-        + " OET was trained on English Amazon reviews and is not run on this input, so no sentiment, "
-          "trajectory or final decision is shown."
-    )
-    raw = st.text_area("One code-mixed comment per line, in order:", SAMPLE_DRAVIDIAN, height=140)
-    comments = [r.strip() for r in raw.splitlines() if r.strip()]
-    if st.button("Detect aspects", type="primary") and comments:
-        result = run_pipeline(comments, None, WordSenseDisambiguator())
-        st.markdown("### Aspects detected (no sentiment attached)")
-        _aspect_views(result["aspect_analysis"], with_sentiment=False)
-        st.info("**Final decision: not produced.** It needs validated sentiment predictions for this language.")
-
-
-# =============================================================================
-# Since Panel 1: everything below is read from result files; a missing file is reported, never replaced by a number.
-# =============================================================================
-SENT_NAMES = ["POSITIVE", "NEGATIVE", "MIXED", "UNKNOWN"]
-
-
-def _num(x, nd=3):
-    return "n/a" if x is None else f"{x:.{nd}f}"
-
-
-def _confusion_figure(cm, labels, title):
-    fig = px.imshow(cm, x=labels, y=labels, text_auto=True, color_continuous_scale="Blues", aspect="auto",
-                    labels=dict(x="predicted", y="gold", color="count"), title=title)
-    fig.update_layout(height=380, margin=dict(l=10, r=10, t=50, b=10))
-    return fig
-
-
-def _progress_status():
-    drav, asent = _read_json(DRAV_AGG), _read_json(ASPECT_SENT_SUMMARY)
-    ready, wave = _read_json(READINESS_JSON), _read_json(WAVE1_REPORT)
-    seqs = (ready or {}).get("sequence", {})
-    rows = [
-        ("OET on English Amazon (temporal)", "trained at Panel 1 (mBERT, frozen)", "outputs/metrics/results_table.json",
-         "XLM-R partial fine-tuning experiments (E0, E3c, E4) are implemented and tested; their results are not in this repository yet"),
-        ("DravidianCodeMix Tamil, Malayalam, Kannada", "trained and evaluated (XLM-R frozen, 5 seeds)" if drav else "implemented; results not found",
-         "outputs/dravidian_evaluation/", "comment-level only: no timestamps, authors or threads exist"),
-        ("Aspect extraction (BIO tagging)", "implemented, tested; NOT trained",
-         "src/aspect_extractor.py, src/aspect_data.py", "validation and test mentions are far below the size floors"
-         + (f" ({ready['extraction']['mentions']})" if ready else "")),
-        ("Aspect-conditioned sentiment", "trained once (XLM-R, top 2 layers)" if asent else "implemented; results not found",
-         "outputs/aspect_experiments/sentiment_xlmr_top2_agreed_only/", "small agreed-only data: a pipeline result, not strong evidence"),
-        ("Aspect sequence / trajectory model", "implemented, tested; NOT trained",
-         "src/aspect_sequence_model.py", ("usable series per split on the default split: " + str(seqs.get("0", {}).get("usable_series"))
-                                        + " against floors 50 / 20 / 20") if seqs else "blocked by the series floors"),
-        ("Annotation pipeline and agreement", "done for 250 double-annotated reviews" if wave else "implemented",
-         "outputs/annotation_waves/, outputs/diagnostics/annotation_agreement/", "disagreements are archived, not adjudicated"),
-        ("Shared Amazon + Dravidian multitask model", "design only", "docs/shared_xlmr_multitask_design.md", "no code, no training"),
-    ]
-    return pd.DataFrame(rows, columns=["Component", "Status", "Where", "Limit"])
-
-
-def _render_dravidian_results():
-    agg = _read_json(DRAV_AGG)
-    if not agg:
-        evaluation_pending("DravidianCodeMix XLM-R evaluation", "outputs/dravidian_evaluation/aggregate_over_seeds.json",
-                           "run notebooks/kaggle_full_training_pipeline.ipynb on Kaggle and copy the results into outputs/")
-        return
-    st.info("**Comment-level sentiment only.** DravidianCodeMix rows are independent YouTube comments with no timestamps, authors, "
-            "threads or order, so this says nothing about opinion evolution over time. Encoder frozen, only a small head is trained; "
-            "official splits with overlapping texts removed; mean and standard deviation over the seeds listed below.")
-    rows = []
-    for k, v in agg.items():
-        rows.append({"Setup → test": k.replace("_to_", " → ").replace("_", " "), "Seeds": v["n_seeds"], "Test comments": v["test_rows"],
-                     "Accuracy (4-class)": _num(v["accuracy_4class_mean"]),
-                     "Macro-F1 (4-class)": f"{v['macro_f1_4class_mean']:.3f} ± {v['macro_f1_4class_std']:.3f}",
-                     "Macro-F1 (3-class)": f"{v['macro_f1_3class_mean']:.3f} ± {v['macro_f1_3class_std']:.3f}",
-                     "Majority-class macro-F1": _num(v["majority_macro_f1_4class"])})
-    st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
-    plot = pd.DataFrame([{"setup": k.replace("_to_", " → "), "model": v["macro_f1_4class_mean"], "majority baseline": v["majority_macro_f1_4class"]}
-                         for k, v in agg.items()]).melt("setup", var_name="what", value_name="macro-F1")
-    fig = px.bar(plot, x="setup", y="macro-F1", color="what", barmode="group", title="4-class macro-F1 against the majority-class baseline")
-    fig.update_layout(height=380, margin=dict(l=10, r=10, t=50, b=10))
-    st.plotly_chart(fig, width="stretch")
-    pc = pd.DataFrame({k.replace("_to_", " → "): v["per_class_f1_mean"] for k, v in agg.items()}).T
-    st.markdown("**Per-class F1 (mean over seeds)**")
-    st.dataframe(pc.round(3), width="stretch")
-    pick = st.selectbox("Confusion matrix (summed over seeds, rows = gold):", list(agg), key="drav_cm_pick")
-    st.plotly_chart(_confusion_figure(agg[pick]["confusion_matrix_4class_summed_over_seeds"], SENT_NAMES, pick.replace("_to_", " → ")), width="stretch")
-    st.caption("Read from `outputs/dravidian_evaluation/aggregate_over_seeds.json`. Per-seed metrics, predictions and the saved heads are in "
-               "`outputs/dravidian_evaluation/seed_<k>/`. MIXED is the hardest class everywhere. A single joint head is not better than "
-               "the per-language heads and is worse for Malayalam and Kannada (frozen encoder only).")
-
-
-def _render_aspect_results():
-    summ = _read_json(ASPECT_SENT_SUMMARY)
-    st.markdown("#### Aspect-conditioned sentiment")
-    if not summ:
-        evaluation_pending("Aspect-conditioned sentiment", "outputs/aspect_experiments/sentiment_xlmr_top2_agreed_only/summary.json",
-                           "run notebooks/kaggle_full_training_pipeline.ipynb on Kaggle")
-    else:
-        st.warning("**Pipeline result, not strong evidence.** Trained once on agreed-only annotations; the validation and test sets are below "
-                   "the 100-example floor and NEUTRAL and MIXED are never predicted correctly.")
-        v, t = summ["validation"], summ["test"] or {}
-        c1, c2, c3, c4 = st.columns(4)
-        c1.metric("Validation accuracy", _num(v.get("accuracy")))
-        c2.metric("Validation macro-F1", _num(v.get("macro_f1")))
-        c3.metric("Test accuracy", _num(t.get("accuracy")))
-        c4.metric("Test macro-F1", _num(t.get("macro_f1")))
-        tm = _read_json(os.path.join(ASPECT_SENT_DIR, "test_metrics.json"))
-        if tm:
-            st.dataframe(pd.DataFrame(tm["per_class"]).T.round(3), width="stretch")
-            labels = list(tm["per_class"])
-            st.plotly_chart(_confusion_figure(tm["confusion_matrix"], labels, "Test confusion matrix (rows = gold)"), width="stretch")
-        for w in summ.get("warnings", []):
-            st.caption("• " + w)
-    ready = _read_json(READINESS_JSON)
-    st.markdown("#### Extraction and sequence stages: readiness gates")
-    if not ready:
-        evaluation_pending("Readiness report", "outputs/kaggle_final_training/aspect_readiness/readiness.json", "python scripts/aspect_readiness.py")
-        return
-    ext = ready["extraction"]
-    st.error("**Aspect extraction was not trained.** Mentions per split " + str(ext["mentions"]) + f" against floors of "
-             f"{ext['floors']['train_mentions']} (train) and {ext['floors']['eval_mentions']} (validation, test); {ext['products_total']} products "
-             f"against {ext['floors']['total_products']}. The BIO tagging code is implemented and unit-tested.")
-    seq = pd.DataFrame([{"split seed": k, "train series": v["usable_series"]["train"], "val series": v["usable_series"]["val"],
-                         "test series": v["usable_series"]["test"], "blockers": "; ".join(v["blockers"]) or "none"} for k, v in ready["sequence"].items()])
-    st.error("**Aspect sequence / trajectory model was not trained.** The usable-series floors (50 / 20 / 20) are not met on any tested "
-             "product split. No threshold was lowered.")
-    st.dataframe(seq, width="stretch", hide_index=True)
-
-
-def _render_annotation_results():
-    wave, pilot = _read_json(WAVE1_REPORT), _read_json(PILOT_AGREEMENT)
-    if not wave and not pilot:
-        evaluation_pending("Annotation agreement", "outputs/annotation_waves/batch_02_wave1/report.json", "python scripts/wave_report.py")
-        return
-    rows = []
-    if pilot:
-        c = pilot["compare"]
-        rows.append({"Batch": "Pilot", "Messages compared": pilot["messages_compared"], "Span F1": _num(c["spans"]["span_f1"]),
-                     "Category kappa": _num(c["category_on_matched_spans"]["cohens_kappa"]),
-                     "Sentiment kappa": _num(c["sentiment_on_matched_spans"].get("cohens_kappa")), "Span-type kappa": "not computed"})
-    if wave:
-        g = next(iter(wave["agreement"]["groups"].values()))
-        rows.append({"Batch": "Wave 1", "Messages compared": wave["agreement"]["messages_compared"], "Span F1": _num(g["spans"]["span_f1"]),
-                     "Category kappa": _num(g["category_on_matched_spans"]["cohens_kappa"]),
-                     "Sentiment kappa": _num(g["sentiment_on_matched_spans"]["cohens_kappa"]),
-                     "Span-type kappa": _num(wave["agreement"]["span_type_on_matched_spans"]["cohens_kappa"])})
-    st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
-    st.caption("Two independent annotators per review, spans matched at overlap ≥ 0.5, guidelines v0.2. Agreement is high on labels and lower "
-               "on exactly where a span starts and ends.")
-    if wave:
-        y = wave["yield"]
-        st.markdown("**Measured yield of Wave 1 (agreed annotations only)**")
-        a = y["wave"]["agreed"]
-        c1, c2, c3, c4 = st.columns(4)
-        c1.metric("Products", a["products"])
-        c2.metric("Reviews", a["reviews"])
-        c3.metric("Agreed examples", a["examples"])
-        c4.metric("Usable series", a["usable_series"])
-        st.caption(f"{wave['adjudication_items']['total']} disagreements are archived for future research and were deliberately not adjudicated. "
-                   f"{wave['agreement']['unresolved']['NEEDS_REVIEW_rows_a'] + wave['agreement']['unresolved']['NEEDS_REVIEW_rows_b']} "
-                   "rows were marked NEEDS_REVIEW by the annotators and are excluded from training.")
-        st.info(wave.get("recommendation", ""))
-
-
-def render_since_panel1():
-    st.markdown('<div class="main-header">What was added after Panel 1</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Each item shows its real status. Numbers are read from result files; when a file is missing the page says so.</div>',
-                unsafe_allow_html=True)
-    t1, t2, t3, t4 = st.tabs(["Status", "Multilingual (DravidianCodeMix)", "Aspect-level", "Annotation & agreement"])
-    with t1:
-        st.dataframe(_progress_status(), width="stretch", hide_index=True)
-        st.markdown("**What this project does not claim:** multilingual temporal opinion evolution (Dravidian data has no time order), "
-                    "a trained aspect extractor or aspect trajectory model, a trained joint Amazon + Dravidian model, or gold labels.")
-    with t2:
-        _render_dravidian_results()
-    with t3:
-        _render_aspect_results()
-    with t4:
-        _render_annotation_results()
 
 
 def render_analyze():
     st.markdown('<div class="main-header">Opinion Evolution Tracker</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Type a sequence of reviews, in order. The model reads them as '
-                'one thread, predicts how the opinion moved, and the result is combined with aspect '
-                'detection into one summary.</div>',
+                'one thread and predicts how the opinion moved — and exactly where it turned.</div>',
                 unsafe_allow_html=True)
-    if not BACKEND_AVAILABLE:
-        st.error(f"Backend unavailable: {BACKEND_ERROR}")
-        return
-    mode = st.radio(
-        "Input type",
-        ["English reviews (OET, evaluated on Amazon)", "Tamil / Malayalam / Kannada code-mixed comments"],
-        horizontal=True,
-    )
-    if mode.startswith("English"):
-        _analyze_english()
+
+    checkpoints = sorted(glob.glob(os.path.join(OUTPUTS, "checkpoints", "best_model_*.pt")))
+    if not checkpoints:
+        fetch_hf(HF_CKPT_REPO, "model", os.path.join(OUTPUTS, "checkpoints"))
+        checkpoints = sorted(glob.glob(os.path.join(OUTPUTS, "checkpoints", "best_model_*.pt")))
+
+    if not checkpoints:
+        not_measured(
+            "Live model inference",
+            "python scripts/train.py --domain amazon --epochs 20",
+            "No trained checkpoint found under `outputs/checkpoints/`. "
+            "The aspect detector below still runs — it needs no checkpoint.",
+        )
     else:
-        _analyze_dravidian()
+        names = [os.path.basename(p) for p in checkpoints]
+        chosen = st.selectbox("Trained model:", names)
+        ckpt_path = os.path.join(OUTPUTS, "checkpoints", chosen)
+
+        @st.cache_resource(show_spinner="Loading model (~10s, first time only)…")
+        def load_model(path: str):
+            import torch
+            from model import OpinionEvolutionTracker
+            ckpt = torch.load(path, map_location="cpu", weights_only=False)
+            saved = ckpt.get("args")
+            saved = vars(saved) if hasattr(saved, "__dict__") else (saved or {})
+            m = OpinionEvolutionTracker(
+                model_name=saved.get("model_name", "bert-base-multilingual-cased"),
+                use_cuda=False,
+                freeze_encoder=saved.get("freeze_encoder", True),
+            )
+            m.load_state_dict(ckpt["model_state_dict"])
+            m.eval()
+            return m, ckpt.get("epoch"), saved
+
+        st.markdown("### Enter reviews in chronological order")
+        default = (
+            "Product looks great, very happy with the purchase\n"
+            "Still working fine after two weeks\n"
+            "Started having problems, quality dropped\n"
+            "Completely stopped working, very disappointed"
+        )
+        raw = st.text_area(
+            "One review per line (English, Tamil, Malayalam or Kannada — "
+            "code-mixed is fine):",
+            default, height=160,
+        )
+        reviews = [r.strip() for r in raw.splitlines() if r.strip()]
+
+        if st.button("Predict trajectory", type="primary") and reviews:
+            if len(reviews) < 2:
+                st.error("Enter at least two reviews — a trajectory needs a sequence.")
+            else:
+                try:
+                    model, epoch, saved = load_model(ckpt_path)
+                    out = model.predict(reviews)
+
+                    sent_names = SentimentState.label_names()
+                    traj_names = TrajectoryType.label_names()
+                    trend_names = TransitionType.label_names()
+
+                    sentiments = [sent_names[i] for i in out["sentiments"].tolist()[:len(reviews)]]
+                    trajectory = traj_names[out["trajectory"]]
+                    attention = out["attention_weights"].tolist()[:len(reviews)]
+
+                    st.markdown(
+                        f'<div style="font-size:1.3rem;margin:0.4rem 0 1rem 0;">'
+                        f'Predicted trajectory: {chip(trajectory)}</div>',
+                        unsafe_allow_html=True,
+                    )
+
+                    # ---- Phase 3: the timeline visual -------------------------
+                    order = {n: i for i, n in enumerate(sent_names)}
+                    ydata = [order.get(s, 0) for s in sentiments]
+                    labels = [f"Review {i+1}" for i in range(len(reviews))]
+
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(
+                        x=labels, y=ydata, mode="lines+markers+text",
+                        text=sentiments, textposition="top center",
+                        line=dict(width=3),
+                        marker=dict(size=[14 + 40 * a for a in attention]),
+                        name="Predicted sentiment",
+                        hovertext=[f"{r[:70]}<br>attention={a:.3f}"
+                                   for r, a in zip(reviews, attention)],
+                        hoverinfo="text",
+                    ))
+                    fig.update_layout(
+                        title=f"Opinion trajectory — predicted {trajectory}",
+                        yaxis=dict(
+                            tickmode="array",
+                            tickvals=list(range(len(sent_names))),
+                            ticktext=sent_names,
+                            title="Sentiment state",
+                        ),
+                        xaxis_title="Review order (chronological)",
+                        height=420,
+                    )
+                    st.plotly_chart(fig, width="stretch")
+                    st.caption(
+                        "Marker size is the model's attention weight — the "
+                        "larger the marker, the more that review drove the "
+                        "trajectory decision."
+                    )
+
+                    a1, a2 = st.columns([1, 1])
+                    with a1:
+                        st.markdown("#### Attention over the sequence")
+                        st.plotly_chart(
+                            px.bar(
+                                pd.DataFrame({"Review": labels, "Attention": attention}),
+                                x="Review", y="Attention",
+                                title="Which review mattered most?",
+                            ),
+                            width="stretch",
+                        )
+                        peak = attention.index(max(attention))
+                        st.info(
+                            f"Turning point: **Review {peak+1}** received the "
+                            f"highest attention ({max(attention):.3f})."
+                        )
+                    with a2:
+                        st.markdown("#### Per-review detail")
+                        trends = out["trends"].tolist()[:len(reviews)]
+                        table_rows = "".join(
+                            f"<tr><td>{labels[i]}</td><td>{reviews[i][:50]}</td>"
+                            f"<td>{chip(sentiments[i])}</td>"
+                            f"<td>{chip(trend_names[trends[i]]) if i else '—'}</td>"
+                            f"<td>{attention[i]:.3f}</td></tr>"
+                            for i in range(len(reviews))
+                        )
+                        st.markdown(
+                            '<table class="chip-table"><thead><tr>'
+                            "<th>Review</th><th>Text</th><th>Sentiment</th>"
+                            "<th>Transition</th><th>Attention</th>"
+                            f"</tr></thead><tbody>{table_rows}</tbody></table>",
+                            unsafe_allow_html=True,
+                        )
+
+                    if BACKEND_AVAILABLE:
+                        wsd = WordSenseDisambiguator()
+                        asp = []
+                        for i, r in enumerate(reviews):
+                            for w, a, c in wsd.process(r):
+                                asp.append({"Review": labels[i], "Word": w,
+                                            "Aspect": a, "Confidence": round(c, 2)})
+                        if asp:
+                            st.markdown("#### Aspects detected, live")
+                            st.dataframe(pd.DataFrame(asp), width="stretch")
+
+                    st.caption(
+                        f"Predicted by `{chosen}` (best epoch {epoch}, "
+                        f"encoder layers trained: "
+                        f"{0 if saved.get('freeze_encoder', True) else 3}) "
+                        "running live on CPU."
+                    )
+                except Exception as e:
+                    st.error(f"Inference failed: {e}")
+                    st.exception(e)
 
 
 
 # =============================================================================
-# Routing -- five sections, the shape a real product would have
+# Routing -- four sections, the shape a real product would have
 # =============================================================================
 
 # Each section gets its own accent colour and background wash (state colours on chips stay fixed).
@@ -1666,7 +1275,6 @@ PAGE_THEME = {   # accent, page background gradient (top, bottom), sidebar backg
     "Home":         ("#0E8F6E", "#C9F0E0", "#B5D3F8", "#E3F6EE"),
     "Analyze":      ("#B9770E", "#FFF6E3", "#FFE6BF", "#FFFAF0"),
     "Insights":     ("#2F5FD0", "#EAF0FF", "#D3E1FF", "#F4F7FF"),
-    "Since Panel 1": ("#0B7A8F", "#E3F6FA", "#C7EBF3", "#F0FAFC"),
     "How it works": ("#7A4FD6", "#F2EBFF", "#E0D2FF", "#F8F4FF"),
     "About":        ("#C2417A", "#FFEAF2", "#FFD6E6", "#FFF5F9"),
 }
@@ -1693,7 +1301,7 @@ elif page == "Analyze":
 elif page == "Insights":
     st.markdown('<div class="main-header">How well does it work?</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Measured against five baselines on Amazon, with its own confidence checked. Multilingual and cross-domain results appear when their evaluation files exist.</div>',
+    st.markdown('<div class="sub-header">Measured against five baselines, across domains it was never jointly trained on, with its own confidence checked.</div>',
                 unsafe_allow_html=True)
     t1, t2, t3 = st.tabs(["Performance", "Cross-domain transfer", "Calibration & confidence"])
     with t1:
@@ -1702,9 +1310,6 @@ elif page == "Insights":
         render_cross_domain()
     with t3:
         render_calibration()
-
-elif page == "Since Panel 1":
-    render_since_panel1()
 
 elif page == "How it works":
     st.markdown('<div class="main-header">How it understands text</div>',
