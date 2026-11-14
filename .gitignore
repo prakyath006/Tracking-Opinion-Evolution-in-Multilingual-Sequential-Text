@@ -45,3 +45,15 @@ outputs/checkpoints.zip
 /scripts/make_kaggle_inventory.py
 !CONTRIBUTING.md
 /hf_space/
+
+# Archives (Kaggle code/data bundles, paper submission bundles) and research-paper material: never committed.
+*.zip
+/submission_springer/
+/springer/
+/submission_*/
+
+# Duplicate Kaggle collection: the same files are kept in outputs/dravidian_evaluation/ and outputs/aspect_experiments/.
+/outputs/kaggle_final_training/dravidian/
+/outputs/kaggle_final_training/aspect_sentiment/
+# The trained aspect-sentiment checkpoint (57 MB) is hosted outside git, like the other checkpoints.
+/outputs/aspect_experiments/**/best_checkpoint*.pt
