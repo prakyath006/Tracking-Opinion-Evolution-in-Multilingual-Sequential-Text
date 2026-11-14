@@ -1,0 +1,160 @@
+{
+ "checkpoint": "outputs\\checkpoints\\best_model_amazon.pt",
+ "sha256_before": "82a461d5b1326e271278d0e0d34dc0e0226023e432cd6d609c24c20c6b04c314",
+ "sha256_after": "82a461d5b1326e271278d0e0d34dc0e0226023e432cd6d609c24c20c6b04c314",
+ "checkpoint_unchanged": true,
+ "strict_load": "<All keys matched successfully>",
+ "saved_args": {
+  "domain": "amazon",
+  "language": "tamil",
+  "model_name": "bert-base-multilingual-cased",
+  "max_token_length": 128,
+  "max_seq_len": 20,
+  "lstm_hidden": 256,
+  "lstm_layers": 2,
+  "attention_type": "single",
+  "attention_dim": 128,
+  "freeze_encoder": true,
+  "epochs": 10,
+  "batch_size": 16,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "dropout": 0.3,
+  "patience": 5,
+  "no_cuda": false,
+  "auto_class_weights": true
+ },
+ "epoch": 6,
+ "val_loss": 2.2350783348083496,
+ "sequences": [
+  {
+   "sequence": 0,
+   "reviews": 3,
+   "gold_sentiment": [
+    0,
+    0,
+    0
+   ],
+   "pred_sentiment": [
+    0,
+    0,
+    0
+   ],
+   "gold_trajectory": 2,
+   "pred_trajectory": 2,
+   "attention": [
+    0.207,
+    0.494,
+    0.299
+   ]
+  },
+  {
+   "sequence": 1,
+   "reviews": 3,
+   "gold_sentiment": [
+    0,
+    0,
+    0
+   ],
+   "pred_sentiment": [
+    0,
+    2,
+    0
+   ],
+   "gold_trajectory": 2,
+   "pred_trajectory": 2,
+   "attention": [
+    0.008,
+    0.406,
+    0.586
+   ]
+  },
+  {
+   "sequence": 2,
+   "reviews": 4,
+   "gold_sentiment": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "pred_sentiment": [
+    2,
+    2,
+    0,
+    0
+   ],
+   "gold_trajectory": 2,
+   "pred_trajectory": 0,
+   "attention": [
+    0.003,
+    0.153,
+    0.519,
+    0.325
+   ]
+  },
+  {
+   "sequence": 3,
+   "reviews": 5,
+   "gold_sentiment": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "pred_sentiment": [
+    2,
+    0,
+    0,
+    0,
+    0
+   ],
+   "gold_trajectory": 2,
+   "pred_trajectory": 2,
+   "attention": [
+    0.005,
+    0.295,
+    0.222,
+    0.248,
+    0.229
+   ]
+  }
+ ],
+ "checks": {
+  "sentiment_logits_finite": true,
+  "sentiment_logits_deterministic": true,
+  "sentiment_logits_softmax_sums_to_1": true,
+  "trend_logits_finite": true,
+  "trend_logits_deterministic": true,
+  "trend_logits_softmax_sums_to_1": true,
+  "trajectory_logits_finite": true,
+  "trajectory_logits_deterministic": true,
+  "trajectory_logits_softmax_sums_to_1": true,
+  "shapes": {
+   "sentiment_logits": [
+    4,
+    5,
+    4
+   ],
+   "trend_logits": [
+    4,
+    5,
+    3
+   ],
+   "trajectory_logits": [
+    4,
+    4
+   ],
+   "attention_weights": [
+    4,
+    5
+   ]
+  }
+ },
+ "sample_sentiment_agreement": {
+  "correct": 11,
+  "positions": 15,
+  "note": "sanity figure on a handful of positions; not a metric"
+ }
+}
