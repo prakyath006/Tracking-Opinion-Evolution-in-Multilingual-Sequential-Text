@@ -55,5 +55,5 @@ For the seeded Amazon retraining use `--seed N` with `scripts/train.py` and `scr
 ## Not done / not claimed
 - No multilingual, cross-domain or LLM result exists until the Kaggle runs finish.
 - The Amazon retraining with matched baselines and seeds is not done; the existing Amazon results are unchanged.
-- Aspect-level trajectories and the combined final-decision head are not implemented.
+- Update 2026-11-14: `src/aspect_sentiment.py` (aspect-associated sentiment projection, rule-based) and `src/final_decision.py` (turning-point detection and a rule-based summary) are implemented and unit-tested (`tests/test_aspect_decision.py`). They attach OET's message-level sentiment to detected aspects; this is not a trained aspect-level sentiment model and it has not been experimentally evaluated.
 - Smoke-test numbers (tiny samples) are meaningless and were not saved in the repository.

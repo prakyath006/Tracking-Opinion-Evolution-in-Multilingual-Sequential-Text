@@ -1,0 +1,290 @@
+{
+  "messages": [
+    "The trailer looked amazing and the music is wonderful",
+    "Watched it today, the story is gripping and the songs are lovely",
+    "Second half drags, the story falls apart and the music gets loud and annoying",
+    "Terrible ending, the story made no sense, a complete waste of money"
+  ],
+  "oet": {
+    "sentiments": [
+      "POSITIVE",
+      "POSITIVE",
+      "NEGATIVE",
+      "NEGATIVE"
+    ],
+    "sentiment_softmax": [
+      0.9544,
+      0.9527,
+      0.5137,
+      0.7488
+    ],
+    "transitions": [
+      "STABLE",
+      "DOWNGRADE",
+      "DOWNGRADE"
+    ],
+    "transition_softmax": [
+      0.9303,
+      0.7728,
+      0.8608
+    ],
+    "trajectory": "DECLINING",
+    "trajectory_softmax": 0.9189,
+    "attention": [
+      0.0069,
+      0.2086,
+      0.2993,
+      0.4852
+    ]
+  },
+  "aspect_analysis": {
+    "method": "aspect-associated sentiment projection (rule-based)",
+    "limitation": "The sentiment shown for an aspect is the sentiment predicted for the whole message in which the aspect was mentioned. It is not a sentiment expressed specifically toward that aspect, and no aspect-level sentiment model was trained or evaluated.",
+    "n_messages": 4,
+    "n_messages_with_aspect": 4,
+    "n_messages_without_aspect": 0,
+    "message_coverage": 1.0,
+    "sentiment_available": true,
+    "aspects": {
+      "story_screenplay": {
+        "aspect": "story_screenplay",
+        "observations": [
+          {
+            "message_index": 2,
+            "sentiment": "POSITIVE",
+            "words": [
+              "story"
+            ],
+            "wsd_overlap_scores": [
+              1.0
+            ],
+            "sentiment_confidence": 0.9527
+          },
+          {
+            "message_index": 3,
+            "sentiment": "NEGATIVE",
+            "words": [
+              "story"
+            ],
+            "wsd_overlap_scores": [
+              1.0
+            ],
+            "sentiment_confidence": 0.5137
+          },
+          {
+            "message_index": 4,
+            "sentiment": "NEGATIVE",
+            "words": [
+              "ending",
+              "story"
+            ],
+            "wsd_overlap_scores": [
+              1.0,
+              1.0
+            ],
+            "sentiment_confidence": 0.7488
+          }
+        ],
+        "occurrences": 4,
+        "n_messages": 3,
+        "counts": {
+          "POSITIVE": 1,
+          "NEGATIVE": 2,
+          "MIXED": 0,
+          "UNKNOWN": 0
+        },
+        "tendency": "NEGATIVE",
+        "tendency_share": 0.6667,
+        "trend": "DECLINING",
+        "trend_note": null,
+        "evidence_coverage": 0.75
+      },
+      "music_bgm": {
+        "aspect": "music_bgm",
+        "observations": [
+          {
+            "message_index": 1,
+            "sentiment": "POSITIVE",
+            "words": [
+              "music"
+            ],
+            "wsd_overlap_scores": [
+              1.0
+            ],
+            "sentiment_confidence": 0.9544
+          },
+          {
+            "message_index": 2,
+            "sentiment": "POSITIVE",
+            "words": [
+              "songs"
+            ],
+            "wsd_overlap_scores": [
+              1.0
+            ],
+            "sentiment_confidence": 0.9527
+          },
+          {
+            "message_index": 3,
+            "sentiment": "NEGATIVE",
+            "words": [
+              "music"
+            ],
+            "wsd_overlap_scores": [
+              1.0
+            ],
+            "sentiment_confidence": 0.5137
+          }
+        ],
+        "occurrences": 3,
+        "n_messages": 3,
+        "counts": {
+          "POSITIVE": 2,
+          "NEGATIVE": 1,
+          "MIXED": 0,
+          "UNKNOWN": 0
+        },
+        "tendency": "POSITIVE",
+        "tendency_share": 0.6667,
+        "trend": "DECLINING",
+        "trend_note": null,
+        "evidence_coverage": 0.75
+      },
+      "trailer_teaser": {
+        "aspect": "trailer_teaser",
+        "observations": [
+          {
+            "message_index": 1,
+            "sentiment": "POSITIVE",
+            "words": [
+              "trailer"
+            ],
+            "wsd_overlap_scores": [
+              1.0
+            ],
+            "sentiment_confidence": 0.9544
+          }
+        ],
+        "occurrences": 1,
+        "n_messages": 1,
+        "counts": {
+          "POSITIVE": 1,
+          "NEGATIVE": 0,
+          "MIXED": 0,
+          "UNKNOWN": 0
+        },
+        "tendency": "POSITIVE",
+        "tendency_share": 1.0,
+        "trend": null,
+        "trend_note": "insufficient observations for trend",
+        "evidence_coverage": 0.25
+      }
+    },
+    "unresolved": [],
+    "timeline": [
+      {
+        "message_index": 1,
+        "sentiment": "POSITIVE",
+        "aspects": [
+          "music_bgm",
+          "trailer_teaser"
+        ]
+      },
+      {
+        "message_index": 2,
+        "sentiment": "POSITIVE",
+        "aspects": [
+          "music_bgm",
+          "story_screenplay"
+        ]
+      },
+      {
+        "message_index": 3,
+        "sentiment": "NEGATIVE",
+        "aspects": [
+          "music_bgm",
+          "story_screenplay"
+        ]
+      },
+      {
+        "message_index": 4,
+        "sentiment": "NEGATIVE",
+        "aspects": [
+          "story_screenplay"
+        ]
+      }
+    ]
+  },
+  "final_decision": {
+    "trajectory": "DECLINING",
+    "rule_derived_trajectory_from_predicted_sentiments": "DECLINING",
+    "sentiment_distribution": {
+      "POSITIVE": 2,
+      "NEGATIVE": 2,
+      "MIXED": 0,
+      "UNKNOWN": 0
+    },
+    "turning_point": {
+      "found": false,
+      "position": null,
+      "count": 0,
+      "reversals": [],
+      "message": "No turning point detected"
+    },
+    "important_aspects": [
+      {
+        "aspect": "story_screenplay",
+        "occurrences": 4,
+        "n_messages": 3,
+        "tendency": "NEGATIVE",
+        "trend": "DECLINING",
+        "trend_note": null,
+        "vs_trajectory": "agrees"
+      },
+      {
+        "aspect": "music_bgm",
+        "occurrences": 3,
+        "n_messages": 3,
+        "tendency": "POSITIVE",
+        "trend": "DECLINING",
+        "trend_note": null,
+        "vs_trajectory": "agrees"
+      },
+      {
+        "aspect": "trailer_teaser",
+        "occurrences": 1,
+        "n_messages": 1,
+        "tendency": "POSITIVE",
+        "trend": null,
+        "trend_note": "insufficient observations for trend",
+        "vs_trajectory": "not comparable"
+      }
+    ],
+    "trajectory_vs_aspect_evidence": "agreement",
+    "confidence": {
+      "oet_trajectory_softmax (uncalibrated)": 0.9189,
+      "oet_sentiment_softmax_per_message (uncalibrated)": [
+        0.9544,
+        0.9527,
+        0.5137,
+        0.7488
+      ]
+    },
+    "confidence_note": "Each value is reported by its own source and is not a calibrated probability; values are not combined.",
+    "evidence": {
+      "n_messages": 4,
+      "n_transitions": 3,
+      "n_aspect_observations": 7,
+      "aspect_message_coverage": 1.0,
+      "limited": false,
+      "limitations": []
+    },
+    "verdict": "Overall trajectory: Declining. No turning point detected. The most frequently identified aspect was story screenplay (3 of 4 messages), with predominantly negative associated message sentiment. Its associated sentiment trend is declining, which agrees with the overall trajectory. Evidence: 4 message(s), 3 transition(s), 7 aspect observation(s).",
+    "most_attended_message": {
+      "position": 4,
+      "attention_weight": 0.4852,
+      "note": "attention weight of the trajectory head, not a probability"
+    }
+  },
+  "note": "Sample output of the integrated pipeline on one typed sequence. English film reviews are outside the product category OET was trained on (Amazon Beauty); this illustrates the pipeline and is not an evaluation result."
+}

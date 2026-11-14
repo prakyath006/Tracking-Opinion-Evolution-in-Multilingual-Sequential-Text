@@ -53,7 +53,7 @@ Dev/test comments that also occur in training were removed (e.g. 76 in Tamil tes
 ## 4. What is NOT done yet
 - Modules 8 and 9 have been **smoke-tested only** on tiny samples. There are **no** multilingual, cross-domain or LLM results until the Kaggle runs finish.
 - The Amazon retraining (matched epochs, tuned learning rates, several seeds) has not been done.
-- Aspect-level trajectories and a combined final-decision output are not implemented.
+- Update 2026-11-14: a rule-based aspect-associated sentiment projection (`src/aspect_sentiment.py`) and a rule-based final-decision summary (`src/final_decision.py`) are implemented and unit-tested. A trained, evaluated aspect-level sentiment model does not exist.
 
 ## 5. Running it on Kaggle
 
