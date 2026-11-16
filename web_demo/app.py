@@ -1123,7 +1123,8 @@ def render_analyze():
         chosen = st.selectbox("Trained model:", names)
         ckpt_path = os.path.join(OUTPUTS, "checkpoints", chosen)
 
-        @st.cache_resource(show_spinner="Loading model (~10s, first time only)…")
+        # max_entries=1: the free Streamlit tier has ~1 GB RAM, so only one model may stay resident.
+        @st.cache_resource(max_entries=1, show_spinner="Loading model (~10s, first time only)…")
         def load_model(path: str):
             import torch
             from model import OpinionEvolutionTracker
@@ -1158,6 +1159,12 @@ def render_analyze():
                 st.error("Enter at least two reviews — a trajectory needs a sequence.")
             else:
                 try:
+                    # free the previously loaded model BEFORE loading another, so two never coexist in memory
+                    if st.session_state.get("_loaded_ckpt") not in (None, ckpt_path):
+                        load_model.clear()
+                        import gc
+                        gc.collect()
+                    st.session_state["_loaded_ckpt"] = ckpt_path
                     model, epoch, saved = load_model(ckpt_path)
                     out = model.predict(reviews)
 
